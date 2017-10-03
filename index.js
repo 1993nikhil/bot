@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
-const apiaiApp = require('apiai')(610c50319964449e8462dee0a274e3bb);
+const apiaiApp = require('apiai')('610c50319964449e8462dee0a274e3bb');
 
 app.set('port', (process.env.PORT || 5000))
 
