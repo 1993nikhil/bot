@@ -151,7 +151,7 @@ function startConversation(userId,pageId, messageText){
                 type: "template",
                 payload:  {
                 template_type: "button",
-                text: "Hi "+payload+" . What you want to see today",
+                text: "Hi "+messageText+" . What you want to see today",
                   buttons: [{
                     type: "postback",
                     title: "Weather",
