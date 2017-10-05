@@ -2,7 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
-var greetService = require('./services/greetingServices');
+var greetService = require('./services/greetingService');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9');
