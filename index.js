@@ -141,10 +141,64 @@ function callSendAPI(messageData,pageId) {
   });  
 }
 
-// function startConversation(userId,pageId){
-// 	 messageData=greetService.getUserName(userId,pageId);
-//    sendTextMessage(userId, pageId, messageData);
-// }
+function startConversation(userId,pageId, messageText){
+	  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          text: "Hi "+messageText+". I am Riya, welcome to DHFL Bot. I can help you with following services: ",
+          elements: [{
+            {
+                buttons: [{
+               type: "postback",
+               title: "Renewal payment received or not",
+               payload: "1-RPR", 
+            }]
+            },              
+           {
+            buttons: [{
+              type: "postback",
+              title: "Policy Status",
+              payload: "1-PS", 
+            }]
+          }, {
+            buttons: [{
+              type: "postback",
+              title: "Fund value as on date",
+              payload: "1-FV", 
+            }]
+            }, {
+            buttons: [{
+              type: "postback",
+              title: "Amount Deposited in Policy Till Date",
+              payload: "1-AD", 
+            }]
+            }, {
+            buttons: [{
+              type: "postback",
+              title: "Pay Renewal Payment",
+              payload: "1-PRP", 
+             }]
+            }, {
+            buttons: [{
+              type: "postback",
+              title: "Next Premium Due Date",
+              payload: "1-NP",
+              }] 
+            }
+          }]
+        }
+      }
+    }
+  };  
+
+  callSendAPI(messageData, pageId);
+}
 
 //getUserName
 function getUserName(userId,pageId) {
@@ -159,7 +213,7 @@ function getUserName(userId,pageId) {
     if (!error && response.statusCode == 200) {
      var jsonData = JSON.parse(body);
      var newMessage = "hi "+jsonData.first_name+" "+jsonData.last_name;
-     sendTextMessage(userId, pageId, newMessage);
+     startConversation(userId, pageId, newMessage);
     } else {
       console.error("Unable to send message1.");
       console.error(response);
