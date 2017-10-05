@@ -4,7 +4,7 @@ var request = require('request')
 var app = express()
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9');
+mongoose.connect('mongodb://mydb:mydb@ds161304.mlab.com:61304/bot');
 
 app.set('port', (process.env.PORT || 5000))
 
