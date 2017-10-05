@@ -147,51 +147,23 @@ function startConversation(userId,pageId, messageText){
       id: userId
     },
     message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          text: "Hi "+messageText+". I am Riya, welcome to DHFL Bot. I can help you with following services: ",
-          elements: [{
-                buttons: [{
-               type: "postback",
-               title: "Renewal payment received or not",
-               payload: "1-RPR", 
-            }]             
-           },{
-            buttons: [{
-              type: "postback",
-              title: "Policy Status",
-              payload: "1-PS", 
-            }]
-          }, {
-            buttons: [{
-              type: "postback",
-              title: "Fund value as on date",
-              payload: "1-FV", 
-            }]
-            }, {
-            buttons: [{
-              type: "postback",
-              title: "Amount Deposited in Policy Till Date",
-              payload: "1-AD", 
-            }]
-            }, {
-            buttons: [{
-              type: "postback",
-              title: "Pay Renewal Payment",
-              payload: "1-PRP", 
-             }]
-            }, {
-            buttons: [{
-              type: "postback",
-              title: "Next Premium Due Date",
-              payload: "1-NP",
-              }] 
-            }]
-        }
-      }
-    }
+            attachment: {
+                type: "template",
+                payload:  {
+                template_type: "button",
+                text: "Hi "+payload+" . What you want to see today",
+                  buttons: [{
+                    type: "postback",
+                    title: "Weather",
+                    payload: "1-weather",
+                  }, {
+                    type: "postback",
+                    title: "Cricket",
+                    payload: "1-cricket",
+                  }]
+              }
+            }
+          }
   };  
 
   callSendAPI(messageData, pageId);
