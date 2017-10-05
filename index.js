@@ -147,38 +147,38 @@ function startConversation(userId, pageId, messageText){
       id: userId
     },
     message: {
-          text: "Hi "+messageText+" . I am riya , welcome to DHFL Bot",
-           quick_replies :[
+          "text":"Hi "+messageText+" . I am riya , welcome to DHFL Bot",
+          "quick_replies":[
               {
-                content_type:"text",
-                title:"Renewal payment received or not",
-                payload:"1-RPR",
+                "content_type":"text",
+                "title":"Renewal payment received or not",
+                "payload":"1-RPR",
               },
               {
-                content_type:"text",
-                title:"Policy Status",
-                payload:"1-PS",
+                "content_type":"text",
+                "title":"Policy Status",
+                "payload":"1-PS",
 
               },
               {
-                content_type:"text",
-                title:"Fund value as on date",
-                payload:"1-FV",
+                "content_type":"text",
+                "title":"Fund value as on date",
+                "payload":"1-FV",
               },
               {
-                content_type:"text",
-                title:"Amount Deposited in Policy Till Date",
-                payload:"1-AD",
+                "content_type":"text",
+                "title":"Amount Deposited in Policy Till Date",
+                "payload":"1-AD",
               },
               {
-                content_type:"text",
-                title:"Pay Renewal Payment",
-                payload:"1-PRP",
+                "content_type":"text",
+                "title":"Pay Renewal Payment",
+                "payload":"1-PRP",
               },
               {
-                content_type:"text",
-                title:"Next Premium Due Date",
-                payload:"1-NP",
+                "content_type":"text",
+                "title":"Next Premium Due Date",
+                "payload":"1-NP",
               }
             ]
             }
