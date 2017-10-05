@@ -130,7 +130,7 @@ function getUserName(userId,pageId) {
  
     if (!error && response.statusCode == 200) {
      var jsonData = JSON.parse(body);
-     var newMessage = jsonData.first_name+" "+jsonData.last_name;
+     var newMessage = "hi "+jsonData.first_name+" "+jsonData.last_name;
      sendTextMessage(userId, pageId, newMessage);
     } else {
       console.error("Unable to send message1.");
