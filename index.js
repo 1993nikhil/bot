@@ -114,60 +114,61 @@ function sendTextMessage(sender, pageId, messageText) {
         }
     };
 
-    greetService.callSendAPI(messageData, pageId);
+    callSendAPI(messageData, pageId);
 }
 
-// function callSendAPI(messageData,pageId) {
+function callSendAPI(messageData,pageId) {
 
  
-//   request({
-//     uri: 'https://graph.facebook.com/v2.6/me/messages',
-//     qs: {access_token: token[pageId]},
-//     method: 'POST',
-//     json: messageData
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token: token[pageId]},
+    method: 'POST',
+    json: messageData
 
-//   }, function (error, response, body) {
-//     if (!error && response.statusCode == 200) {
-//       var recipientId = body.recipient_id;
-//       var messageId = body.message_id;
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var recipientId = body.recipient_id;
+      var messageId = body.message_id;
 
-//       console.log("Successfully sent generic message with id %s to recipient %s", 
-//         messageId, recipientId);
-//     } else {
-//       console.error("Unable to send message.");
-//       //console.error(response);
-//       console.error(error);
-//     }
-//   });  
-// }
+      console.log("Successfully sent generic message with id %s to recipient %s", 
+        messageId, recipientId);
+    } else {
+      console.error("Unable to send message.");
+      //console.error(response);
+      console.error(error);
+    }
+  });  
+}
 
 function startConversation(userId,pageId){
-	 getUserName(userId,pageId);
+	 messageData=greetService.getUserName(userId,pageId);
+   sendTextMessage(userId, pageId, messageData)
 }
 
 //getUserName
-function getUserName(userId,pageId) {
-  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token[pageId];
+// function getUserName(userId,pageId) {
+//   var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token[pageId];
 
- request({
-    uri: getInfoUserAPI,
-    method: 'GET',   
+//  request({
+//     uri: getInfoUserAPI,
+//     method: 'GET',   
 
-  }, function (error, response, body) {
+//   }, function (error, response, body) {
  
-    if (!error && response.statusCode == 200) {
-     var jsonData = JSON.parse(body);
-     var newMessage = "hi "+jsonData.first_name+" "+jsonData.last_name;
-     sendTextMessage(userId, pageId, newMessage);
-    } else {
-      console.error("Unable to send message1.");
-      console.error(response);
-      console.error(error);
-    }
-  }); 
+//     if (!error && response.statusCode == 200) {
+//      var jsonData = JSON.parse(body);
+//      var newMessage = "hi "+jsonData.first_name+" "+jsonData.last_name;
+//      sendTextMessage(userId, pageId, newMessage);
+//     } else {
+//       console.error("Unable to send message1.");
+//       console.error(response);
+//       console.error(error);
+//     }
+//   }); 
 
 
-}
+// }
 
 
 // Spin up the server

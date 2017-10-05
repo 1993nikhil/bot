@@ -3,26 +3,26 @@ var token = {
   121736051845888: 'EAABslGNoL6QBAHde5o5OraLFiCOk8L9ydxIJEDaFbZAJvjZCKww6dkihY9YbfU6uB7m45ZBLOwuvMBZCDZBeY7Bzr8rla94tjpXY1iKeSPxT15qzfHmm0VhkJZBq55ZCTQDsraTBGZCUTHk7k6FOskjPrbZBrAgroqhlvWEDmxzgkWAZDZD'
 }
 
-function callSendAPI(messageData,pageId) {
+//getUserName
+function getUserName(userId,pageId) {
+  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token[pageId];
 
- 
-  request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token: token[pageId]},
-    method: 'POST',
-    json: messageData
+ request({
+    uri: getInfoUserAPI,
+    method: 'GET',   
 
   }, function (error, response, body) {
+ 
     if (!error && response.statusCode == 200) {
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
-
-      console.log("Successfully sent generic message with id %s to recipient %s", 
-        messageId, recipientId);
+     var jsonData = JSON.parse(body);
+     var newMessage = "hi "+jsonData.first_name+" "+jsonData.last_name;
+     return newMessage;
     } else {
-      console.error("Unable to send message.");
-      //console.error(response);
+      console.error("Unable to send message1.");
+      console.error(response);
       console.error(error);
     }
-  });  
+  }); 
+
+
 }
