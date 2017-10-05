@@ -151,6 +151,7 @@ function startConversation(userId, pageId, messageText){
         type: "template",
         payload: {
           template_type: "generic",
+          text: messageText,
           elements: [{
             title: "Renewal payment received or not",
             buttons: [{
@@ -159,7 +160,7 @@ function startConversation(userId, pageId, messageText){
               title: "Open Web URL"
             }]
           }, {
-            title: "Policy Status",
+            title: "Policy Status(Active/Lapsed/revived etc.)",
             buttons: [{
               type: "web_url",
               url: "https://www.oculus.com/en-us/touch/",
