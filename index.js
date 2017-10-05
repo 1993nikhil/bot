@@ -3,7 +3,8 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
-//const apiaiApp = require('apiai')('610c50319964449e8462dee0a274e3bb');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9');
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -16,6 +17,17 @@ app.use(bodyParser.json())
 // Index route
 app.get('/', function (req, res) {
     res.send('Hello world, I am a chat bot')
+})
+//dbtest
+var Log = require('./models/logModel');
+
+app.get('/user', function (req, res) {
+	Log.find(function(err, log){
+		if(err){
+			res.send(err);
+		}
+		res.json(log);
+	});
 })
 
 
@@ -65,10 +77,10 @@ function receivedMessage(event) {
         sendTextMessage(senderID, pageId, "Thank You for your Response, have a nice Day");
         break;
         case 'hi':
-        getUserName(senderID, pageId);
+        startConversation(senderID, pageId);
         break;
         case 'hello':
-        getUserName(senderID, pageId);
+        startConversation(senderID, pageId);
         break;
         
             
@@ -116,6 +128,10 @@ function callSendAPI(messageData,pageId) {
       console.error(error);
     }
   });  
+}
+
+function startConversation(userId,pageId){
+	getUserName(userId,pageId);
 }
 
 //getUserName

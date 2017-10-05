@@ -13,6 +13,8 @@
     "apiai": "^4.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.1",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.12.0",
     "request": "^2.83.0"
   }
 }
