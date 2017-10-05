@@ -88,10 +88,10 @@ function receivedMessage(event) {
         sendTextMessage(senderID, pageId, "Thank You for your Response, have a nice Day");
         break;
         case 'hi':
-        startConversation(senderID, pageId);
+        getUserName(senderID, pageId);
         break;
         case 'hello':
-        startConversation(senderID, pageId);
+        getUserName(senderID, pageId);
         break;
         
             
@@ -141,7 +141,7 @@ function callSendAPI(messageData,pageId) {
   });  
 }
 
-function startConversation(userId,pageId, messageText){
+function startConversation(userId, pageId, messageText){
 	  var messageData = {
     recipient: {
       id: userId
@@ -151,7 +151,7 @@ function startConversation(userId,pageId, messageText){
                 type: "template",
                 payload:  {
                 template_type: "button",
-                text: "Hi "+messageText+" . What you want to see today",
+                text: "Hi "+messageText+" . I am riya , welcome to DHFL Bot",
                   buttons: [{
                     type: "postback",
                     title: "Weather",
@@ -181,7 +181,7 @@ function getUserName(userId,pageId) {
  
     if (!error && response.statusCode == 200) {
      var jsonData = JSON.parse(body);
-     var newMessage = "hi "+jsonData.first_name+" "+jsonData.last_name;
+     var newMessage = jsonData.first_name+" "+jsonData.last_name;
      startConversation(userId, pageId, newMessage);
     } else {
       console.error("Unable to send message1.");
