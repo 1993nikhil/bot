@@ -2,7 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
-var greetService = require('./services/greetingService');
+//var greetService = require('./services/greetingService');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9');
@@ -141,34 +141,34 @@ function callSendAPI(messageData,pageId) {
   });  
 }
 
-function startConversation(userId,pageId){
-	 messageData=greetService.getUserName(userId,pageId);
-   sendTextMessage(userId, pageId, messageData)
-}
+// function startConversation(userId,pageId){
+// 	 messageData=greetService.getUserName(userId,pageId);
+//    sendTextMessage(userId, pageId, messageData);
+// }
 
 //getUserName
-// function getUserName(userId,pageId) {
-//   var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token[pageId];
+function getUserName(userId,pageId) {
+  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token[pageId];
 
-//  request({
-//     uri: getInfoUserAPI,
-//     method: 'GET',   
+ request({
+    uri: getInfoUserAPI,
+    method: 'GET',   
 
-//   }, function (error, response, body) {
+  }, function (error, response, body) {
  
-//     if (!error && response.statusCode == 200) {
-//      var jsonData = JSON.parse(body);
-//      var newMessage = "hi "+jsonData.first_name+" "+jsonData.last_name;
-//      sendTextMessage(userId, pageId, newMessage);
-//     } else {
-//       console.error("Unable to send message1.");
-//       console.error(response);
-//       console.error(error);
-//     }
-//   }); 
+    if (!error && response.statusCode == 200) {
+     var jsonData = JSON.parse(body);
+     var newMessage = "hi "+jsonData.first_name+" "+jsonData.last_name;
+     sendTextMessage(userId, pageId, newMessage);
+    } else {
+      console.error("Unable to send message1.");
+      console.error(response);
+      console.error(error);
+    }
+  }); 
 
 
-// }
+}
 
 
 // Spin up the server
