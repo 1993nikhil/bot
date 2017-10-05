@@ -217,9 +217,9 @@ function getUserName(userId,pageId) {
     if (!error && response.statusCode == 200) {
      var jsonData = JSON.parse(body);
      var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot";
-     callSendAPI(newMessage, pageId);
-
-       setTimeout(function(){ 
+     
+     sendTextMessage(userId, pageId, newMessage);
+      setTimeout(function(){ 
           startConversation(userId, pageId, newMessage);
         }, 10000);
     } else {
