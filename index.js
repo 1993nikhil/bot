@@ -88,10 +88,10 @@ function receivedMessage(event) {
         sendTextMessage(senderID, pageId, "Thank You for your Response, have a nice Day");
         break;
         case 'hi':
-        startConversation(senderID, pageId);
+        getUserName(senderID, pageId);
         break;
         case 'hello':
-        startConversation(senderID, pageId);
+        getUserName(senderID, pageId);
         break;
         
             
