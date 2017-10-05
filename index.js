@@ -152,26 +152,46 @@ function startConversation(userId, pageId, messageText){
         payload: {
           template_type: "generic",
           elements: [{
-            title: "rift",
+            title: "Renewal payment received or not",
             buttons: [{
               type: "web_url",
               url: "https://www.oculus.com/en-us/rift/",
               title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for first bubble",
-            }],
+            }]
           }, {
-            title: "touch",
+            title: "Policy Status",
             buttons: [{
               type: "web_url",
               url: "https://www.oculus.com/en-us/touch/",
               title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for second bubble",
+            }]
+          }, {
+            title: "Fund value as on date",
+            buttons: [{
+              type: "web_url",
+              url: "https://www.oculus.com/en-us/touch/",
+              title: "Open Web URL"
+            }]
+          }, {
+            title: "Amount Deposited in Policy Till Date",
+            buttons: [{
+              type: "web_url",
+              url: "https://www.oculus.com/en-us/touch/",
+              title: "Open Web URL"
+            }]
+          }, {
+            title: "Pay Renewal Payment",
+            buttons: [{
+              type: "web_url",
+              url: "https://www.oculus.com/en-us/touch/",
+              title: "Open Web URL"
+            }]
+          }, {
+            title: "Next Premium Due Date",
+            buttons: [{
+              type: "web_url",
+              url: "https://www.oculus.com/en-us/touch/",
+              title: "Open Web URL"
             }]
           }]
         }
