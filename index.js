@@ -154,44 +154,44 @@ function startConversation(userId, pageId, messageText){
           elements: [{
             title: "Renewal payment received or not",
             buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/rift/",
-              title: "Open Web URL"
+              type: "postback",
+              title: "start",
+              payload: "1-RPR",
             }]
           }, {
             title: "Policy Status(Active/Lapsed/revived etc.)",
             buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
+              type: "postback",
+              title: "start",
+              payload: "1-PS",
             }]
           }, {
             title: "Fund value as on date",
             buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
+              type: "postback",
+              title: "start",
+              payload: "1-FV",
             }]
           }, {
             title: "Amount Deposited in Policy Till Date",
             buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
+              type: "postback",
+              title: "start",
+              payload: "1-AD",
             }]
           }, {
             title: "Pay Renewal Payment",
             buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
+              type: "postback",
+              title: "start",
+              payload: "1-PRP",
             }]
           }, {
             title: "Next Premium Due Date",
             buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
+             type: "postback",
+             title: "start",
+             payload: "1-NP",
             }]
           }]
         }
@@ -221,7 +221,7 @@ function getUserName(userId,pageId) {
      sendTextMessage(userId, pageId, newMessage);
       setTimeout(function(){ 
           startConversation(userId, pageId, newMessage);
-        }, 10000);
+        }, 1000);
     } else {
       console.error("Unable to send message1.");
       console.error(response);
