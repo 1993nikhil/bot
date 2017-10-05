@@ -81,7 +81,7 @@ function receivedMessage(event) {
 
 }
 
-function sendTextMessage(sender, pageId, text) {
+function sendTextMessage(sender, pageId, messageText) {
 	var messageData = {
 		 recipient: {
            id: sender
