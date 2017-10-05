@@ -66,6 +66,9 @@ app.post('/webhook/', function (req, res) {
         if (event.message) {
         	receivedMessage(event);
 		}
+    else if (event.postback) {
+          receivedPostback(event);
+        }
     }
     res.sendStatus(200)
 })
@@ -101,6 +104,17 @@ function receivedMessage(event) {
     } else if (messageAttachments) {
         sendTextMessage(senderID, pageId, "Message with attachment received");
     }  
+
+}
+
+function receivedPostback(messagingEvent){
+
+  var senderID = messagingEvent.sender.id;
+  var pageId = messagingEvent.recipient.id;
+  var timeOfMessage = messagingEvent.timestamp;
+  var message = messagingEvent.postback.payload;
+  messageText = "Processing your request...";
+  sendTextMessage(senderID, pageId, messageText)
 
 }
 
