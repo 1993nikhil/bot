@@ -144,7 +144,7 @@ function callSendAPI(messageData,pageId) {
 function startConversation(userId,pageId, messageText){
 	  var messageData = {
     recipient: {
-      id: recipientId
+      id: userId
     },
     message: {
       attachment: {
