@@ -2,6 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
+var greetService = require('./services/greetingServices');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9');
@@ -113,35 +114,35 @@ function sendTextMessage(sender, pageId, messageText) {
         }
     };
 
-    callSendAPI(messageData, pageId);
+    greetService.callSendAPI(messageData, pageId);
 }
 
-function callSendAPI(messageData,pageId) {
+// function callSendAPI(messageData,pageId) {
 
  
-  request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token: token[pageId]},
-    method: 'POST',
-    json: messageData
+//   request({
+//     uri: 'https://graph.facebook.com/v2.6/me/messages',
+//     qs: {access_token: token[pageId]},
+//     method: 'POST',
+//     json: messageData
 
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
+//   }, function (error, response, body) {
+//     if (!error && response.statusCode == 200) {
+//       var recipientId = body.recipient_id;
+//       var messageId = body.message_id;
 
-      console.log("Successfully sent generic message with id %s to recipient %s", 
-        messageId, recipientId);
-    } else {
-      console.error("Unable to send message.");
-      //console.error(response);
-      console.error(error);
-    }
-  });  
-}
+//       console.log("Successfully sent generic message with id %s to recipient %s", 
+//         messageId, recipientId);
+//     } else {
+//       console.error("Unable to send message.");
+//       //console.error(response);
+//       console.error(error);
+//     }
+//   });  
+// }
 
 function startConversation(userId,pageId){
-	getUserName(userId,pageId);
+	 getUserName(userId,pageId);
 }
 
 //getUserName
