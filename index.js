@@ -4,7 +4,7 @@ var request = require('request')
 var app = express()
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://mydb:mydb@ds161304.mlab.com:61304/bot');
+var db = mongoose.connect('mongodb://mydb:mydb@ds161304.mlab.com:61304/bot');
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -19,10 +19,10 @@ app.get('/', function (req, res) {
     res.send('Hello world, I am a chat bot')
 })
 //dbtest
-var Log = require('./models/logModel');
+//var Log = require('./models/logModel');
 
 app.get('/user', function (req, res) {
-	Log.find(function(err, log){
+	db.Log.find(function(err, log){
 		if(err){
 			res.send(err);
 		}
