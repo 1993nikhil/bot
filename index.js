@@ -151,7 +151,6 @@ function startConversation(userId, pageId, messageText){
         type: "template",
         payload: {
           template_type: "generic",
-          text: messageText,
           elements: [{
             title: "Renewal payment received or not",
             buttons: [{
@@ -218,7 +217,11 @@ function getUserName(userId,pageId) {
     if (!error && response.statusCode == 200) {
      var jsonData = JSON.parse(body);
      var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot";
-     startConversation(userId, pageId, newMessage);
+     callSendAPI(newMessage, pageId);
+
+       setTimeout(function(){ 
+          startConversation(userId, pageId, newMessage);
+        }, 10000);
     } else {
       console.error("Unable to send message1.");
       console.error(response);
