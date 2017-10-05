@@ -147,21 +147,40 @@ function startConversation(userId, pageId, messageText){
       id: userId
     },
     message: {
-            attachment: {
-                type: "template",
-                payload:  {
-                template_type: "button",
-                text: "Hi "+messageText+" . I am riya , welcome to DHFL Bot",
-                  buttons: [{
-                    type: "postback",
-                    title: "Weather",
-                    payload: "1-weather",
-                  }, {
-                    type: "postback",
-                    title: "Cricket",
-                    payload: "1-cricket",
-                  }]
+          text: "Hi "+messageText+" . I am riya , welcome to DHFL Bot",
+           quick_replies :[
+              {
+                content_type:"text",
+                title:"Renewal payment received or not",
+                payload:"1-RPR",
+              },
+              {
+                content_type:"text",
+                title:"Policy Status",
+                payload:"1-PS",
+
+              },
+              {
+                content_type:"text",
+                title:"Fund value as on date",
+                payload:"1-FV",
+              },
+              {
+                content_type:"text",
+                title:"Amount Deposited in Policy Till Date",
+                payload:"1-AD",
+              },
+              {
+                content_type:"text",
+                title:"Pay Renewal Payment",
+                payload:"1-PRP",
+              },
+              {
+                content_type:"text",
+                title:"Next Premium Due Date",
+                payload:"1-NP",
               }
+            ]
             }
           }
   };  
