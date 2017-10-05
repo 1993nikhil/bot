@@ -31,9 +31,10 @@ var logSchema = new Schema({
 var Log = mongoose.model('Log', logSchema)
 
 app.get('/user', function (req, res) {
-	db.Log.find(function(err, data){
+	Log.find(function(err, data){
 		if(err){
 			res.send(err);
+			console.log("error");
 		}
 		res.json(data);
 	});
