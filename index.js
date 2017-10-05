@@ -153,14 +153,12 @@ function startConversation(userId,pageId, messageText){
           template_type: "generic",
           text: "Hi "+messageText+". I am Riya, welcome to DHFL Bot. I can help you with following services: ",
           elements: [{
-            {
                 buttons: [{
                type: "postback",
                title: "Renewal payment received or not",
                payload: "1-RPR", 
-            }]
-            },              
-           {
+            }]             
+           },{
             buttons: [{
               type: "postback",
               title: "Policy Status",
@@ -190,8 +188,7 @@ function startConversation(userId,pageId, messageText){
               title: "Next Premium Due Date",
               payload: "1-NP",
               }] 
-            }
-          }]
+            }]
         }
       }
     }
