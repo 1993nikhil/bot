@@ -20,13 +20,22 @@ app.get('/', function (req, res) {
 })
 //dbtest
 //var Log = require('./models/logModel');
+var Schema = mongoose.Schema;
+
+// create a schema
+var logSchema = new Schema({
+  recipientId: String,
+  userName: String,
+});
+
+var Log = mongoose.model('Log', logSchema)
 
 app.get('/user', function (req, res) {
-	db.Log.find(function(err, log){
+	db.Log.find(function(err, data){
 		if(err){
 			res.send(err);
 		}
-		res.json(log);
+		res.json(data);
 	});
 })
 
