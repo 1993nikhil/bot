@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
-const apiaiApp = require('apiai')('610c50319964449e8462dee0a274e3bb');
+//const apiaiApp = require('apiai')('610c50319964449e8462dee0a274e3bb');
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -73,7 +73,7 @@ function receivedMessage(event) {
         
             
         default:
-        sendTextMessage(senderID, pageId, "Thank You for your Response, have a nice Day",1);
+        sendTextMessage(senderID, pageId, "Thank You for your Response, have a nice Day");
       }
     } else if (messageAttachments) {
         sendTextMessage(senderID, pageId, "Message with attachment received");
@@ -133,7 +133,7 @@ function getUserName(userId,pageId) {
      var newMessage = jsonData.first_name+" "+jsonData.last_name;
      callSendAPI(newMessage, pageId)
     } else {
-      console.error("Unable to send message.");
+      console.error("Unable to send message1.");
       console.error(response);
       console.error(error);
     }
