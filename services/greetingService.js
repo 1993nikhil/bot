@@ -109,6 +109,7 @@ function nextOption(userId, messageText){
           message: {
             attachment: {
                 type: "template",
+                text: messageText,
                 payload:  {
                 template_type: "button",
                   buttons: [{
