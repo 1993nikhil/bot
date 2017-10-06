@@ -2,12 +2,22 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
-//var greetService = require('./services/greetingService');
-
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9');
 
 app.set('port', (process.env.PORT || 5000))
+app.set('mongo_url',(process.env.MONGODB_URL || 'mongodb://localhost:27017/botDB'));
+
+
+
+mongoose.connect(app.get('mongo_url'),function(err){
+  if(err){
+    console.log(err);
+    process.exit(1);
+  }
+  console.log("connected to " + app.get('mongo_url'));
+});
+
+
 
 // Process application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}))
