@@ -58,7 +58,7 @@ function getUserName(userId) {
 //               type: "Fund Value",
 //               title: "NO",
 //               payload: "1-FV",
-//             }]
+// //             }]
 //           }
 //         }
 //       } 
@@ -79,10 +79,18 @@ function viewMore(userId, messageText){
                 template_type: "button",
                 text: messageText,
                   buttons: [{
-                    type: "postback",
-                    title: "View More",
-                    payload: "1-yes",
-                  }]
+              type: "postback",
+              title: "Next Due Date",
+              payload: "1-NDD",
+            }, {
+              type: "postback",
+              title: "Policy Status",
+              payload: "1-PS",
+            }, {
+              type: "Fund Value",
+              title: "NO",
+              payload: "1-FV",
+             }]
               }
             }
           }
