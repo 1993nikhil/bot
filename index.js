@@ -30,31 +30,8 @@ app.get('/', function (req, res) {
     res.send('Hello world, I am a chat bot')
 })
 //dbtest
-//var Log = require('./models/logModel');
-var Schema = mongoose.Schema;
+var Log = require('./models/logModel');
 
-// create a schema
-var logSchema = new Schema({
-  recipientId: String,
-  userName: String,
-});
-
-var Log = mongoose.model('Log', logSchema)
-
-var john = Log({
-    recipientId: '230',
-    userName: 'Nik'
-});
-
-//save log
-john.save(function(err){
-  if(err){
-    throw err;
-  }
-  else{
-    console.log('user saved');
-  }
-})
 
 app.get('/user', function (req, res) {
 	Log.find({},{},function(err, data){
@@ -67,12 +44,9 @@ app.get('/user', function (req, res) {
 })
 
 
-//var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
+var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
 
-var token = {
-	492841481078418: 'EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD',
-	121736051845888: 'EAABslGNoL6QBAHde5o5OraLFiCOk8L9ydxIJEDaFbZAJvjZCKww6dkihY9YbfU6uB7m45ZBLOwuvMBZCDZBeY7Bzr8rla94tjpXY1iKeSPxT15qzfHmm0VhkJZBq55ZCTQDsraTBGZCUTHk7k6FOskjPrbZBrAgroqhlvWEDmxzgkWAZDZD'
-}
+
 
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
@@ -113,21 +87,21 @@ function receivedMessage(event) {
       messageText= messageText.toLowerCase();
       switch (messageText) {
         case 'generic':
-        sendTextMessage(senderID, pageId, "Thank You for your Response, have a nice Day");
+        sendTextMessage(senderID, "Thank You for your Response, have a nice Day");
         break;
         case 'hi':
-        getUserName(senderID, pageId, 1);
+        getUserName(senderID, 1);
         break;
         case 'hello':
-        getUserName(senderID, pageId);
+        getUserName(senderID);
         break;
         
             
         default:
-        sendTextMessage(senderID, pageId, "Thank You for your Response, have a nice Day");
+        sendTextMessage(senderID, "Thank You for your Response, have a nice Day");
       }
     } else if (messageAttachments) {
-        sendTextMessage(senderID, pageId, "Message with attachment received");
+        sendTextMessage(senderID, "Message with attachment received");
     }  
 
 }
@@ -143,7 +117,7 @@ function receivedPostback(messagingEvent){
 
 }
 
-function sendTextMessage(sender, pageId, messageText) {
+function sendTextMessage(sender, messageText) {
 	var messageData = {
 		 recipient: {
            id: sender
@@ -153,15 +127,15 @@ function sendTextMessage(sender, pageId, messageText) {
         }
     };
 
-    callSendAPI(messageData, pageId);
+    callSendAPI(messageData);
 }
 
-function callSendAPI(messageData,pageId) {
+function callSendAPI(messageData) {
 
  
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token: token[pageId]},
+    qs: {access_token: token},
     method: 'POST',
     json: messageData
 
@@ -180,7 +154,7 @@ function callSendAPI(messageData,pageId) {
   });  
 }
 
-function startConversation(userId, pageId, messageText){
+function startConversation(userId, messageText){
 	  var messageData = {
     recipient: {
       id:userId
@@ -240,11 +214,11 @@ function startConversation(userId, pageId, messageText){
     };
 
 
-  callSendAPI(messageData, pageId);
+  callSendAPI(messageData);
 }
 
 //quick link test
-function startConversationQ(userId, pageId, messageText){
+function startConversationQ(userId, messageText){
     var messageData = {
     recipient: {
       id:userId
@@ -287,13 +261,13 @@ function startConversationQ(userId, pageId, messageText){
         } 
       };
 
-  callSendAPI(messageData, pageId);
+  callSendAPI(messageData);
 }
 
 
 //getUserName
-function getUserName(userId,pageId, isHi) {
-  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token[pageId];
+function getUserName(userId, isHi) {
+  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token;
 
  request({
     uri: getInfoUserAPI,
@@ -306,11 +280,11 @@ function getUserName(userId,pageId, isHi) {
      var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot. I can help you with the following services";
      
      if(isHi){
-        startConversationQ(userId, pageId, newMessage);
+        startConversationQ(userId, newMessage);
      }else{
-        sendTextMessage(userId, pageId, newMessage);
+        sendTextMessage(userId, newMessage);
         setTimeout(function(){ 
-          startConversation(userId, pageId, newMessage);
+          startConversation(userId, newMessage);
           
         }, 1000);
      }
