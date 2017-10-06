@@ -5,7 +5,7 @@ var fb_api = require('../routes/fbapi')
 
 var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
 
-function getUserName(userId, isHi) {
+function getUserName(userId) {
   var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token;
 
  request({
@@ -18,18 +18,13 @@ function getUserName(userId, isHi) {
      var jsonData = JSON.parse(body);
      var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot. I can help you with the following services";
      
-     if(isHi){
-        startConversationQ(userId, newMessage);
-     }else{
-        fbCtrl.sendTextMessage(userId, newMessage);
-        setTimeout(function(){ 
-          startConversation(userId, newMessage);
+      startConversationQ(userId, newMessage);
+      setTimeout(function(){ 
+          viewMore(userId, "click for more option");
           
         }, 1000);
      }
-     
-
-    } else {
+      else {
       console.error("Unable to send message1.");
       console.error(response);
       console.error(error);
@@ -40,114 +35,157 @@ function getUserName(userId, isHi) {
 }
 
 //quick link test
-function startConversationQ(userId, messageText){
-    var messageData = {
-    recipient: {
-      id:userId
-    },
-   message: {
-          text: messageText,
-          quick_replies:[
-              {
-                content_type:"text",
-                title:"Renewal payment received or not",
-                payload:"1-RPR",
-              },
-              {
-                content_type:"text",
-                title:"Policy Status",
-                payload:"1-PS",
-
-              },
-              {
-                content_type:"text",
-                title:"Fund value as on date",
-                payload:"1-FV",
-              },
-              {
-                content_type:"text",
-                title:"Amount Deposited in Policy Till Date",
-                payload:"1-AD",
-              },
-              {
-                content_type:"text",
-                title:"Pay Renewal Payment",
-                payload:"1-PRP",
-              },
-              {
-                content_type:"text",
-                title:"Next Premium Due Date",
-                payload:"1-NP",
-              }
-            ]
-        } 
-      };
-
-  callSendAPI(messageData);
-}
-
 function startConversation(userId, messageText){
     var messageData = {
     recipient: {
       id:userId
     },
     message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [{
-            title: "Renewal payment received or not",
-            buttons: [{
-              type: "postback",
-              title: "start",
-              payload: "1-RPR",
-            }]
-          }, {
-            title: "Policy Status(Active/Lapsed/revived etc.)",
-            buttons: [{
-              type: "postback",
-              title: "start",
-              payload: "1-PS",
-            }]
-          }, {
-            title: "Fund value as on date",
-            buttons: [{
-              type: "postback",
-              title: "start",
-              payload: "1-FV",
-            }]
-          }, {
-            title: "Amount Deposited in Policy Till Date",
-            buttons: [{
-              type: "postback",
-              title: "start",
-              payload: "1-AD",
-            }]
-          }, {
-            title: "Pay Renewal Payment",
-            buttons: [{
-              type: "postback",
-              title: "start",
-              payload: "1-PRP",
-            }]
-          }, {
-            title: "Next Premium Due Date",
-            buttons: [{
-             type: "postback",
-             title: "start",
-             payload: "1-NP",
-            }]
-          }]
-        }
-      }          
-          
-        }
-    };
-
+            attachment: {
+                type: "template",
+                payload:  {
+                template_type: "button",
+                text: messageText,
+                  buttons: [{
+                    type: "postback",
+                    title: "Next Due Date",
+                    payload: "1-NDD",
+                  }, {
+                    type: "postback",
+                    title: "Policy Status",
+                    payload: "1-PS",
+                  }, {
+                    type: "Fund Value",
+                    title: "NO",
+                    payload: "1-FV",
+                  }]
+              }
+            }
+        } 
+      };
 
   callSendAPI(messageData);
 }
+
+function viewMore(userId, messageText){
+          var messageData1 = {
+          recipient: {
+            id: recipientId
+          },
+          message: {
+            attachment: {
+                type: "template",
+                payload:  {
+                template_type: "button",
+                text: messageText,
+                  buttons: [{
+                    type: "postback",
+                    title: "View More",
+                    payload: "1-yes",
+                  }]
+              }
+            }
+          }
+      }; 
+
+     callSendAPI(messageData); 
+}
+
+function nextOption(userId, messageText){
+      var messageData = {
+    recipient: {
+      id:userId
+    },
+    message: {
+            attachment: {
+                type: "template",
+                payload:  {
+                template_type: "button",
+                text: messageText,
+                  buttons: [{
+                    type: "postback",
+                    title: "Pay Premium",
+                    payload: "1-PP",
+                  }, {
+                    type: "postback",
+                    title: "Total Amt. Paid",
+                    payload: "1-TAP",
+                  }, {
+                    type: "Renewal Payment",
+                    title: "NO",
+                    payload: "1-RP",
+                  }]
+              }
+            }
+        } 
+      };
+
+  callSendAPI(messageData);
+
+}
+
+// function startConversation(userId, messageText){
+//     var messageData = {
+//     recipient: {
+//       id:userId
+//     },
+//     message: {
+//       attachment: {
+//         type: "template",
+//         payload: {
+//           template_type: "generic",
+//           elements: [{
+//             title: "Renewal payment received or not",
+//             buttons: [{
+//               type: "postback",
+//               title: "start",
+//               payload: "1-RPR",
+//             }]
+//           }, {
+//             title: "Policy Status(Active/Lapsed/revived etc.)",
+//             buttons: [{
+//               type: "postback",
+//               title: "start",
+//               payload: "1-PS",
+//             }]
+//           }, {
+//             title: "Fund value as on date",
+//             buttons: [{
+//               type: "postback",
+//               title: "start",
+//               payload: "1-FV",
+//             }]
+//           }, {
+//             title: "Amount Deposited in Policy Till Date",
+//             buttons: [{
+//               type: "postback",
+//               title: "start",
+//               payload: "1-AD",
+//             }]
+//           }, {
+//             title: "Pay Renewal Payment",
+//             buttons: [{
+//               type: "postback",
+//               title: "start",
+//               payload: "1-PRP",
+//             }]
+//           }, {
+//             title: "Next Premium Due Date",
+//             buttons: [{
+//              type: "postback",
+//              title: "start",
+//              payload: "1-NP",
+//             }]
+//           }]
+//         }
+//       }          
+          
+//         }
+//     };
+
+
+//   callSendAPI(messageData);
+// }
 
 
 function callSendAPI(messageData) {
@@ -174,7 +212,6 @@ function callSendAPI(messageData) {
 
 module.exports = {
    getUserName:getUserName,
-   startConversation:startConversation,
-   startConversationQ:startConversationQ
+   startConversation:startConversation
 };
 

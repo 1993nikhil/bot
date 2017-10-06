@@ -53,8 +53,10 @@ function receivedPostback(messagingEvent){
   var pageId = messagingEvent.recipient.id;
   var timeOfMessage = messagingEvent.timestamp;
   var message = messagingEvent.postback.payload;
-  messageText = "Processing your request...";
-  sendTextMessage(senderID, pageId, messageText)
+    
+  if(message == "1-yes"){
+    fbService.nextOption(senderID,'select your option');
+  }
 
 }
 
