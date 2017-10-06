@@ -34,38 +34,38 @@ function getUserName(userId) {
 
 }
 
-//quick link test
+
 function startConversation(userId, messageText){
     var messageData = {
-    recipient: {
-      id:userId
-    },
-    message: {
-            attachment: {
-                type: "template",
-                payload:  {
-                template_type: "button",
-                text: messageText,
-                  buttons: [{
-                    type: "postback",
-                    title: "Next Due Date",
-                    payload: "1-NDD",
-                  }, {
-                    type: "postback",
-                    title: "Policy Status",
-                    payload: "1-PS",
-                  }, {
-                    type: "Fund Value",
-                    title: "NO",
-                    payload: "1-FV",
-                  }]
-              }
-            }
-        } 
-      };
+     recipient: {
+        id:userId
+     },
+     message: {
+        attachment: {
+          type: "template",
+          payload:  {
+          template_type: "button",
+          text: messageText,
+          buttons: [{
+              type: "postback",
+              title: "Next Due Date",
+              payload: "1-NDD",
+            }, {
+              type: "postback",
+              title: "Policy Status",
+              payload: "1-PS",
+            }, {
+              type: "Fund Value",
+              title: "NO",
+              payload: "1-FV",
+            }]
+          }
+        }
+      } 
+    };
 
-  callSendAPI(messageData);
-}
+   callSendAPI(messageData);
+} 
 
 // function viewMore(userId, messageText){
 //           var messageData = {
@@ -92,7 +92,7 @@ function startConversation(userId, messageText){
 // }
 
 function nextOption(userId, messageText){
-      var messageData = {
+    var messageData = {
     recipient: {
       id:userId
     },
