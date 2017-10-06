@@ -18,7 +18,7 @@ function getUserName(userId) {
      var jsonData = JSON.parse(body);
      var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot. I can help you with the following services";
      
-      startConversationQ(userId, newMessage);
+      startConversation(userId, newMessage);
       setTimeout(function(){ 
           viewMore(userId, "click for more option");
           
