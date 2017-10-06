@@ -86,7 +86,7 @@ function saveUser(userId){
 		if (!error && response.statusCode == 200) {
 			var jsonData = JSON.parse(body);
 			var user = {
-				recipientId:'userId',
+				recipientId: userId,
 				userName: jsonData.first_name
 			}
 

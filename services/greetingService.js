@@ -83,7 +83,7 @@ function startConversationQ(userId, messageText){
         } 
       };
 
-  fbCtrl.callSendAPI(messageData);
+  callSendAPI(messageData);
 }
 
 function startConversation(userId, messageText){
@@ -146,7 +146,7 @@ function startConversation(userId, messageText){
     };
 
 
-  fbCtrl.callSendAPI(messageData);
+  callSendAPI(messageData);
 }
 
 
