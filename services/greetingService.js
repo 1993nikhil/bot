@@ -16,11 +16,11 @@ function getUserName(userId) {
  
     if (!error && response.statusCode == 200) {
      var jsonData = JSON.parse(body);
-     var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot. I can help you with the following services";
+     var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am Riya , welcome to DHFL Bot. I can help you with the following services";
      
       startConversation(userId, newMessage);
       setTimeout(function(){ 
-          nextOption(userId, "more option");
+          nextOption(userId, "and");
           
         }, 500);
      }
