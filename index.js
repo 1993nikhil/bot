@@ -42,8 +42,8 @@ var logSchema = new Schema({
 var Log = mongoose.model('Log', logSchema)
 
 var john = Log({
-    recipientId: '236',
-    userName: 'Doe'
+    recipientId: '230',
+    userName: 'Nik'
 });
 
 //save log
@@ -116,7 +116,7 @@ function receivedMessage(event) {
         sendTextMessage(senderID, pageId, "Thank You for your Response, have a nice Day");
         break;
         case 'hi':
-        getUserNameQ(senderID, pageId);
+        getUserName(senderID, pageId, 1);
         break;
         case 'hello':
         getUserName(senderID, pageId);
@@ -292,7 +292,7 @@ function startConversationQ(userId, pageId, messageText){
 
 
 //getUserName
-function getUserName(userId,pageId) {
+function getUserName(userId,pageId, isHi) {
   var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token[pageId];
 
  request({
@@ -307,7 +307,12 @@ function getUserName(userId,pageId) {
      
      sendTextMessage(userId, pageId, newMessage);
       setTimeout(function(){ 
-          startConversation(userId, pageId, newMessage);
+          if(isHi){
+            startConversationQ(userId, pageId, newMessage);
+          }else {
+            startConversation(userId, pageId, newMessage);
+          }
+          
         }, 1000);
     } else {
       console.error("Unable to send message1.");
@@ -320,32 +325,32 @@ function getUserName(userId,pageId) {
 }
 
 //hi for quicklinks
-function getUserNameQ(userId,pageId) {
-  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token[pageId];
+// function getUserNameQ(userId,pageId) {
+//   var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token[pageId];
 
- request({
-    uri: getInfoUserAPI,
-    method: 'GET',   
+//  request({
+//     uri: getInfoUserAPI,
+//     method: 'GET',   
 
-  }, function (error, response, body) {
+//   }, function (error, response, body) {
  
-    if (!error && response.statusCode == 200) {
-     var jsonData = JSON.parse(body);
-     var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot. I can help you with the following services";
+//     if (!error && response.statusCode == 200) {
+//      var jsonData = JSON.parse(body);
+//      var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot. I can help you with the following services";
      
-     sendTextMessage(userId, pageId, newMessage);
-      setTimeout(function(){ 
-          startConversationQ(userId, pageId, newMessage);
-        }, 1000);
-    } else {
-      console.error("Unable to send message1.");
-      console.error(response);
-      console.error(error);
-    }
-  }); 
+//      sendTextMessage(userId, pageId, newMessage);
+//       setTimeout(function(){ 
+//           startConversationQ(userId, pageId, newMessage);
+//         }, 1000);
+//     } else {
+//       console.error("Unable to send message1.");
+//       console.error(response);
+//       console.error(error);
+//     }
+//   }); 
 
 
-}
+// }
 
 
 // Spin up the server
