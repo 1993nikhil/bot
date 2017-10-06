@@ -2,7 +2,7 @@ var express = require('express')
 var request = require('request')
 var fbService = require('../services/greetingService')
 var fb_api = require('../routes/fbapi')
-var Log = require('../models/logModel');
+var Log = require('../models/logModel')
 var saveUserOffset = 0;
 
 
@@ -85,11 +85,11 @@ function saveUser(userId){
 
 		if (!error && response.statusCode == 200) {
 			var jsonData = JSON.parse(body);
-			var user = {
+			var user = Log{
 				recipientId:'userId',
 				userName: jsonData.first_name
 			}
-			Log.save(function(err, user){
+			user.save(function(err){
 		     if(err){
 			   console.log(err);
 		     }
