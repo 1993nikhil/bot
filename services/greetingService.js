@@ -87,6 +87,11 @@ function startConversation(userId, messageText){
                     type: "postback",
                     title: "Policy Status",
                     payload: "1-PS"
+                  },
+                  {
+                    type: "postback",
+                    title: "Fund Value",
+                    payload: "1-FV",
                   }]
               }
             }
