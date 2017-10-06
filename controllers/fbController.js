@@ -85,11 +85,13 @@ function saveUser(userId){
 
 		if (!error && response.statusCode == 200) {
 			var jsonData = JSON.parse(body);
-			var user = Log{
+			var user = {
 				recipientId:'userId',
 				userName: jsonData.first_name
 			}
-			user.save(function(err){
+
+			var userDetail = new Log(user);
+			userDetail.save(function(err){
 		     if(err){
 			   console.log(err);
 		     }
