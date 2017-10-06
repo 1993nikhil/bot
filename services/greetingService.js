@@ -20,9 +20,9 @@ function getUserName(userId) {
      
       startConversation(userId, newMessage);
       setTimeout(function(){ 
-          nextOption(userId, "");
+          nextOption(userId, "more options");
           
-        }, 1000);
+        }, 500);
      }
       else {
       console.error("Unable to send message1.");
@@ -102,11 +102,11 @@ function startConversation(userId, messageText){
 }
 
 function nextOption(userId, messageText){
-    var messageData = {
-    recipient: {
-      id:userId
-    },
-    message: {
+          var messageData = {
+          recipient: {
+            id: userId
+          },
+          message: {
             attachment: {
                 type: "template",
                 payload:  {
@@ -116,20 +116,21 @@ function nextOption(userId, messageText){
                     type: "postback",
                     title: "Pay Premium",
                     payload: "1-PP",
-                  }, {
+                  },
+                  {
                     type: "postback",
                     title: "Total Amt. Paid",
-                    payload: "1-TAP",
-                  }, {
-                    type: "Renewal Payment",
-                    title: "NO",
+                    payload: "1-TAP"
+                  },
+                  {
+                    type: "postback",
+                    title: "Renewal Payment",
                     payload: "1-RP",
                   }]
               }
             }
-        } 
-      };
-
+          }
+      }; 
   callSendAPI(messageData);
 
 }
