@@ -20,7 +20,7 @@ function getUserName(userId) {
      
       startConversation(userId, newMessage);
       setTimeout(function(){ 
-          nextOption(userId, " ");
+          nextOption(userId, "more option");
           
         }, 500);
      }
@@ -111,7 +111,6 @@ function nextOption(userId, messageText){
                 type: "template",
                 payload:  {
                 template_type: "button",
-                text: messageText,
                   buttons: [{
                     type: "postback",
                     title: "Pay Premium",
