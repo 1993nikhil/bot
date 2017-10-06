@@ -5,7 +5,7 @@ var app = express()
 var mongoose = require('mongoose');
 
 app.set('port', (process.env.PORT || 5000))
-app.set('mongo_url',(process.env.MONGODB_URL || 'mongodb://localhost:27017/botDB'));
+app.set('mongo_url',('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9'));
 
 
 
