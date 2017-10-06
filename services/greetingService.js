@@ -82,6 +82,11 @@ function startConversation(userId, messageText){
                     type: "postback",
                     title: "Next Due Date",
                     payload: "1-NP",
+                  },
+                  {
+                    type: "postback",
+                    title: "Policy Status",
+                    payload: "1-PS"
                   }]
               }
             }
