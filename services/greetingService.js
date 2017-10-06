@@ -68,7 +68,7 @@ function startConversation(userId, messageText){
 }
 
 function viewMore(userId, messageText){
-          var messageData1 = {
+          var messageData = {
           recipient: {
             id: userId
           },
