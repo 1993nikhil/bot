@@ -2,6 +2,9 @@ var express = require('express')
 var request = require('request')
 var fbService = require('../services/greetingService')
 var fb_api = require('../routes/fbapi')
+var Log = require('../models/logModel');
+var saveUserOffset = 0;
+
 
 var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
 
@@ -16,7 +19,7 @@ function receivedMessage(event) {
     var messageText = message.text;
     var messageAttachments = message.attachments;
     
-     if (messageText) {
+    if (messageText) {
       messageText= messageText.toLowerCase();
       switch (messageText) {
         case 'generic':
@@ -33,9 +36,14 @@ function receivedMessage(event) {
         default:
         sendTextMessage(senderID, "Thank You for your Response, have a nice Day");
       }
-    } else if (messageAttachments) {
+     } else if (messageAttachments) {
         sendTextMessage(senderID, "Message with attachment received");
-    }  
+     } 
+
+    if(!saveUserOffset){
+    	saveUser(senderID);
+    }
+
 
 }
 
@@ -65,6 +73,37 @@ function sendTextMessage(sender, messageText) {
     callSendAPI(messageData);
 }
 
+
+function saveUser(userId){
+	var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token;
+	saveUserOffset = 1;
+	request({
+	   uri: getInfoUserAPI,
+       method: 'GET',   
+
+	}, function (error, response, body) {
+
+		if (!error && response.statusCode == 200) {
+			var jsonData = JSON.parse(body);
+			var user = {
+				recipientId:'userId',
+				userName: jsonData.first_name
+			}
+			Log.save(function(err, user){
+		     if(err){
+			   console.log(err);
+		     }
+		        console.log('new user saved ');
+	        });
+
+		}else{
+		  console.error("Unable to send message1.");
+          console.error(response);
+          console.error(error);	
+		}
+
+	});
+}
 
 function callSendAPI(messageData) {
   request({
