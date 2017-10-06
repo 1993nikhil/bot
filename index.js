@@ -250,6 +250,7 @@ function startConversationQ(userId, pageId, messageText){
       id:userId
     },
    message: {
+          text: messageText,
           quick_replies:[
               {
                 content_type:"text",
@@ -304,15 +305,17 @@ function getUserName(userId,pageId, isHi) {
      var jsonData = JSON.parse(body);
      var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot. I can help you with the following services";
      
-     sendTextMessage(userId, pageId, newMessage);
-      setTimeout(function(){ 
-          if(isHi){
-            startConversationQ(userId, pageId, newMessage);
-          }else {
-            startConversation(userId, pageId, newMessage);
-          }
+     if(isHi){
+        startConversationQ(userId, pageId, newMessage);
+     }else{
+        sendTextMessage(userId, pageId, newMessage);
+        setTimeout(function(){ 
+          startConversation(userId, pageId, newMessage);
           
         }, 1000);
+     }
+     
+
     } else {
       console.error("Unable to send message1.");
       console.error(response);
