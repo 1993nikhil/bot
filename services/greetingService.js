@@ -109,9 +109,9 @@ function nextOption(userId, messageText){
           message: {
             attachment: {
                 type: "template",
-                text: messageText,
                 payload:  {
                 template_type: "button",
+                text: messageText,
                   buttons: [{
                     type: "postback",
                     title: "Pay Premium",
