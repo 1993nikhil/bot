@@ -70,7 +70,7 @@ function startConversation(userId, messageText){
 function viewMore(userId, messageText){
           var messageData1 = {
           recipient: {
-            id: recipientId
+            id: userId
           },
           message: {
             attachment: {
