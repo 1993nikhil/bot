@@ -20,7 +20,7 @@ function getUserName(userId) {
      
       startConversation(userId, newMessage);
       setTimeout(function(){ 
-          nextOption(userId, "more options");
+          nextOption(userId, " ");
           
         }, 500);
      }
@@ -77,7 +77,7 @@ function startConversation(userId, messageText){
                 type: "template",
                 payload:  {
                 template_type: "button",
-                text: "",
+                text: messageText,
                   buttons: [{
                     type: "postback",
                     title: "Next Due Date",
