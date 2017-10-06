@@ -20,7 +20,7 @@ function getUserName(userId) {
      
       startConversation(userId, newMessage);
       setTimeout(function(){ 
-          viewMore(userId, "click for more option");
+          nextOption(userId, "");
           
         }, 1000);
      }
@@ -67,29 +67,29 @@ function startConversation(userId, messageText){
   callSendAPI(messageData);
 }
 
-function viewMore(userId, messageText){
-          var messageData = {
-          recipient: {
-            id: userId
-          },
-          message: {
-            attachment: {
-                type: "template",
-                payload:  {
-                template_type: "button",
-                text: messageText,
-                  buttons: [{
-                    type: "postback",
-                    title: "View More",
-                    payload: "1-yes",
-                  }]
-              }
-            }
-          }
-      }; 
+// function viewMore(userId, messageText){
+//           var messageData = {
+//           recipient: {
+//             id: userId
+//           },
+//           message: {
+//             attachment: {
+//                 type: "template",
+//                 payload:  {
+//                 template_type: "button",
+//                 text: messageText,
+//                   buttons: [{
+//                     type: "postback",
+//                     title: "View More",
+//                     payload: "1-yes",
+//                   }]
+//               }
+//             }
+//           }
+//       }; 
 
-     callSendAPI(messageData); 
-}
+//      callSendAPI(messageData); 
+// }
 
 function nextOption(userId, messageText){
       var messageData = {
