@@ -18,7 +18,7 @@ function getUserName(userId) {
      var jsonData = JSON.parse(body);
      var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot. I can help you with the following services";
      
-      startConversation(userId, newMessage);
+      viewMore(userId, newMessage);
       setTimeout(function(){ 
           nextOption(userId, "");
           
@@ -35,61 +35,61 @@ function getUserName(userId) {
 }
 
 
-function startConversation(userId, messageText){
-    var messageData = {
-     recipient: {
-        id:userId
-     },
-     message: {
-        attachment: {
-          type: "template",
-          payload:  {
-          template_type: "button",
-          text: messageText,
-          buttons: [{
-              type: "postback",
-              title: "Next Due Date",
-              payload: "1-NDD",
-            }, {
-              type: "postback",
-              title: "Policy Status",
-              payload: "1-PS",
-            }, {
-              type: "Fund Value",
-              title: "NO",
-              payload: "1-FV",
-            }]
-          }
-        }
-      } 
-    };
-
-   callSendAPI(messageData);
-} 
-
-// function viewMore(userId, messageText){
-//           var messageData = {
-//           recipient: {
-//             id: userId
-//           },
-//           message: {
-//             attachment: {
-//                 type: "template",
-//                 payload:  {
-//                 template_type: "button",
-//                 text: messageText,
-//                   buttons: [{
-//                     type: "postback",
-//                     title: "View More",
-//                     payload: "1-yes",
-//                   }]
-//               }
-//             }
+// function startConversation(userId, messageText){
+//     var messageData = {
+//      recipient: {
+//         id:userId
+//      },
+//      message: {
+//         attachment: {
+//           type: "template",
+//           payload:  {
+//           template_type: "button",
+//           text: messageText,
+//           buttons: [{
+//               type: "postback",
+//               title: "Next Due Date",
+//               payload: "1-NDD",
+//             }, {
+//               type: "postback",
+//               title: "Policy Status",
+//               payload: "1-PS",
+//             }, {
+//               type: "Fund Value",
+//               title: "NO",
+//               payload: "1-FV",
+//             }]
 //           }
-//       }; 
+//         }
+//       } 
+//     };
 
-//      callSendAPI(messageData); 
-// }
+//    callSendAPI(messageData);
+// } 
+
+function viewMore(userId, messageText){
+          var messageData = {
+          recipient: {
+            id: userId
+          },
+          message: {
+            attachment: {
+                type: "template",
+                payload:  {
+                template_type: "button",
+                text: messageText,
+                  buttons: [{
+                    type: "postback",
+                    title: "View More",
+                    payload: "1-yes",
+                  }]
+              }
+            }
+          }
+      }; 
+
+     callSendAPI(messageData); 
+}
 
 function nextOption(userId, messageText){
     var messageData = {
