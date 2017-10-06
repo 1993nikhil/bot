@@ -77,7 +77,7 @@ function startConversation(userId, messageText){
                 type: "template",
                 payload:  {
                 template_type: "button",
-                text: messageText,
+                text: "",
                   buttons: [{
                     type: "postback",
                     title: "Next Due Date",
