@@ -18,7 +18,7 @@ function getUserName(userId) {
      var jsonData = JSON.parse(body);
      var newMessage = "Hi "+jsonData.first_name+" "+jsonData.last_name+" . I am riya , welcome to DHFL Bot. I can help you with the following services";
      
-      viewMore(userId, newMessage);
+      startConversation(userId, newMessage);
       setTimeout(function(){ 
           nextOption(userId, "");
           
@@ -46,19 +46,19 @@ function getUserName(userId) {
 //           payload:  {
 //           template_type: "button",
 //           text: messageText,
-//           buttons: [{
-//               type: "postback",
-//               title: "Next Due Date",
-//               payload: "1-NDD",
-//             }, {
-//               type: "postback",
-//               title: "Policy Status",
-//               payload: "1-PS",
-//             }, {
-//               type: "Fund Value",
-//               title: "NO",
-//               payload: "1-FV",
-// //             }]
+          // buttons: [{
+          //     type: "postback",
+          //     title: "Next Due Date",
+          //     payload: "1-NDD",
+          //   }, {
+          //     type: "postback",
+          //     title: "Policy Status",
+          //     payload: "1-PS",
+          //   }, {
+          //     type: "Fund Value",
+          //     title: "NO",
+          //     payload: "1-FV",
+//             }]
 //           }
 //         }
 //       } 
@@ -67,7 +67,7 @@ function getUserName(userId) {
 //    callSendAPI(messageData);
 // } 
 
-function viewMore(userId, messageText){
+function startConversation(userId, messageText){
           var messageData = {
           recipient: {
             id: userId
@@ -79,18 +79,10 @@ function viewMore(userId, messageText){
                 template_type: "button",
                 text: messageText,
                   buttons: [{
-              type: "postback",
-              title: "Next Due Date",
-              payload: "1-NDD",
-            }, {
-              type: "postback",
-              title: "Policy Status",
-              payload: "1-PS",
-            }, {
-              type: "Fund Value",
-              title: "NO",
-              payload: "1-FV",
-             }]
+                    type: "postback",
+                    title: "Next Due Date",
+                    payload: "1-NP",
+                  }]
               }
             }
           }
@@ -220,8 +212,7 @@ function callSendAPI(messageData) {
 
 module.exports = {
    getUserName:getUserName,
-   viewMore:viewMore,
-   nextOption:nextOption
-   //startConversation:startConversation
+   nextOption:nextOption,
+   startConversation:startConversation
 };
 
