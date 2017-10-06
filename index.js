@@ -250,7 +250,6 @@ function startConversationQ(userId, pageId, messageText){
       id:userId
     },
    message: {
-          text: messageText,
           quick_replies:[
               {
                 content_type:"text",
