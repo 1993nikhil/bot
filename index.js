@@ -2,7 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
-fb_api = require('./routes/fbapi')
+var fb_api = require('./routes/fbapi')
 var mongoose = require('mongoose');
 
 app.set('port', (process.env.PORT || 5000))
