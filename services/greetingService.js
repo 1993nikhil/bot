@@ -136,6 +136,18 @@ function validatePolicyNumber(payload, recipientId){
 
     callSendAPI(messageData); 
   }
+  else{
+     var messageData ={
+     recipient: {
+           id: recipientId
+        },
+        message: {
+          text: "Provide valid policy Number"
+        }      
+    }  
+
+    callSendAPI(messageData);     
+  }
 }
 
 function callSendAPI(messageData) {
