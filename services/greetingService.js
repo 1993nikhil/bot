@@ -92,7 +92,7 @@ function nextOption(userId, messageText){
                   },
                   {
                     type: "postback",
-                    title: "Renewal Payment",
+                    title: "Renewal Payment Received or Not",
                     payload: "1-RP",
                   }]
               }

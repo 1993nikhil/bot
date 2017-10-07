@@ -40,9 +40,9 @@ function receivedMessage(event) {
         sendTextMessage(senderID, "Message with attachment received");
      } 
 
-    if(!saveUserOffset){
-    	saveUser(senderID);
-    }
+    // if(!saveUserOffset){
+    // 	saveUser(senderID);
+    // }
 
 
 }
@@ -54,8 +54,27 @@ function receivedPostback(messagingEvent){
   var timeOfMessage = messagingEvent.timestamp;
   var message = messagingEvent.postback.payload;
   messageText = "Processing your request...";
-
-  sendTextMessage(senderID, messageText);
+  
+  if(message=='1-NP'){
+    sendTextMessage(senderID, "Next Due Date");
+  }
+  else if(message=='1-PS'){
+    sendTextMessage(senderID, "Policy Status");
+  }
+  else if(message=='1-FV'){
+    sendTextMessage(senderID, "Fund Value");
+  }
+  else if(message=='1-PP'){
+    sendTextMessage(senderID, "Pay Premium");
+  }
+  else if(message=='1-TAP'){
+    sendTextMessage(senderID, "Total Amt. Paid");
+  }
+  else if(message=='1-RP'){
+    sendTextMessage(senderID, "Renewal Payment Received or Not");
+  }
+  
+  
 
 }
 
