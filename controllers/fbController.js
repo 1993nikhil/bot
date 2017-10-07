@@ -30,6 +30,7 @@ function receivedMessage(event) {
         sendTextMessage(senderID, "Thank You for your Response, have a nice Day");
         break;
         case 'hi':
+        index = 1;
         fbService.getUserName(senderID, 1);
         break;
         case 'hello':
