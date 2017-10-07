@@ -35,38 +35,6 @@ function getUserName(userId) {
 }
 
 
-// function startConversation(userId, messageText){
-//     var messageData = {
-//      recipient: {
-//         id:userId
-//      },
-//      message: {
-//         attachment: {
-//           type: "template",
-//           payload:  {
-//           template_type: "button",
-//           text: messageText,
-          // buttons: [{
-          //     type: "postback",
-          //     title: "Next Due Date",
-          //     payload: "1-NDD",
-          //   }, {
-          //     type: "postback",
-          //     title: "Policy Status",
-          //     payload: "1-PS",
-          //   }, {
-          //     type: "Fund Value",
-          //     title: "NO",
-          //     payload: "1-FV",
-//             }]
-//           }
-//         }
-//       } 
-//     };
-
-//    callSendAPI(messageData);
-// } 
-
 function startConversation(userId, messageText){
           var messageData = {
           recipient: {
@@ -135,68 +103,6 @@ function nextOption(userId, messageText){
 
 }
 
-// function startConversation(userId, messageText){
-//     var messageData = {
-//     recipient: {
-//       id:userId
-//     },
-//     message: {
-//       attachment: {
-//         type: "template",
-//         payload: {
-//           template_type: "generic",
-//           elements: [{
-//             title: "Renewal payment received or not",
-//             buttons: [{
-//               type: "postback",
-//               title: "start",
-//               payload: "1-RPR",
-//             }]
-//           }, {
-//             title: "Policy Status(Active/Lapsed/revived etc.)",
-//             buttons: [{
-//               type: "postback",
-//               title: "start",
-//               payload: "1-PS",
-//             }]
-//           }, {
-//             title: "Fund value as on date",
-//             buttons: [{
-//               type: "postback",
-//               title: "start",
-//               payload: "1-FV",
-//             }]
-//           }, {
-//             title: "Amount Deposited in Policy Till Date",
-//             buttons: [{
-//               type: "postback",
-//               title: "start",
-//               payload: "1-AD",
-//             }]
-//           }, {
-//             title: "Pay Renewal Payment",
-//             buttons: [{
-//               type: "postback",
-//               title: "start",
-//               payload: "1-PRP",
-//             }]
-//           }, {
-//             title: "Next Premium Due Date",
-//             buttons: [{
-//              type: "postback",
-//              title: "start",
-//              payload: "1-NP",
-//             }]
-//           }]
-//         }
-//       }          
-          
-//         }
-//     };
-
-
-//   callSendAPI(messageData);
-// }
 
 
 function callSendAPI(messageData) {

@@ -55,6 +55,8 @@ function receivedPostback(messagingEvent){
   var message = messagingEvent.postback.payload;
   messageText = "Processing your request...";
 
+  sendTextMessage(senderID, messageText);
+
 }
 
 
