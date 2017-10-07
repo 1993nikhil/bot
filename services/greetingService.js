@@ -103,7 +103,40 @@ function nextOption(userId, messageText){
 
 }
 
+//questions
+function nextQuestion(questionIndex,payload,recipientId){
+  if(questionIndex==2){
+    var messageData ={
+     recipient: {
+           id: recipientId
+        },
+        message: {
+          text: "Please provide me with your 8 digit policy number"
+        }      
+    }
+    callSendAPI(messageData);
+  }
+  else if(questionIndex==3){
+    validatePolicyNumber(payload, recipientId);
+  }
+}
 
+
+function validatePolicyNumber(payload, recipientId){
+  var isnum = /^[0-9]{8}/.test(payload);
+  if(isnum){
+     var messageData ={
+     recipient: {
+           id: recipientId
+        },
+        message: {
+          text: "Please provide me with your DOB in DD-MM-YYYY format"
+        }      
+    }  
+
+    callSendAPI(messageData); 
+  }
+}
 
 function callSendAPI(messageData) {
   request({

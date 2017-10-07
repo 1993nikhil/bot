@@ -4,6 +4,7 @@ var fbService = require('../services/greetingService')
 var fb_api = require('../routes/fbapi')
 var Log = require('../models/logModel')
 var saveUserOffset = 0;
+var index = 0;
 
 
 var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
@@ -18,8 +19,11 @@ function receivedMessage(event) {
 
     var messageText = message.text;
     var messageAttachments = message.attachments;
-    
-    if (messageText) {
+    index = index + 1;
+    if(index==3){
+       fbService.nextQuestion(3,messageText,senderID);
+     }
+    else if (messageText) {
       messageText= messageText.toLowerCase();
       switch (messageText) {
         case 'generic':
@@ -40,6 +44,7 @@ function receivedMessage(event) {
         sendTextMessage(senderID, "Message with attachment received");
      } 
 
+
     // if(!saveUserOffset){
     // 	saveUser(senderID);
     // }
@@ -55,8 +60,11 @@ function receivedPostback(messagingEvent){
   var message = messagingEvent.postback.payload;
   messageText = "Processing your request...";
   
+  index = index+1;
+
   if(message=='1-NP'){
-    sendTextMessage(senderID, "Next Due Date");
+    var messageArray= message.split("-");
+    fbService.nextQuestion(2,message,senderID);
   }
   else if(message=='1-PS'){
     sendTextMessage(senderID, "Policy Status");
@@ -73,7 +81,7 @@ function receivedPostback(messagingEvent){
   else if(message=='1-RP'){
     sendTextMessage(senderID, "Renewal Payment Received or Not");
   }
-  
+
   
 
 }
