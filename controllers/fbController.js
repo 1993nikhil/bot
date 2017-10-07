@@ -63,7 +63,6 @@ function receivedPostback(messagingEvent){
   index = index+1;
 
   if(message=='1-NP'){
-    var messageArray= message.split("-");
     fbService.nextQuestion(2,message,senderID);
   }
   else if(message=='1-PS'){

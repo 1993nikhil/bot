@@ -163,6 +163,7 @@ function callSendAPI(messageData) {
 module.exports = {
    getUserName:getUserName,
    nextOption:nextOption,
-   startConversation:startConversation
+   startConversation:startConversation,
+   nextQuestion:nextQuestion
 };
 
