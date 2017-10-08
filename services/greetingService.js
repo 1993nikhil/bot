@@ -116,16 +116,21 @@ function nextQuestion(questionIndex,payload,recipientId){
           text: "Please provide me with your 8 digit policy number"
         }      
     }
+    updateQuestionIndex(recipientId,questionIndex);
+
     callSendAPI(messageData);
   }
   else if(questionIndex==3){
+    updateQuestionIndex(recipientId,questionIndex);
+  
     validatePolicyNumber(payload, recipientId);
   }
   else if(questionIndex==4){
+  updateQuestionIndex(recipientId,questionIndex);
+ 
     validateDOB(payload,recipientId);
   }
 
-  updateQuestionIndex(recipientId,questionIndex);
 }
 
 
