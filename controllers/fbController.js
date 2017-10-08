@@ -23,6 +23,9 @@ function receivedMessage(event) {
     if(index==6||index==7){
        fbService.nextQuestion(3,messageText,senderID);
      }
+    else if(index==8||index==9){
+      fbService.nextQuestion(4,messageText,senderID);
+    }
     else if (messageText) {
       messageText= messageText.toLowerCase();
       switch (messageText) {

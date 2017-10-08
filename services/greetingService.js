@@ -119,6 +119,9 @@ function nextQuestion(questionIndex,payload,recipientId){
   else if(questionIndex==3){
     validatePolicyNumber(payload, recipientId);
   }
+  else if(questionIndex==4){
+    validateDOB(payload,recipientId);
+  }
 }
 
 
@@ -143,6 +146,34 @@ function validatePolicyNumber(payload, recipientId){
         },
         message: {
           text: "Provide valid policy Number"
+        }      
+    }  
+
+    callSendAPI(messageData);     
+  }
+}
+
+function validateDOB(payload, recipientId){
+  var isDOB = /^[0-9]{2}[-|\/]{1}[0-9]{2}[-|\/]{1}[0-9]{4}/.test(payload);
+  if(isDOB){
+   var messageData ={
+     recipient: {
+           id: recipientId
+        },
+        message: {
+          text: "OTP is send to your register no. please provide that"
+        }      
+    }  
+
+    callSendAPI(messageData); 
+  }
+  else{
+     var messageData ={
+     recipient: {
+           id: recipientId
+        },
+        message: {
+          text: "Please provide valid DOB in DD-MM-YYYY format"
         }      
     }  
 
