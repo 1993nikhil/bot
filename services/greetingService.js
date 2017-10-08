@@ -2,6 +2,8 @@ var express = require('express')
 var request = require('request')
 var fbCtrl = require('../controllers/fbController')
 var fb_api = require('../routes/fbapi')
+var Log = require('../models/logModel')
+
 
 var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
 
@@ -122,6 +124,8 @@ function nextQuestion(questionIndex,payload,recipientId){
   else if(questionIndex==4){
     validateDOB(payload,recipientId);
   }
+
+  updateQuestionIndex(recipientId,questionIndex);
 }
 
 
@@ -179,6 +183,19 @@ function validateDOB(payload, recipientId){
 
     callSendAPI(messageData);     
   }
+}
+
+function updateQuestionIndex(senderID, index){
+  var query = {recipientId:senderID};
+  var newValue = { $set: { questionIndex: index } };
+  Log.updateOne(query, newValue, function(err, res){
+    if (err) {
+      console.log(err);
+    } else{
+      console.log("questionIndex updated");
+    }
+    
+  });
 }
 
 function callSendAPI(messageData) {

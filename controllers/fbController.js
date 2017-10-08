@@ -37,6 +37,7 @@ function receivedMessage(event) {
         fbService.getUserName(senderID, 1);
         break;
         case 'hello':
+        index = 1;
         fbService.getUserName(senderID);
         break;
         
@@ -49,9 +50,9 @@ function receivedMessage(event) {
      } 
      console.log(index+'hi');
 
-    // if(!saveUserOffset){
-    // 	saveUser(senderID);
-    // }
+    if(!saveUserOffset){
+    	saveUser(senderID);
+    }
 
 
 }
@@ -90,7 +91,6 @@ function receivedPostback(messagingEvent){
 }
 
 
-
 function sendTextMessage(sender, messageText) {
 	var messageData = {
 		 recipient: {
@@ -118,7 +118,8 @@ function saveUser(userId){
 			var jsonData = JSON.parse(body);
 			var user = {
 				recipientId: userId,
-				userName: jsonData.first_name
+				userName: jsonData.first_name,
+        questionIndex: 1
 			}
 
 			var userDetail = new Log(user);
