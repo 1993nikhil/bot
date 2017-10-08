@@ -20,10 +20,10 @@ function receivedMessage(event) {
     var messageText = message.text;
     var messageAttachments = message.attachments;
     index = index + 1;
-    if(index==7){
+    if(index==6){
        fbService.nextQuestion(3,messageText,senderID);
      }
-    else if(index==9){
+    else if(index==8){
       fbService.nextQuestion(4,messageText,senderID);
     }
     else if (messageText) {
