@@ -19,19 +19,21 @@ function receivedMessage(event) {
 
     var messageText = message.text;
     var messageAttachments = message.attachments;
-    //index = index + 1;
-    Log.findOne({recipientID:senderID}, function(err, data){
-      if(err) {
-        console.log(err);
-      }
-      else{
-        console.log(data);
-        index = data.questionIndex;
-      }
-    });
-    if(index>1){
-     index = index + 1;
-     fbService.nextQuestion(index,messageText,senderID);
+    index = index + 1;
+    // Log.findOne({recipientID:senderID}, function(err, data){
+    //   if(err) {
+    //     console.log(err);
+    //   }
+    //   else{
+    //     console.log(data);
+    //     index = data.questionIndex;
+    //   }
+    // });
+    if(index==6){
+     fbService.nextQuestion(3,messageText,senderID);
+     }
+     else if(index==8){
+      fbService.nextQuestion(4,messageText,senderID);
      }
     else if (messageText) {
       messageText= messageText.toLowerCase();
@@ -72,7 +74,7 @@ function receivedPostback(messagingEvent){
   var message = messagingEvent.postback.payload;
   messageText = "Processing your request...";
   
-  //index = index+1;
+  index = index+1;
 
   if(message=='1-NP'){
     fbService.nextQuestion(2,message,senderID);
