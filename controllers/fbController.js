@@ -21,9 +21,14 @@ function receivedMessage(event) {
     var messageAttachments = message.attachments;
     //index = index + 1;
     Log.findOne({recipientID:senderID}, function(err, data){
-      console.log(data);
-      index = data.questionIndex;
-    })
+      if(err) {
+        console.log(err);
+      }
+      else{
+        console.log(data);
+        index = data.questionIndex;
+      }
+    });
     if(index>1){
      index = index + 1;
      fbService.nextQuestion(index,messageText,senderID);
