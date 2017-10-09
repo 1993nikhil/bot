@@ -28,6 +28,7 @@ function receivedMessage(event) {
         }
         else{
           index = resp.questionIndex + 1;
+          console.log(index);
           nextQuestion(index,messageText,senderID);
         }
       }
