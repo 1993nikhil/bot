@@ -29,34 +29,23 @@ function receivedMessage(event) {
     //     index = data.questionIndex;
     //   }
     // });
-    if(index==6){
+    messageText= messageText.toLowerCase();
+    if(messageText=='hi'||messageText=='hello'){
+      index = 1;
+      fbService.getUserName(senderID, 1);
+    }
+    else if(index==6){
      fbService.nextQuestion(3,messageText,senderID);
      }
      else if(index==8){
       fbService.nextQuestion(4,messageText,senderID);
      }
-    else if (messageText) {
-      messageText= messageText.toLowerCase();
-      switch (messageText) {
-        case 'generic':
-        sendTextMessage(senderID, "Thank You for your Response, have a nice Day");
-        break;
-        case 'hi':
-        index = 1;
-        fbService.getUserName(senderID, 1);
-        break;
-        case 'hello':
-        index = 1;
-        fbService.getUserName(senderID);
-        break;
-        
-            
-        default:
-        sendTextMessage(senderID, "Thank You for your Response, have a nice Day");
-      }
-     } else if (messageAttachments) {
+    else if (messageAttachments) {
         sendTextMessage(senderID, "Message with attachment received");
      } 
+     else {
+      sendTextMessage(senderID, "Thank You for your Response, have a nice Day");
+     }
      console.log(index+'hi');
 
     if(!saveUserOffset){
@@ -132,12 +121,28 @@ function saveUser(userId){
 			}
 
 			var userDetail = new Log(user);
-			userDetail.save(function(err){
-		     if(err){
-			   console.log(err);
-		     }
-		        console.log('new user saved ');
-	        });
+    Log.findOne({recipientID:userId}, function(err, data){
+      if(err) {
+        console.log(err);
+      }
+      else{
+        console.log(data);
+        var usr = data.recipientID;
+      }
+    }); 
+
+    if(usr){
+
+    }
+    else{
+        userDetail.save(function(err){
+         if(err){
+         console.log(err);
+         }
+            console.log('new user saved ');
+          });
+    }   
+
 
 		}else{
 		  console.error("Unable to send message1.");
