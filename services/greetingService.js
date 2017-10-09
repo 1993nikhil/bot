@@ -11,7 +11,7 @@ function checkUser(userId,payload){
     Log.findOne({recipientId:userId}, function(err, user){
       if(user) {
         //user exists
-        messageText= messageText.toLowerCase();
+        messageText= payload.toLowerCase();
         if(messageText=='hi'||messageText=='hello'||messageText=='get started'){
           getUserName(userId);
           updateQuestionIndex(userId,1);
