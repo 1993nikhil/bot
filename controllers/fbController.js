@@ -101,7 +101,7 @@ function getUserName(userId) {
     if (!error && response.statusCode == 200) {
      var jsonData = JSON.parse(body);
      var welcomeMessage = utilMsg.messages.greeting;
-     welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name)
+     welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
   
      
       startConversation(userId, welcomeMessage);
