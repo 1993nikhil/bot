@@ -5,7 +5,7 @@ var fb_api = require('../routes/fbapi')
 var Log = require('../models/logModel')
 var saveUserOffset = 0;
 var index = 0;
-
+var usr = '';
 
 var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
 
@@ -127,7 +127,7 @@ function saveUser(userId){
       }
       else{
         console.log(data);
-        var usr = data.recipientID;
+        usr = data.recipientID;
       }
     }); 
 
