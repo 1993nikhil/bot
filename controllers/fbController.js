@@ -21,17 +21,8 @@ function receivedMessage(event) {
 
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
-        sendTextMessage(senderID,'thanks for response');
-        messageText = messageText.toLowerCase();
-        if(messageText==hi||messageText=='hello'){
-          getUserName(senderID);
-          fbService.updateQuestionIndex(senderID,1);
-        }
-        else{
-          index = resp.questionIndex + 1;          
-          console.log(index);
-          nextQuestion(index,messageText,senderID);
-        }
+        index = resp.questionIndex + 1;          
+        nextQuestion(index,messageText,senderID);
       }
       else{
         getUserName(senderID);
