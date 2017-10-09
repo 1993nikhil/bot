@@ -18,8 +18,9 @@ function checkUser(userId){
         deferred.resolve(user);
       }
 
-      return deferred.promise;
+     
     });
+     return deferred.promise;
 
 }
 
