@@ -229,6 +229,7 @@ module.exports = {
    getUserName:getUserName,
    nextOption:nextOption,
    startConversation:startConversation,
-   nextQuestion:nextQuestion
+   nextQuestion:nextQuestion,
+   updateQuestionIndex:updateQuestionIndex
 };
 

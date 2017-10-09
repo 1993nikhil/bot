@@ -19,39 +19,28 @@ function receivedMessage(event) {
 
     var messageText = message.text;
     var messageAttachments = message.attachments;
-    index = index + 1;
-    // Log.findOne({recipientID:senderID}, function(err, data){
-    //   if(err) {
-    //     console.log(err);
-    //   }
-    //   else{
-    //     console.log(data);
-    //     index = data.questionIndex;
-    //   }
-    // });
-    messageText= messageText.toLowerCase();
-    if(messageText=='hi'||messageText=='hello'){
-      index = 1;
-      fbService.getUserName(senderID, 1);
-    }
-    else if(index==6){
-     fbService.nextQuestion(3,messageText,senderID);
-     }
-     else if(index==8){
-      fbService.nextQuestion(4,messageText,senderID);
-     }
-    else if (messageAttachments) {
-        sendTextMessage(senderID, "Message with attachment received");
-     } 
-     else {
-      sendTextMessage(senderID, "Thank You for your Response, have a nice Day");
-     }
+    Log.findOne({recipientId:senderID}, function(err, user){
+      if(user) {
+        //user exists
+        messageText= messageText.toLowerCase();
+        if(messageText=='hi'||messageText=='hello'){
+          fbService.getUserName(senderID, 1);
+          fbService.updateQuestionIndex(senderID,1);
+        }
+        else{
+          index = user.questionIndex+1;
+          fbService.nextQuestion(index,messageText,senderID);
+        }
+        console.log(user);
+      }
+      else{
+        //new user
+        fbService.getUserName(senderID, 1);
+        saveUser(senderID);
+      }
+    });
+
      console.log(index+'hi');
-
-    if(!saveUserOffset){
-    	saveUser(senderID);
-    }
-
 
 }
 
@@ -63,7 +52,7 @@ function receivedPostback(messagingEvent){
   var message = messagingEvent.postback.payload;
   messageText = "Processing your request...";
   
-  index = index+1;
+  // index = index+1;
 
   if(message=='1-NP'){
     fbService.nextQuestion(2,message,senderID);
