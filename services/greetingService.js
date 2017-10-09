@@ -58,6 +58,7 @@ function saveUser(userId){
       Log.findOne({recipientId:userId}, function(err, user){
         if(user){
           //user exists
+
           console.log('user exist');
         }else{
          userDetail.save(function(err){
@@ -91,12 +92,29 @@ function saveResponse(userId, index, payload){
   }
 
   var res = new Response(userResponse);
-  res.save(function(err){
+  Response.findOne({recipientId:userId}, function(err, data){
+    if(data){
+      var query = {recipientId:userId, responseData:{questionIndex:index}};
+      var newResponse = { $set: {responseData:{answer:payload}} };
+      Response.updateOne(query, newResponse, function(err, res){
+        if (err) {
+          console.log(err);
+        } else{
+          console.log("Response updated");
+        }
+    
+      });
+    }
+    else{
+    res.save(function(err){
        if(err){
          console.log(err);
         }
         console.log('new question saved ');
-     });
+     });    
+    }
+  });
+
 
 }
 
