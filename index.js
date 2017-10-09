@@ -32,6 +32,7 @@ app.get('/', function (req, res) {
 })
 //dbtest
 var Log = require('./models/logModel');
+var Response = require('./models/userResponseModel')
 
 
 app.get('/user', function (req, res) {
@@ -44,6 +45,15 @@ app.get('/user', function (req, res) {
 	});
 })
 
+app.get('/response', function (req, res) {
+  Response.find({},{},function(err, data){
+    if(err){
+      res.send(err);
+      console.log("error");
+    }
+    res.json(data);
+  });
+})
 
 
 
