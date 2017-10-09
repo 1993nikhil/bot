@@ -54,6 +54,7 @@ function receivedPostback(messagingEvent){
       if(resp){
           getUserName(senderID);
           fbService.updateQuestionIndex(senderID,1);
+          console.log(resp);
       }
       else{
         getUserName(senderID);
