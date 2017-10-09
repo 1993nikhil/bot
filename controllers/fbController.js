@@ -24,7 +24,7 @@ function receivedMessage(event) {
         //user exists
         messageText= messageText.toLowerCase();
         if(messageText=='hi'||messageText=='hello'){
-          fbService.getUserName(senderID, 1);
+          fbService.getUserName(senderID);
           fbService.updateQuestionIndex(senderID,1);
         }
         else{
@@ -35,7 +35,7 @@ function receivedMessage(event) {
       }
       else{
         //new user
-        fbService.getUserName(senderID, 1);
+        fbService.getUserName(senderID);
         saveUser(senderID);
       }
     });
@@ -53,6 +53,11 @@ function receivedPostback(messagingEvent){
   messageText = "Processing your request...";
   
   // index = index+1;
+  if(message=='get started'){
+        fbService.getUserName(senderID);
+        fbService.updateQuestionIndex(senderID,1);
+        saveUser(senderID);
+  }
 
   if(message=='1-NP'){
     fbService.nextQuestion(2,message,senderID);
