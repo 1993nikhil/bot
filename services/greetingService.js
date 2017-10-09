@@ -8,7 +8,7 @@ var index = 0;
 var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
 
 function checkUser(userId,payload){
-    Log.findOne({recipientId:senderID}, function(err, user){
+    Log.findOne({recipientId:userId}, function(err, user){
       if(user) {
         //user exists
         messageText= messageText.toLowerCase();
