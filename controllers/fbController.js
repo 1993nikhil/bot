@@ -121,12 +121,20 @@ function saveUser(userId){
 			}
 
 			var userDetail = new Log(user)
-        userDetail.save(function(err){
+      Log.findOne({recipientID:userId}, function(err, user){
+        if(user){
+          //user exists
+          console.log('user exist');
+        }else{
+         userDetail.save(function(err){
          if(err){
          console.log(err);
          }
             console.log('new user saved ');
           });
+
+        }
+      })
 
 		}else{
 		  console.error("Unable to send message1.");
