@@ -10,7 +10,7 @@ var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVU
 
 function checkUser(userId){
 
-    var deferred=q.defer();
+    var deferred=Q.defer();
     Log.findOne({recipientId:userId}, function(err, user){
       if(err){
         deferred.reject(err);
