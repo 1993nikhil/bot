@@ -4,9 +4,9 @@ var fbService = require('../services/greetingService')
 var fb_api = require('../routes/fbapi')
 var utilMsg = require('../utils/messages')
 var util = require('../utils/utils')
+var conf = require('../config/config')
 var index = 0;
 
-var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
 
 function receivedMessage(event) {
 	var senderID = event.sender.id;
@@ -96,7 +96,7 @@ function receivedPostback(messagingEvent){
 }
 
 function getUserName(userId) {
-  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token;
+  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+conf.token;
 
  request({
     uri: getInfoUserAPI,
@@ -214,6 +214,7 @@ function nextQuestion(questionIndex,payload,recipientId){
   else if(questionIndex==3){
     if(util.validatePolicyNumber(payload)){
       fbService.updateQuestionIndex(recipientId,questionIndex);
+      fbService.saveResponse(recipientId,questionIndex,payload);
       var messageData ={
       recipient: {
             id: recipientId
@@ -240,6 +241,7 @@ function nextQuestion(questionIndex,payload,recipientId){
     
     if(util.validateDOB(payload)){
       fbService.updateQuestionIndex(recipientId,questionIndex);
+      fbService.saveResponse(recipientId,questionIndex,payload);
       var messageData ={
       recipient: {
            id: recipientId
@@ -285,7 +287,7 @@ function sendTextMessage(sender, messageText) {
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token: token},
+    qs: {access_token: conf.token},
     method: 'POST',
     json: messageData
 

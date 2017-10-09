@@ -3,10 +3,10 @@ var request = require('request')
 var fbCtrl = require('../controllers/fbController')
 var fb_api = require('../routes/fbapi')
 var Log = require('../models/logModel')
+var Response = require('../models/userResponseModel')
+var conf = require('../config/config')
 var Q = require('q');
 
-
-var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
 
 function checkUser(userId){
 
@@ -39,7 +39,7 @@ function updateQuestionIndex(senderID, index){
 
 //save user details to Log
 function saveUser(userId){
-  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token;
+  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+conf.token;
   request({
      uri: getInfoUserAPI,
        method: 'GET',   
@@ -79,9 +79,31 @@ function saveUser(userId){
   });
 }
 
+//save user response
+function saveResponse(userId, index, payload,){
+  var userResponse = {
+    recipientId: userId,
+    responseData: {
+      questionIndex: index,
+      answer: payload
+    }
+
+  }
+
+  var res = new Response(userResponse);
+  res.save(function(err){
+       if(err){
+         console.log(err);
+        }
+        console.log('new user saved ');
+     });
+
+}
+
 module.exports = {
    checkUser:checkUser,
    updateQuestionIndex:updateQuestionIndex,
-   saveUser:saveUser
+   saveUser:saveUser,
+   saveResponse:saveResponse
 };
 
