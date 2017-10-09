@@ -121,7 +121,7 @@ function saveUser(userId){
 			}
 
 			var userDetail = new Log(user)
-      Log.findOne({recipientID:userId}, function(err, user){
+      Log.findOne({recipientId:userId}, function(err, user){
         if(user){
           //user exists
           console.log('user exist');
