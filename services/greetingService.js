@@ -150,7 +150,7 @@ function nextQuestion(questionIndex,payload,recipientId){
     validatePolicyNumber(payload, recipientId);
   }
   else if(questionIndex==4){
-  updateQuestionIndex(recipientId,questionIndex);
+    updateQuestionIndex(recipientId,questionIndex);
  
     validateDOB(payload,recipientId);
   }

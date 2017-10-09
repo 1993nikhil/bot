@@ -30,7 +30,7 @@ function receivedPostback(messagingEvent){
   
   // index = index+1;
   if(message=='get started'){
-    fbService.checkUser(senderID,messageText);
+    fbService.checkUser(senderID,'hi');
   }
 
   if(message=='1-NP'){
