@@ -3,9 +3,33 @@ var request = require('request')
 var fbCtrl = require('../controllers/fbController')
 var fb_api = require('../routes/fbapi')
 var Log = require('../models/logModel')
-
+var index = 0;
 
 var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
+
+function checkUser(userId,payload){
+    Log.findOne({recipientId:senderID}, function(err, user){
+      if(user) {
+        //user exists
+        messageText= messageText.toLowerCase();
+        if(messageText=='hi'||messageText=='hello'||messageText=='get started'){
+          getUserName(senderID);
+          updateQuestionIndex(senderID,1);
+        }
+        else{
+          index = user.questionIndex+1;
+          nextQuestion(index,messageText,senderID);
+        }
+        console.log(user);
+      }
+      else{
+        //new user
+        getUserName(senderID);
+        saveUser(senderID);
+      }
+    });
+
+}
 
 function getUserName(userId) {
   var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token;
@@ -157,7 +181,7 @@ function validatePolicyNumber(payload, recipientId){
           text: "Provide valid policy Number"
         }      
     }  
-
+    updateQuestionIndex(recipientId,2);
     callSendAPI(messageData);     
   }
 }
@@ -185,7 +209,7 @@ function validateDOB(payload, recipientId){
           text: "Please provide valid DOB in DD-MM-YYYY format"
         }      
     }  
-
+    updateQuestionIndex(recipientId,3);
     callSendAPI(messageData);     
   }
 }
@@ -202,6 +226,64 @@ function updateQuestionIndex(senderID, index){
     
   });
 }
+
+//save user details to Log
+function saveUser(userId){
+  var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token;
+  request({
+     uri: getInfoUserAPI,
+       method: 'GET',   
+
+  }, function (error, response, body) {
+
+    if (!error && response.statusCode == 200) {
+      var jsonData = JSON.parse(body);
+      var user = {
+        recipientId: userId,
+        userName: jsonData.first_name,
+        questionIndex: 1
+      }
+
+      var userDetail = new Log(user)
+      Log.findOne({recipientId:userId}, function(err, user){
+        if(user){
+          //user exists
+          console.log('user exist');
+        }else{
+         userDetail.save(function(err){
+         if(err){
+         console.log(err);
+         }
+            console.log('new user saved ');
+          });
+
+        }
+      })
+
+    }else{
+      console.error("Unable to send message1.");
+          console.error(response);
+          console.error(error); 
+    }
+
+  });
+}
+
+
+//send message
+function sendTextMessage(sender, messageText) {
+  var messageData = {
+     recipient: {
+           id: sender
+        },
+        message: {
+          text: messageText
+        }
+    };
+
+    callSendAPI(messageData);
+}
+
 
 function callSendAPI(messageData) {
   request({
@@ -230,6 +312,8 @@ module.exports = {
    nextOption:nextOption,
    startConversation:startConversation,
    nextQuestion:nextQuestion,
-   updateQuestionIndex:updateQuestionIndex
+   updateQuestionIndex:updateQuestionIndex,
+   checkUser:checkUser,
+   sendTextMessage:sendTextMessage
 };
 

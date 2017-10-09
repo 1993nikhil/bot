@@ -2,10 +2,6 @@ var express = require('express')
 var request = require('request')
 var fbService = require('../services/greetingService')
 var fb_api = require('../routes/fbapi')
-var Log = require('../models/logModel')
-var saveUserOffset = 0;
-var index = 0;
-var usr = {};
 
 var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
 
@@ -19,28 +15,8 @@ function receivedMessage(event) {
 
     var messageText = message.text;
     var messageAttachments = message.attachments;
-    Log.findOne({recipientId:senderID}, function(err, user){
-      if(user) {
-        //user exists
-        messageText= messageText.toLowerCase();
-        if(messageText=='hi'||messageText=='hello'){
-          fbService.getUserName(senderID);
-          fbService.updateQuestionIndex(senderID,1);
-        }
-        else{
-          index = user.questionIndex+1;
-          fbService.nextQuestion(index,messageText,senderID);
-        }
-        console.log(user);
-      }
-      else{
-        //new user
-        fbService.getUserName(senderID);
-        saveUser(senderID);
-      }
-    });
 
-     console.log(index+'hi');
+    fbService.checkUser(senderID,messageText);
 
 }
 
@@ -54,28 +30,26 @@ function receivedPostback(messagingEvent){
   
   // index = index+1;
   if(message=='get started'){
-        fbService.getUserName(senderID);
-        fbService.updateQuestionIndex(senderID,1);
-        saveUser(senderID);
+    fbService.checkUser(senderID,messageText);
   }
 
   if(message=='1-NP'){
     fbService.nextQuestion(2,message,senderID);
   }
   else if(message=='1-PS'){
-    sendTextMessage(senderID, "Policy Status");
+    fbService.sendTextMessage(senderID, "Policy Status");
   }
   else if(message=='1-FV'){
-    sendTextMessage(senderID, "Fund Value");
+    fbService.sendTextMessage(senderID, "Fund Value");
   }
   else if(message=='1-PP'){
-    sendTextMessage(senderID, "Pay Premium");
+    fbService.sendTextMessage(senderID, "Pay Premium");
   }
   else if(message=='1-TAP'){
-    sendTextMessage(senderID, "Total Amt. Paid");
+    fbService.sendTextMessage(senderID, "Total Amt. Paid");
   }
   else if(message=='1-RP'){
-    sendTextMessage(senderID, "Renewal Payment Received or Not");
+    fbService.sendTextMessage(senderID, "Renewal Payment Received or Not");
   }
 
   
@@ -83,86 +57,9 @@ function receivedPostback(messagingEvent){
 }
 
 
-function sendTextMessage(sender, messageText) {
-	var messageData = {
-		 recipient: {
-           id: sender
-        },
-        message: {
-          text: messageText
-        }
-    };
 
-    callSendAPI(messageData);
-}
-
-
-function saveUser(userId){
-	var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+token;
-	saveUserOffset = 1;
-	request({
-	   uri: getInfoUserAPI,
-       method: 'GET',   
-
-	}, function (error, response, body) {
-
-		if (!error && response.statusCode == 200) {
-			var jsonData = JSON.parse(body);
-			var user = {
-				recipientId: userId,
-				userName: jsonData.first_name,
-        questionIndex: 1
-			}
-
-			var userDetail = new Log(user)
-      Log.findOne({recipientId:userId}, function(err, user){
-        if(user){
-          //user exists
-          console.log('user exist');
-        }else{
-         userDetail.save(function(err){
-         if(err){
-         console.log(err);
-         }
-            console.log('new user saved ');
-          });
-
-        }
-      })
-
-		}else{
-		  console.error("Unable to send message1.");
-          console.error(response);
-          console.error(error);	
-		}
-
-	});
-}
-
-function callSendAPI(messageData) {
-  request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token: token},
-    method: 'POST',
-    json: messageData
-
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
-
-      console.log("Successfully sent generic message with id %s to recipient %s", 
-        messageId, recipientId);
-    } else {
-      console.error("Unable to send message.");
-      //console.error(response);
-      console.error(error);
-    }
-  });  
-}
 
 module.exports = {
 	receivedMessage:receivedMessage,
-	sendTextMessage:sendTextMessage,
 	receivedPostback:receivedPostback
 };
