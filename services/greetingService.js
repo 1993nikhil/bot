@@ -80,7 +80,7 @@ function saveUser(userId){
 }
 
 //save user response
-function saveResponse(userId, index, payload,){
+function saveResponse(userId, index, payload){
   var userResponse = {
     recipientId: userId,
     responseData: {
@@ -95,7 +95,7 @@ function saveResponse(userId, index, payload,){
        if(err){
          console.log(err);
         }
-        console.log('new user saved ');
+        console.log('new question saved ');
      });
 
 }
