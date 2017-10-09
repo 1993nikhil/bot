@@ -120,29 +120,13 @@ function saveUser(userId){
         questionIndex: 1
 			}
 
-			var userDetail = new Log(user);
-    Log.findOne({recipientID:userId}, function(err, data){
-      if(err) {
-        console.log(err);
-      }
-      else{
-        console.log(data);
-        usr = data
-      }
-    }); 
-
-    if(usr){
-
-    }
-    else{
+			var userDetail = new Log(user)
         userDetail.save(function(err){
          if(err){
          console.log(err);
          }
             console.log('new user saved ');
           });
-    }   
-
 
 		}else{
 		  console.error("Unable to send message1.");
