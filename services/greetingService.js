@@ -92,7 +92,7 @@ function saveResponse(userId, index, payload){
   }
 
   var res = new Response(userResponse);
-  Response.findOne({recipientId:userId, responseData:{questionIndex:index}}, function(err, data){
+  Response.findOne({"recipientId":userId, "responseData":{"questionIndex":index}}, function(err, data){
     if(data){
       var query = {recipientId:userId, responseData:{questionIndex:index}};
       var newResponse = { $set: {responseData:{answer:payload}} };
