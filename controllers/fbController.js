@@ -18,7 +18,19 @@ function receivedMessage(event) {
 
     var messageText = message.text;
     var messageAttachments = message.attachments;
-
+    messageText = messageText.toLowerCase();
+    if(messageText=='hi'||messageText=='hello'){
+      fbService.checkUser(senderID).then(function(resp){
+      if(resp){
+          getUserName(senderID);
+          fbService.updateQuestionIndex(senderID,1);
+      }
+      else{
+        getUserName(senderID);
+        fbService.saveUser(userId);
+      }
+    });      
+  }else{
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
         index = resp.questionIndex + 1;          
@@ -29,7 +41,9 @@ function receivedMessage(event) {
         fbService.saveUser(userId);
       }
     });
-    
+
+  }
+
 }
 
 function receivedPostback(messagingEvent){
@@ -46,7 +60,6 @@ function receivedPostback(messagingEvent){
       if(resp){
           getUserName(senderID);
           fbService.updateQuestionIndex(senderID,1);
-          console.log(resp);
       }
       else{
         getUserName(senderID);
