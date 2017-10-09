@@ -13,19 +13,19 @@ function checkUser(userId,payload){
         //user exists
         messageText= messageText.toLowerCase();
         if(messageText=='hi'||messageText=='hello'||messageText=='get started'){
-          getUserName(senderID);
-          updateQuestionIndex(senderID,1);
+          getUserName(userId);
+          updateQuestionIndex(userId,1);
         }
         else{
           index = user.questionIndex+1;
-          nextQuestion(index,messageText,senderID);
+          nextQuestion(index,messageText,userId);
         }
         console.log(user);
       }
       else{
         //new user
-        getUserName(senderID);
-        saveUser(senderID);
+        getUserName(userId);
+        saveUser(userId);
       }
     });
 
