@@ -63,7 +63,7 @@ function handleResponse(responses){
     (function(i){
       var resdata = responses[i].questionIndex;
       var resArray = resdata.split("-");
-      var qIndex = parseInt(resArray[0])
+      var qIndex = parseInt(resArray[0]);
       if(qIndex===3){
         policyDetail['PolicyNo'] = responses[i].responseData;
       }
