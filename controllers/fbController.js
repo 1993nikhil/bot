@@ -35,8 +35,8 @@ function receivedMessage(event) {
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
         index = resp.questionIndex + 1;
+        sendTextMessage(recipientId,index);
         if(index==5){
-           sendTextMessage(recipientId,"not verified");      
           var verify = verifyOTP(recipientId,messageText,timeOfMessage);
           if(verify){
             var otpverify = "verified";
