@@ -35,7 +35,6 @@ function receivedMessage(event) {
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
         index = resp.questionIndex + 1;
-        sendTextMessage(recipientId,index);
         if(index==5){
           var verify = verifyOTP(recipientId,messageText,timeOfMessage);
           if(verify){
@@ -48,6 +47,7 @@ function receivedMessage(event) {
           }
         }else{
           nextQuestion(index,messageText,senderID);
+          sendTextMessage(recipientId,index);
         }          
         
       }
@@ -322,7 +322,6 @@ function generateOtp(recipientId){
 }
 
 function verifyOTP(recipientId,payload,otpTime){
-  sendTextMessage(recipientId,"verifyOTP called");
   fbService.getOtp(recipientId).then(function(resp){
     if(resp.otp==payload){
       var ver =  true;
