@@ -36,6 +36,7 @@ function receivedMessage(event) {
       if(resp){
         index = resp.questionIndex + 1;
         if(index==5){
+           sendTextMessage(recipientId,"not verified");      
           var verify = verifyOTP(recipientId,messageText,timeOfMessage);
           if(verify){
             var otpverify = "verified";
