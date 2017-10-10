@@ -81,19 +81,19 @@ function receivedPostback(messagingEvent){
     nextQuestion("1-NP-PolicyID",message,senderID);
   }
   else if(message =='0-PS-null'){
-    sendTextMessage(senderID, "Policy Status");
+    nextQuestion("1-PS-PolicyID",message,senderID);
   }
   else if(message=='0-FV-null'){
-    sendTextMessage(senderID, "Fund Value");
+    nextQuestion("1-FV-PolicyID",message,senderID);
   }
   else if(message=='0-PP-null'){
-    sendTextMessage(senderID, "Pay Premium");
+    nextQuestion("1-PP-PolicyID",message,senderID);
   }
   else if(message=='0-TAP-null'){
-    sendTextMessage(senderID, "Total Amt. Paid");
+    nextQuestion("1-TAP-PolicyID",message,senderID);
   }
   else if(message=='0-RP-null'){
-    sendTextMessage(senderID, "Renewal Payment Received or Not");
+    nextQuestion("1-RP-PolicyID",message,senderID);
   }
   else{
     //Send message for garbage value
