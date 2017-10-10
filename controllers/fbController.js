@@ -224,7 +224,7 @@ function nextQuestion(questionIndex,payload,recipientId){
   }
   else if(qIndex==3){
     if(util.validatePolicyNumber(payload)){
-      var newQuestionIndex = "3-"+indexArray[1]+"-"+indexArray[2];
+      var newQuestionIndex = "3-"+indexArray[1]+"-DOB";
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       fbService.saveResponse(recipientId,newQuestionIndex,payload);
       var messageData ={
@@ -252,7 +252,7 @@ function nextQuestion(questionIndex,payload,recipientId){
   else if(qIndex==4){
     
     if(util.validateDOB(payload)){
-      var newQuestionIndex = "4-"+indexArray[1]+"-"+indexArray[2];
+      var newQuestionIndex = "4-"+indexArray[1]+"-OTP";
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);;
       fbService.saveResponse(recipientId,newQuestionIndex,payload);
       var messageData ={
