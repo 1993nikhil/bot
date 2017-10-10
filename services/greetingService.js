@@ -102,24 +102,25 @@ function saveUser(userId){
   }, function (error, response, body) {
 
     if (!error && response.statusCode == 200) {
-      var jsonData = JSON.parse(body);
-      var user = {
-        recipientId: userId,
-        userName: jsonData.first_name,
-        questionIndex: "0-null-null"
-      }
 
-      var userDetail = new Log(user);
       Log.find({recipientId:userId}, function(err, user){
         if(user){
           //user exists
 
           console.log('user exist');
         }else{
-         userDetail.save(function(err){
-         if(err){
-         console.log(err);
-         }
+          var jsonData = JSON.parse(body);
+          var user = {
+            recipientId: userId,
+            userName: jsonData.first_name,
+            questionIndex: "0-null-null"
+          }
+
+          var userDetail = new Log(user);          
+          userDetail.save(function(err){
+          if(err){
+            console.log(err);
+          }
             console.log('new user saved ');
           });
 
@@ -137,13 +138,7 @@ function saveUser(userId){
 
 //save user response
 function saveResponse(userId, index, payload){
-  var userResponse = {
-    recipientId: userId,
-    questionIndex: index,
-    responseData: payload
-  }
 
-  var res = new Response(userResponse);
   Response.find({recipientId:userId, questionIndex:index}, function(err, data){
     if(data){
       var query = {recipientId:userId, questionIndex:index};
@@ -158,12 +153,19 @@ function saveResponse(userId, index, payload){
       });
     }
     else{
-    res.save(function(err){
-       if(err){
+      var userResponse = {
+        recipientId: userId,
+        questionIndex: index,
+        responseData: payload
+      }
+
+      var res = new Response(userResponse);      
+      res.save(function(err){
+        if(err){
          console.log(err);
         }
         console.log('new question saved ');
-     });    
+      });    
     }
   });
 
@@ -172,12 +174,7 @@ function saveResponse(userId, index, payload){
 
 //save otp
 function saveOtp(userId,otpGenerated){
-  var otpRes = {
-    recipientId:userId,
-    otp:otpGenerated,
-  }
 
-  var otpGen = new Otp(otpRes);
   Otp.findOne({recipientId:userId}, function(err,data){
     if(data){
       var query = {recipientId:userId};
@@ -190,6 +187,12 @@ function saveOtp(userId,otpGenerated){
         }
       });
     }else{
+      var otpRes = {
+        recipientId:userId,
+        otp:otpGenerated,
+      }
+
+      var otpGen = new Otp(otpRes);    
       otpGen.save(function(err){
         if(err){
           console.log(err);
