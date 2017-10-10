@@ -276,13 +276,12 @@ function nextQuestion(questionIndex,payload,recipientId){
     
   }
   else if(questionIndex==5){
-    sendTextMessage(recipientId,"reached 5th question");
     fbService.getOtp(recipientId).then(function(resp){
-        sendTextMessage(recipientId,"get the otp");
+        sendTextMessage(recipientId,resp.otp);
         if(resp.otp==payload){
          fbService.updateQuestionIndex(recipientId,questionIndex);
          var messageData ={
-          recipientId: {
+          recipient: {
             id: recipientId
           },
           message: {
@@ -292,7 +291,7 @@ function nextQuestion(questionIndex,payload,recipientId){
          callSendAPI(messageData);
         }else{
           var messageData ={
-            recipientId: {
+            recipient: {
               id: recipientId
             },
             message: {
