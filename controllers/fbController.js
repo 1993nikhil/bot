@@ -254,10 +254,10 @@ function nextQuestion(questionIndex,payload,recipientId){
 
       fbService.getPolicyData(recipientId,questionIndex).then(function(resp){
         if(util.validatePolicy(resp)){
-          sendTextMessage(recipientId,"verified");
           generateOtp(recipientId);
         }else{
-          sendTextMessage(recipientId,'not verified');
+          sendTextMessage(recipientId,'Policy Details not matched please type Hi/Hello to start your journey again');
+          fbService.updateQuestionIndex(recipientId,0);
         }
       });
 
@@ -277,7 +277,6 @@ function nextQuestion(questionIndex,payload,recipientId){
   }
   else if(questionIndex==5){
     fbService.getOtp(recipientId).then(function(resp){
-        sendTextMessage(recipientId,resp.otp);
         if(resp.otp==payload){
          fbService.updateQuestionIndex(recipientId,questionIndex);
          var messageData ={
