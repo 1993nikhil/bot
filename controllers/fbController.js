@@ -322,12 +322,14 @@ function generateOtp(recipientId){
 function verifyOTP(recipientId,payload,otpTime){
   fbService.getOtp(recipientId).then(function(resp){
     if(resp.otp==payload){
-      return true;
+      var ver =  true;
     }
     else{
-      return false;
+      var ver = false;
     }
   });
+
+  return ver;
 }
 
 //send message
