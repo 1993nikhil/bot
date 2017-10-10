@@ -313,7 +313,6 @@ function generateOtp(recipientId){
 }
 
 function verifyOTP(recipientId,payload,otpTime){
-  sendTextMessage(recipientId,"hiii");
   fbService.getOtp(recipientId).then(function(resp){
     if(resp.otp==payload){
       var ver =  true;
