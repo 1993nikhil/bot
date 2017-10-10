@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 // create a schema
 var responseSchema = new Schema({
   recipientId: String,
-  questionIndex: Number,
+  questionIndex: String,
   responseData: String,
   
 });

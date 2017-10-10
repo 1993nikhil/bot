@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var logSchema = new Schema({
   recipientId: String,
   userName: String,
-  questionIndex: Number,
+  questionIndex: String,
 });
 
 // the schema is useless so far

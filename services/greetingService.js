@@ -39,7 +39,7 @@ function getOtp(userId){
 }
 
 //get Policy data response
-function getPolicyData(userId,index){
+function getPolicyData(userId){
   var deferred=Q.defer();
   Response.find({recipientId:userId}, function(err, res){
     if(err){
@@ -61,10 +61,13 @@ function handleResponse(responses){
   
   for(var i in responses){
     (function(i){
-      if(responses[i].questionIndex===3){
+      var resdata = responses[i].questionIndex;
+      var resArray = resdata.split("-");
+      var qIndex = parseInt(resArray[0])
+      if(qIndex===3){
         policyDetail['PolicyNo'] = responses[i].responseData;
       }
-      if(responses[i].questionIndex===4){
+      if(qIndex===4){
         policyDetail['DOB'] = responses[i].responseData;
       }
 
@@ -103,7 +106,7 @@ function saveUser(userId){
       var user = {
         recipientId: userId,
         userName: jsonData.first_name,
-        questionIndex: 1
+        questionIndex: "0-null-null"
       }
 
       var userDetail = new Log(user)

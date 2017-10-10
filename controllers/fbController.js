@@ -24,7 +24,7 @@ function receivedMessage(event) {
       fbService.checkUser(senderID).then(function(resp){
       if(resp){
           getUserName(senderID);
-          fbService.updateQuestionIndex(senderID,1);
+          fbService.updateQuestionIndex(senderID,"0-null-null");
       }
       else{
         getUserName(senderID);
@@ -34,17 +34,19 @@ function receivedMessage(event) {
   }else{
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
-        index = resp.questionIndex + 1;
+        var newQuestionIndex = resp.questionIndex;
+        var indArray = resp.questionIndex.split("-");
+        var index = parseInt(indArray[0])+1;
         if(index==5){
-          verifyOTP(senderID,messageText,timeOfMessage);
+          verifyOTP(senderID,messageText,timeOfMessage,newQuestionIndex);
         }else{
-          nextQuestion(index,messageText,senderID);
+          nextQuestion(newQuestionIndex,messageText,senderID);
         }          
         
       }
       else{
         getUserName(senderID);
-        fbService.saveUser(userId);
+        fbService.saveUser(userId);r
       }
     });
 
@@ -65,7 +67,7 @@ function receivedPostback(messagingEvent){
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
           getUserName(senderID);
-          fbService.updateQuestionIndex(senderID,1);
+          fbService.updateQuestionIndex(senderID,'0-null-null');
       }
       else{
         getUserName(senderID);
@@ -75,22 +77,22 @@ function receivedPostback(messagingEvent){
     
   }
 
-  if(message =='1-NP'){
-    nextQuestion(2,message,senderID);
+  if(message =='0-NP-null'){
+    nextQuestion("1-NP-PolicyID",message,senderID);
   }
-  else if(message =='1-PS'){
+  else if(message =='0-PS-null'){
     sendTextMessage(senderID, "Policy Status");
   }
-  else if(message=='1-FV'){
+  else if(message=='0-FV-null'){
     sendTextMessage(senderID, "Fund Value");
   }
-  else if(message=='1-PP'){
+  else if(message=='0-PP-null'){
     sendTextMessage(senderID, "Pay Premium");
   }
-  else if(message=='1-TAP'){
+  else if(message=='0-TAP-null'){
     sendTextMessage(senderID, "Total Amt. Paid");
   }
-  else if(message=='1-RP'){
+  else if(message=='0-RP-null'){
     sendTextMessage(senderID, "Renewal Payment Received or Not");
   }
   else{
@@ -146,17 +148,17 @@ function startConversation(userId, messageText){
                   buttons: [{
                     type: "postback",
                     title: "Next Due Date",
-                    payload: "1-NP",
+                    payload: "0-NP-null",
                   },
                   {
                     type: "postback",
                     title: "Policy Status",
-                    payload: "1-PS"
+                    payload: "0-PS-null"
                   },
                   {
                     type: "postback",
                     title: "Fund Value",
-                    payload: "1-FV",
+                    payload: "0-FV-null",
                   }]
               }
             }
@@ -181,17 +183,17 @@ function nextOption(userId, messageText){
                   buttons: [{
                     type: "postback",
                     title: "Pay Premium",
-                    payload: "1-PP",
+                    payload: "0-PP-null",
                   },
                   {
                     type: "postback",
                     title: "Total Amt. Paid",
-                    payload: "1-TAP"
+                    payload: "0-TAP-null"
                   },
                   {
                     type: "postback",
                     title: "Renewal Payment Received or Not",
-                    payload: "1-RP",
+                    payload: "0-RP-null",
                   }]
               }
             }
@@ -204,7 +206,9 @@ function nextOption(userId, messageText){
 
 //questions
 function nextQuestion(questionIndex,payload,recipientId){
-  if(questionIndex==2){
+  var indexArray = questionIndex.split("-");
+  var qIndex = parseInt(indexArray[0])+1;
+  if(qIndex==2){
     var messageData ={
      recipient: {
            id: recipientId
@@ -213,14 +217,16 @@ function nextQuestion(questionIndex,payload,recipientId){
           text: "Please provide me with your 8 digit policy number"
         }      
     }
-    fbService.updateQuestionIndex(recipientId,questionIndex);
+    var newQuestionIndex = "3-"+indexArray[1]+"-"+indexArray[2];
+    fbService.updateQuestionIndex(recipientId,newQuestionIndex);
 
     callSendAPI(messageData);
   }
-  else if(questionIndex==3){
+  else if(qIndex==3){
     if(util.validatePolicyNumber(payload)){
-      fbService.updateQuestionIndex(recipientId,questionIndex);
-      fbService.saveResponse(recipientId,questionIndex,payload);
+      var newQuestionIndex = "4-"+indexArray[1]+"-"+indexArray[2];
+      fbService.updateQuestionIndex(recipientId,newQuestionIndex);
+      fbService.saveResponse(recipientId,newQuestionIndex,payload);
       var messageData ={
       recipient: {
             id: recipientId
@@ -243,11 +249,12 @@ function nextQuestion(questionIndex,payload,recipientId){
       callSendAPI(messageData); 
     }
   }
-  else if(questionIndex==4){
+  else if(qIndex==4){
     
     if(util.validateDOB(payload)){
-      fbService.updateQuestionIndex(recipientId,questionIndex);
-      fbService.saveResponse(recipientId,questionIndex,payload);
+      var newQuestionIndex = "5-"+indexArray[1]+"-"+indexArray[2];
+      fbService.updateQuestionIndex(recipientId,newQuestionIndex);;
+      fbService.saveResponse(recipientId,newQuestionIndex,payload);
       var messageData ={
       recipient: {
            id: recipientId
@@ -257,13 +264,13 @@ function nextQuestion(questionIndex,payload,recipientId){
         }      
       }  
 
-      fbService.getPolicyData(recipientId,questionIndex).then(function(resp){
+      fbService.getPolicyData(recipientId).then(function(resp){
         if(util.validatePolicy(resp)){
           generateOtp(recipientId);
           callSendAPI(messageData);
         }else{
           sendTextMessage(recipientId,'Policy Details not matched please type Hi/Hello to start your journey again');
-          fbService.updateQuestionIndex(recipientId,0);
+          fbService.updateQuestionIndex(recipientId,"0-null-null");
         }
       });
      
@@ -280,9 +287,10 @@ function nextQuestion(questionIndex,payload,recipientId){
     }
     
   }
-  else if(questionIndex==5){
+  else if(qIndex==5){
       if(payload=="verified"){
-         fbService.updateQuestionIndex(recipientId,questionIndex);
+        var newQuestionIndex = "5-"+indexArray[1]+"-"+indexArray[2];
+        fbService.updateQuestionIndex(recipientId,newQuestionIndex);; 
          var messageData ={
           recipient: {
             id: recipientId
@@ -312,15 +320,13 @@ function generateOtp(recipientId){
   fbService.saveOtp(recipientId,otp);
 }
 
-function verifyOTP(recipientId,payload,otpTime){
+function verifyOTP(recipientId,payload,otpTime,questionIndex){
   fbService.getOtp(recipientId).then(function(resp){
     if(resp.otp==payload){
-      var ver =  true;
-      nextQuestion(5,"verified",recipientId);
+      nextQuestion(questionIndex,"verified",recipientId);
     }
     else{
-      var ver = false;
-      sendTextMessage(5,"not verified",recipientId);
+      nextQuestion(questionIndex,"not verified",recipientId);
     }
   });
 
