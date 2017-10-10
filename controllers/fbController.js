@@ -255,13 +255,13 @@ function nextQuestion(questionIndex,payload,recipientId){
       fbService.getPolicyData(recipientId,questionIndex).then(function(resp){
         if(util.validatePolicy(resp)){
           generateOtp(recipientId);
+          callSendAPI(messageData);
         }else{
           sendTextMessage(recipientId,'Policy Details not matched please type Hi/Hello to start your journey again');
           fbService.updateQuestionIndex(recipientId,0);
         }
       });
-
-      callSendAPI(messageData);     
+     
     }else{
      var messageData ={
      recipient: {
