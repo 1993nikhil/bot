@@ -34,8 +34,20 @@ function receivedMessage(event) {
   }else{
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
-        index = resp.questionIndex + 1;          
-        nextQuestion(index,messageText,senderID);
+        index = resp.questionIndex + 1;
+        if(index==5){
+          if(verifyOTP(recipientId,messageText,timeOfMessage)){
+            var otpverify = "verified";
+            nextQuestion(index,otpverify,senderID);
+          }
+          else{
+            var otpverify = "Not verified";
+            nextQuestion(index,otpverify,senderID);
+          }
+        }else{
+          nextQuestion(index,messageText,senderID);
+        }          
+        
       }
       else{
         getUserName(senderID);
@@ -276,7 +288,7 @@ function nextQuestion(questionIndex,payload,recipientId){
     
   }
   else if(questionIndex==5){
-    fbService.getOtp(recipientId).then(function(resp){
+      if(payload=='verified'){
         if(resp.otp==payload){
          fbService.updateQuestionIndex(recipientId,questionIndex);
          var messageData ={
@@ -287,8 +299,8 @@ function nextQuestion(questionIndex,payload,recipientId){
             text: "otp verified , processing your request"
           }
          } 
-         callSendAPI(messageData);
-        }else{
+         callSendAPI(messageData);      
+      }else{
           var messageData ={
             recipient: {
               id: recipientId
@@ -297,15 +309,26 @@ function nextQuestion(questionIndex,payload,recipientId){
               text: "otp not verified . please provide otp send to your registered mobile"
             }
           }
-          callSendAPI(messageData);
-        }
-    });
+          callSendAPI(messageData);  
+      }        
+    }
   }
 }
 
 function generateOtp(recipientId){
   var otp = Math.floor(000001 + Math.random() * 999999);
   fbService.saveOtp(recipientId,otp);
+}
+
+function verifyOTP(recipientId,payload,otpTime){
+  fbService.getOtp(recipientId).then(function(resp){
+    if(resp.otp==payload){
+      return true;
+    }
+    else{
+      return false;
+    }
+  });
 }
 
 //send message
