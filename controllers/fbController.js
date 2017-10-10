@@ -28,7 +28,7 @@ function receivedMessage(event) {
       }
       else{
         getUserName(senderID);
-        fbService.saveUser(userId);
+        fbService.saveUser(senderID);
       }
     });      
   }else{
@@ -46,7 +46,7 @@ function receivedMessage(event) {
       }
       else{
         getUserName(senderID);
-        fbService.saveUser(userId);r
+        fbService.saveUser(senderID);
       }
     });
 
@@ -71,7 +71,7 @@ function receivedPostback(messagingEvent){
       }
       else{
         getUserName(senderID);
-        fbService.saveUser(userId);
+        fbService.saveUser(senderID);
       }
     });
     
