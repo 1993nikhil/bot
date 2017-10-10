@@ -36,14 +36,7 @@ function receivedMessage(event) {
       if(resp){
         index = resp.questionIndex + 1;
         if(index==5){
-          if(verifyOTP(senderID,messageText,timeOfMessage)){
-            var otpverify = "verified";
-            nextQuestion(index,otpverify,senderID);
-          }
-          else{
-            var otpverify = "Not verified";
-            nextQuestion(index,otpverify,senderID);
-          }
+          verifyOTP(senderID,messageText,timeOfMessage);
         }else{
           nextQuestion(index,messageText,senderID);
         }          
@@ -288,7 +281,7 @@ function nextQuestion(questionIndex,payload,recipientId){
     
   }
   else if(questionIndex==5){
-      if(payload=='verified'){
+      if(payload=="verified"){
          fbService.updateQuestionIndex(recipientId,questionIndex);
          var messageData ={
           recipient: {
@@ -324,15 +317,14 @@ function verifyOTP(recipientId,payload,otpTime){
   fbService.getOtp(recipientId).then(function(resp){
     if(resp.otp==payload){
       var ver =  true;
-      sendTextMessage(recipientId,"verified");
+      nextQuestion(5,"verified",recipientId);
     }
     else{
       var ver = false;
-      sendTextMessage(recipientId,"not verified");
+      sendTextMessage(5,"not verified",recipientId);
     }
   });
 
-  return ver;
 }
 
 //send message
