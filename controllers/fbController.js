@@ -254,7 +254,10 @@ function nextQuestion(questionIndex,payload,recipientId){
 
       fbService.getPolicyData(recipientId,questionIndex).then(function(resp){
         if(util.validatePolicy(resp)){
+          sendTextMessage(recipientId,"verified");
           generateOtp(recipientId);
+        }else{
+          sendTextMessage(recipientId,'not verified');
         }
       });
 
