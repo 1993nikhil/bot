@@ -36,7 +36,6 @@ function receivedMessage(event) {
       if(resp){
         index = resp.questionIndex + 1;
         if(index==5){
-          sendTextMessage(senderID,"index 5");
           if(verifyOTP(senderID,messageText,timeOfMessage)){
             var otpverify = "verified";
             nextQuestion(index,otpverify,senderID);
@@ -325,9 +324,11 @@ function verifyOTP(recipientId,payload,otpTime){
   fbService.getOtp(recipientId).then(function(resp){
     if(resp.otp==payload){
       var ver =  true;
+      sendTextMessage(recipientId,"verified");
     }
     else{
       var ver = false;
+      sendTextMessage(recipientId,"not verified");
     }
   });
 
