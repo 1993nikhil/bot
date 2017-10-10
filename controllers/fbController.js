@@ -217,14 +217,14 @@ function nextQuestion(questionIndex,payload,recipientId){
           text: "Please provide me with your 8 digit policy number"
         }      
     }
-    var newQuestionIndex = "3-"+indexArray[1]+"-"+indexArray[2];
+    var newQuestionIndex = "2-"+indexArray[1]+"-"+indexArray[2];
     fbService.updateQuestionIndex(recipientId,newQuestionIndex);
 
     callSendAPI(messageData);
   }
   else if(qIndex==3){
     if(util.validatePolicyNumber(payload)){
-      var newQuestionIndex = "4-"+indexArray[1]+"-"+indexArray[2];
+      var newQuestionIndex = "3-"+indexArray[1]+"-"+indexArray[2];
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       fbService.saveResponse(recipientId,newQuestionIndex,payload);
       var messageData ={
@@ -252,7 +252,7 @@ function nextQuestion(questionIndex,payload,recipientId){
   else if(qIndex==4){
     
     if(util.validateDOB(payload)){
-      var newQuestionIndex = "5-"+indexArray[1]+"-"+indexArray[2];
+      var newQuestionIndex = "4-"+indexArray[1]+"-"+indexArray[2];
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);;
       fbService.saveResponse(recipientId,newQuestionIndex,payload);
       var messageData ={
