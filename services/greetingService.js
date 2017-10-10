@@ -110,7 +110,7 @@ function saveUser(userId){
       }
 
       var userDetail = new Log(user)
-      Log.findOne({recipientId:userId}, function(err, user){
+      Log.find({recipientId:userId}, function(err, user){
         if(user){
           //user exists
 
@@ -144,7 +144,7 @@ function saveResponse(userId, index, payload){
   }
 
   var res = new Response(userResponse);
-  Response.findOne({recipientId:userId, questionIndex:index}, function(err, data){
+  Response.find({recipientId:userId, questionIndex:index}, function(err, data){
     if(data){
       var query = {recipientId:userId, questionIndex:index};
       var newResponse = { $set: { responseData:payload } };
