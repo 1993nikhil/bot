@@ -320,6 +320,7 @@ function generateOtp(recipientId){
 }
 
 function verifyOTP(recipientId,payload,otpTime){
+  sendTextMessage(recipientId,"verifyOTP called");
   fbService.getOtp(recipientId).then(function(resp){
     if(resp.otp==payload){
       var ver =  true;
