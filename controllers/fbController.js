@@ -289,7 +289,6 @@ function nextQuestion(questionIndex,payload,recipientId){
   }
   else if(questionIndex==5){
       if(payload=='verified'){
-        if(resp.otp==payload){
          fbService.updateQuestionIndex(recipientId,questionIndex);
          var messageData ={
           recipient: {
@@ -311,7 +310,7 @@ function nextQuestion(questionIndex,payload,recipientId){
           }
           callSendAPI(messageData);  
       }        
-    }
+    
   }
 }
 
