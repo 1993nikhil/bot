@@ -124,7 +124,7 @@ function saveUser(userId){
           });
 
         }
-      })
+      });
 
     }else{
       console.error("Unable to send message1.");
