@@ -4,6 +4,7 @@ var fbCtrl = require('../controllers/fbController')
 var fb_api = require('../routes/fbapi')
 var Log = require('../models/logModel')
 var Response = require('../models/userResponseModel')
+var Otp = require('../models/otpModel')
 var conf = require('../config/config')
 var Q = require('q');
 
@@ -23,6 +24,57 @@ function checkUser(userId){
      return deferred.promise;
 
 }
+
+//get otp
+function getOtp(userId){
+  var deferred=Q.defer();
+  Otp.findOne({recipientId:userId}, function(err, res){
+    if(err){
+      deferred.reject(err);
+    }else{
+      deferred.resolve(res);
+    }
+  });
+  return deferred.promise;
+}
+
+//get Policy data response
+function getPolicyData(userId,index){
+  var deferred=Q.defer();
+  Response.find({recipientId:userId}, function(err, res){
+    if(err){
+      deferred.reject(err);
+    }else{
+
+      handleResponse(res).then(function(customObj){
+        deferred.resolve(customObj);
+      })
+      
+    }
+  });
+  return deferred.promise;
+}
+
+function handleResponse(responses){
+  var deferred = Q.defer();
+  var policyDetail = {}
+  
+  for(var i in responses){
+    (function(i){
+      if(responses[i].questionIndex===3){
+        policyDetail['PolicyNo'] = responses[i].responseData;
+      }
+      if(responses[i].questionIndex===4){
+        policyDetail['DOB'] = responses[i].responseData;
+      }
+
+    })(i);
+  }
+  deferred.resolve(policyDetail);
+  return deferred.promise;
+}
+
+
 
 function updateQuestionIndex(senderID, index){
   var query = {recipientId:senderID};
@@ -115,10 +167,44 @@ function saveResponse(userId, index, payload){
 
 }
 
+//save otp
+function saveOtp(userId,otpGenerated){
+  var otpRes = {
+    recipientId:userId,
+    otp:otpGenerated,
+  }
+
+  var otpGen = new Otp(otpRes);
+  Otp.findOne({recipientId:userId}, function(err,data){
+    if(data){
+      var query = {recipientId:userId};
+      var newOtp = { $set: { otp:otpGenerated } };
+      Otp.updateOne(query, newOtp, function(err, res){
+        if(err){
+          console.log(err);
+        }else{
+          console.log('otp updated');
+        }
+      });
+    }else{
+      otpGen.save(function(err){
+        if(err){
+          console.log(err);
+        }else{
+          console.log('otp saved');
+        }
+      });
+    }
+  });
+}
+
 module.exports = {
    checkUser:checkUser,
    updateQuestionIndex:updateQuestionIndex,
    saveUser:saveUser,
-   saveResponse:saveResponse
+   saveResponse:saveResponse,
+   getPolicyData:getPolicyData,
+   getOtp:getOtp,
+   saveOtp:saveOtp
 };
 

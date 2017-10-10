@@ -6,7 +6,8 @@ var utilMsg = require('../utils/messages')
 var util = require('../utils/utils')
 var conf = require('../config/config')
 var index = 0;
-
+var policyNo = false;
+var policyDOB = false;
 
 function receivedMessage(event) {
 	var senderID = event.sender.id;
@@ -251,6 +252,12 @@ function nextQuestion(questionIndex,payload,recipientId){
         }      
       }  
 
+      fbService.getPolicyData(recipientId,questionIndex).then(function(resp){
+        if(util.validatePolicy(resp)){
+          generateOtp(recipientId);
+        }
+      });
+
       callSendAPI(messageData);     
     }else{
      var messageData ={
@@ -265,9 +272,38 @@ function nextQuestion(questionIndex,payload,recipientId){
     }
     
   }
+  else if(questionIndex==5){
+    fbService.getOtp(recipientId).then(function(resp){
+        if(resp.otp==payload){
+         fbService.updateQuestionIndex(recipientId,questionIndex);
+         var messageData ={
+          recipientId: {
+            id: recipientId
+          },
+          message: {
+            text: "otp verified , processing your request"
+          }
+         } 
+         callSendAPI(messageData);
+        }else{
+          var messageData ={
+            recipientId: {
+              id: recipientId
+            },
+            message: {
+              text: "otp not verified . please provide otp send to your registered mobile"
+            }
+          }
+          callSendAPI(messageData);
+        }
+    });
+  }
 }
 
-
+function generateOtp(recipientId){
+  var otp = Math.floor(000001 + Math.random() * 999999);
+  fbService.saveOtp(recipientId,otp);
+}
 
 //send message
 function sendTextMessage(sender, messageText) {

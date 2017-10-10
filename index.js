@@ -19,7 +19,6 @@ mongoose.connect(app.get('mongo_url'),function(err){
 });
 
 
-
 // Process application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}))
 
@@ -32,8 +31,8 @@ app.get('/', function (req, res) {
 })
 //dbtest
 var Log = require('./models/logModel');
-var Response = require('./models/userResponseModel')
-
+var Response = require('./models/userResponseModel');
+var Otp = require('./models/otpModel');
 
 app.get('/user', function (req, res) {
 	Log.find({},{},function(err, data){
@@ -47,6 +46,16 @@ app.get('/user', function (req, res) {
 
 app.get('/response', function (req, res) {
   Response.find({},{},function(err, data){
+    if(err){
+      res.send(err);
+      console.log("error");
+    }
+    res.json(data);
+  });
+})
+
+app.get('/otp', function (req, res) {
+  Otp.find({},{},function(err, data){
     if(err){
       res.send(err);
       console.log("error");
