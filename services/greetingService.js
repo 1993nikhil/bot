@@ -109,7 +109,7 @@ function saveUser(userId){
         questionIndex: "0-null-null"
       }
 
-      var userDetail = new Log(user)
+      var userDetail = new Log(user);
       Log.find({recipientId:userId}, function(err, user){
         if(user){
           //user exists
