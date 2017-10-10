@@ -144,28 +144,34 @@ function saveResponse(userId, index, payload){
   }
 
   var res = new Response(userResponse);
-  Response.find({recipientId:userId, questionIndex:index}, function(err, data){
-    if(data){
-      var query = {recipientId:userId, questionIndex:index};
-      var newResponse = { $set: { responseData:payload } };
-      Response.updateOne(query, newResponse, function(err, res){
-        if (err) {
-          console.log(err);
-        } else{
-          console.log("Response updated");
-        }
-    
-      });
-    }
-    else{
-    res.save(function(err){
+      res.save(function(err){
        if(err){
          console.log(err);
         }
         console.log('new question saved ');
-     });    
-    }
-  });
+     }); 
+  // Response.find({recipientId:userId, questionIndex:index}, function(err, data){
+  //   if(data){
+  //     var query = {recipientId:userId, questionIndex:index};
+  //     var newResponse = { $set: { responseData:payload } };
+  //     Response.updateOne(query, newResponse, function(err, res){
+  //       if (err) {
+  //         console.log(err);
+  //       } else{
+  //         console.log("Response updated");
+  //       }
+    
+  //     });
+  //   }
+  //   else{
+  //   res.save(function(err){
+  //      if(err){
+  //        console.log(err);
+  //       }
+  //       console.log('new question saved ');
+  //    });    
+  //   }
+  // });
 
 
 }
