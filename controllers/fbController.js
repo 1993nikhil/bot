@@ -263,7 +263,8 @@ function nextQuestion(questionIndex,payload,recipientId){
           text: "OTP is send to your register no. please provide that"
         }      
       }  
-      fbService.saveResponse(recipientId,newQuestionIndex,payload).then(fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
+      fbService.saveResponse(recipientId,newQuestionIndex,payload).then(function(){
+        fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
         if(util.validatePolicy(resp)){
           generateOtp(recipientId);
           callSendAPI(messageData);
@@ -272,8 +273,8 @@ function nextQuestion(questionIndex,payload,recipientId){
           sendTextMessage(recipientId,'Policy Details not matched please type Hi/Hello to start your journey again');
           fbService.updateQuestionIndex(recipientId,"0-null-null");
         }
-      })
-      );
+      });
+      });
      
     }else{
      var messageData ={
@@ -358,10 +359,12 @@ function nextDueData(recipientId,category){
    var nextDueMsg = utilMsg.messages.nextDueMessage;
    var messageData = nextDueMsg.replace("#policyid#",resp);
 
-   sendTextMessage(recipientId,messageData).then(nextQuestion("5-NP-DATA","yes",recipientId));
+   sendTextMessage(recipientId,messageData).then(function(){
+    nextQuestion("5-NP-DATA","yes",recipientId);
   });
   
-}
+ });
+}  
 
 function generateOtp(recipientId){
   var otp = Math.floor(000001 + Math.random() * 999999);
