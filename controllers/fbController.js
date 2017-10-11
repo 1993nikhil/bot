@@ -358,10 +358,11 @@ function nextDueData(recipientId,category){
    var nextDueMsg = utilMsg.messages.nextDueMessage;
    var messageData = nextDueMsg.replace("#policyid#",resp);
 
-   sendTextMessage(recipientId,messageData).then(function(data){
-    nextQuestion("5-NP-DATA","yes",recipientId);
-  });
-  
+   sendTextMessage(recipientId,messageData);
+   setTimeout(function(){ 
+      nextQuestion("5-NP-DATA","next", recipientId);
+          
+    }, 500); 
  });
 }  
 
