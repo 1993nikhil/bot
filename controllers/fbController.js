@@ -360,7 +360,7 @@ function nextDueData(recipientId,category){
 
    sendTextMessage(recipientId,messageData);
   });
-  nextQuestion("6-NP-DATA","yes",recipientId);
+  nextQuestion("5-NP-DATA","yes",recipientId);
 
 }
 
