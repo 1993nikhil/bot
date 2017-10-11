@@ -92,7 +92,7 @@ function handleResponse(responses,category){
   return deferred.promise;
 }
 
-function handlePolicyId(Responses,category){
+function handlePolicyId(responses,category){
   var deferred = Q.defer();
   var policyId = "";
   for(var i in responses){
