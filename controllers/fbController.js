@@ -254,7 +254,6 @@ function nextQuestion(questionIndex,payload,recipientId){
     if(util.validateDOB(payload)){
       var newQuestionIndex = "4-"+indexArray[1]+"-OTP";
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);;
-      fbService.saveResponse(recipientId,newQuestionIndex,payload);
       var messageData ={
       recipient: {
            id: recipientId
@@ -263,7 +262,7 @@ function nextQuestion(questionIndex,payload,recipientId){
           text: "OTP is send to your register no. please provide that"
         }      
       }  
-      fbService.saveResponse(recipientId,newQuestionIndex,payload).then(function(){
+      fbService.saveResponse(recipientId,newQuestionIndex,payload).then(function(data){
         fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
         if(util.validatePolicy(resp)){
           generateOtp(recipientId);
@@ -359,7 +358,7 @@ function nextDueData(recipientId,category){
    var nextDueMsg = utilMsg.messages.nextDueMessage;
    var messageData = nextDueMsg.replace("#policyid#",resp);
 
-   sendTextMessage(recipientId,messageData).then(function(){
+   sendTextMessage(recipientId,messageData).then(function(data){
     nextQuestion("5-NP-DATA","yes",recipientId);
   });
   
