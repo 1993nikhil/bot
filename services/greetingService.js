@@ -145,7 +145,8 @@ function saveResponse(userId, index, payload){
   }
 
   var res = new Response(userResponse);
-  Response.find({recipientId:userId, questionIndex:index}, function(err, data){
+
+  Response.findOne({recipientId:userId, questionIndex:index}, function(err, data){
     if(data){
       var query = {recipientId:userId, questionIndex:index};
       var newResponse = { $set: { responseData:payload } };
@@ -185,7 +186,7 @@ function saveOtp(userId,otpGenerated){
         otp:otpGenerated,
       }
   var otpGen = new Otp(otpRes);
-  
+
   Otp.findOne({recipientId:userId}, function(err,data){
     if(data){
       var query = {recipientId:userId};
