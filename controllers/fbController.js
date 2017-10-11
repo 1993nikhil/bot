@@ -269,6 +269,7 @@ function nextQuestion(questionIndex,payload,recipientId){
           generateOtp(recipientId);
           callSendAPI(messageData);
         }else{
+          sendTextMessage(recipientId,resp.DOB);
           sendTextMessage(recipientId,'Policy Details not matched please type Hi/Hello to start your journey again');
           fbService.updateQuestionIndex(recipientId,"0-null-null");
         }
