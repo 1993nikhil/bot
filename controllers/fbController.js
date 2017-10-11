@@ -301,7 +301,7 @@ function nextQuestion(questionIndex,payload,recipientId){
             id: recipientId
           },
           message: {
-            text: "otp verified , processing your request"
+            text: "Can I help you with something else."
           }
          } 
          callSendAPI(messageData);         }
@@ -354,14 +354,13 @@ function nextQuestion(questionIndex,payload,recipientId){
 
 //next payment due date service
 function nextDueData(recipientId,category){
-  var policyId = "";
   fbService.getPolicyById(recipientId,category).then(function(resp){
-    policyId = resp;
-  });
-  var nextDueMsg = utilMsg.messages.nextDueMessage;
-  var messageData = nextDueMsg.replace("#policyid#",policyId);
+   var nextDueMsg = utilMsg.messages.nextDueMessage;
+   var messageData = nextDueMsg.replace("#policyid#",resp);
 
-  sendTextMessage(recipientId,messageData);
+   sendTextMessage(recipientId,messageData);
+  });
+  nextQuestion("6-NP-DATA","next",recipientId);
 
 }
 
