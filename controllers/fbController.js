@@ -289,7 +289,7 @@ function nextQuestion(questionIndex,payload,recipientId){
   }
   else if(qIndex==5){
       if(payload=="verified"){
-        var newQuestionIndex = "5-"+indexArray[1]+"-"+indexArray[2];
+        var newQuestionIndex = "5-"+indexArray[1]+"-VOTP";
         fbService.updateQuestionIndex(recipientId,newQuestionIndex);; 
          var messageData ={
           recipient: {
