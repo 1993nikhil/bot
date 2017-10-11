@@ -302,8 +302,10 @@ function nextQuestion(questionIndex,payload,recipientId){
           message: {
             text: "Can I help you with something else."
           }
-         } 
-         callSendAPI(messageData);         }
+         }
+          var newQuestionIndex = "6-"+indexArray[1]+"-RES";
+          fbService.updateQuestionIndex(recipientId,newQuestionIndex);        
+          callSendAPI(messageData);         }
      
       }else{
           var messageData ={
