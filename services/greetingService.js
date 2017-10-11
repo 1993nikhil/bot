@@ -39,23 +39,23 @@ function getOtp(userId){
 }
 
 //get Policy data response
-function getPolicyData(userId){
+function getPolicyData(userId,category){
   var deferred=Q.defer();
   Response.find({recipientId:userId}, function(err, res){
     if(err){
       deferred.reject(err);
     }else{
 
-      handleResponse(res).then(function(customObj){
+      handleResponse(res,category).then(function(customObj){
         deferred.resolve(customObj);
-      })
+      });
       
     }
   });
   return deferred.promise;
 }
 
-function handleResponse(responses){
+function handleResponse(responses,category){
   var deferred = Q.defer();
   var policyDetail = {}
   
@@ -64,10 +64,10 @@ function handleResponse(responses){
       var resdata = responses[i].questionIndex;
       var resArray = resdata.split("-");
       var qIndex = parseInt(resArray[0]);
-      if(qIndex===3){
+      if(qIndex===3&&resArray[1]===category){
         policyDetail['PolicyNo'] = responses[i].responseData;
       }
-      if(qIndex===4){
+      if(qIndex===4&&resArray[1]===category){
         policyDetail['DOB'] = responses[i].responseData;
       }
 
@@ -102,6 +102,14 @@ function saveUser(userId){
   }, function (error, response, body) {
 
     if (!error && response.statusCode == 200) {
+      var jsonData = JSON.parse(body);
+      var user = {
+        recipientId: userId,
+        userName: jsonData.first_name,
+        questionIndex: "0-null-null"
+      }
+
+      var userDetail = new Log(user); 
 
       Log.find({recipientId:userId}, function(err, user){
         if(user){

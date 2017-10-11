@@ -264,7 +264,7 @@ function nextQuestion(questionIndex,payload,recipientId){
         }      
       }  
 
-      fbService.getPolicyData(recipientId).then(function(resp){
+      fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
         if(util.validatePolicy(resp)){
           generateOtp(recipientId);
           callSendAPI(messageData);
