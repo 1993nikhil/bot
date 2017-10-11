@@ -294,18 +294,21 @@ function nextQuestion(questionIndex,payload,recipientId){
         if(indexArray[i]=='NP'){
           nextDueData(recipientId,indexArray[1]);
         }
-        else{
-         var messageData ={
-          recipient: {
-            id: recipientId
-          },
-          message: {
-            text: "Can I help you with something else."
-          }
-         }
-          var newQuestionIndex = "6-"+indexArray[1]+"-RES";
-          fbService.updateQuestionIndex(recipientId,newQuestionIndex);        
-          callSendAPI(messageData);         }
+        else if(indexArray[i]=='PS'){
+          nextDueData(recipientId,indexArray[1]);
+        }
+        else if(indexArray[i]=='FV'){
+          nextDueData(recipientId,indexArray[1]);
+        }
+        else if(indexArray[i]=='PP') {
+          nextDueData(recipientId,indexArray[1]);
+        }
+        else if(indexArray[i]=='TAP') {
+          nextDueData(recipientId,indexArray[1]);
+        }
+        else if(indexArray[i]=='RP') {
+          nextDueData(recipientId,indexArray[1]);
+        }                                
      
       }else{
           var messageData ={
