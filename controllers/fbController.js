@@ -291,7 +291,11 @@ function nextQuestion(questionIndex,payload,recipientId){
   else if(qIndex==5){
       if(payload=="verified"){
         var newQuestionIndex = "5-"+indexArray[1]+"-VOTP";
-        fbService.updateQuestionIndex(recipientId,newQuestionIndex);; 
+        fbService.updateQuestionIndex(recipientId,newQuestionIndex);
+        if(indexArray[i]=='NP'){
+          nextDueData(recipientId,indexArray[1]);
+        }
+        else{
          var messageData ={
           recipient: {
             id: recipientId
@@ -300,7 +304,8 @@ function nextQuestion(questionIndex,payload,recipientId){
             text: "otp verified , processing your request"
           }
          } 
-         callSendAPI(messageData);      
+         callSendAPI(messageData);         }
+     
       }else{
           var messageData ={
             recipient: {
@@ -314,6 +319,50 @@ function nextQuestion(questionIndex,payload,recipientId){
       }        
     
   }
+  else if(qIndex==6){
+      var newQuestionIndex = "6-"+indexArray[1]+"-RES";
+      fbService.updateQuestionIndex(recipientId,newQuestionIndex);
+      var messageData ={
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          text: "Can I help you with something else."
+        }
+      }
+      callSendAPI(messageData);            
+  }
+  else if(qIndex==7){
+    if(payload=='y'||payload=='yes'){
+      getUserName(recipientId);
+      fbService.updateQuestionIndex(recipientId,"0-null-null");     
+
+    }
+    else{
+      var newQuestionIndex = "7-"+indexArray[1]+"-COMP";
+      fbService.updateQuestionIndex(recipientId,newQuestionIndex);
+      var thanksText =  utilMsg.messages.thankyouMessage;
+      var queryText =  utilMsg.messages.queryMessage;
+      sendTextMessage(recipientId,thanksText);
+      setTimeout(function(){ 
+        sendTextMessage(recipientId, queryText);
+          
+      }, 500);  
+    }
+  }
+}
+
+//next payment due date service
+function nextDueData(recipientId,category){
+  var policyId = "";
+  fbService.getPolicyById(recipientId,category).then(function(resp){
+    policyId = resp;
+  });
+  var nextDueMsg = utilMsg.messages.nextDueMessage;
+  var messageData = nextDueMsg.replace("#policyid#",policyId);
+
+  sendTextMessage(recipientId,messageData);
+
 }
 
 function generateOtp(recipientId){

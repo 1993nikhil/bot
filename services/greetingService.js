@@ -55,6 +55,21 @@ function getPolicyData(userId,category){
   return deferred.promise;
 }
 
+//getbyid
+function getPolicyById(userId,category){
+  var deferred=Q.defer();
+  Response.find({recipientId:userId}, function(err, res){
+    if(err){
+      deferred.reject(err);
+    }else{
+      handlePolicyId(res,category).then(function(policyObj){
+        deferred.resolve(policyObj);
+      });
+    }
+  });
+  return deferred.promise;
+}
+
 function handleResponse(responses,category){
   var deferred = Q.defer();
   var policyDetail = {}
@@ -77,7 +92,22 @@ function handleResponse(responses,category){
   return deferred.promise;
 }
 
-
+function handlePolicyId(Responses,category){
+  var deferred = Q.defer();
+  var policyId = "";
+  for(var i in responses){
+    (function(i){
+      var resdata = responses[i].questionIndex;
+      var resArray = resdata.split("-");
+      var qIndex = parseInt(resArray[0]);
+      if(qIndex===3&&resArray[1]===category){
+        policyId = responses[i].responseData;
+      }
+    })(i);
+  }
+  deferred.resolve(policyId);
+  return deferred.promise;
+}
 
 function updateQuestionIndex(senderID, index){
   var query = {recipientId:senderID};
@@ -231,6 +261,7 @@ module.exports = {
    saveResponse:saveResponse,
    getPolicyData:getPolicyData,
    getOtp:getOtp,
-   saveOtp:saveOtp
+   saveOtp:saveOtp,
+   getPolicyById:getPolicyById
 };
 
