@@ -176,6 +176,7 @@ function saveUser(userId){
 
 //save user response
 function saveResponse(userId, index, payload){
+  var deferred = Q.defer();
   var userResponse = {
     recipientId: userId,
     questionIndex: index,
@@ -190,9 +191,9 @@ function saveResponse(userId, index, payload){
       var newResponse = { $set: { responseData:payload } };
       Response.updateOne(query, newResponse, function(err, res){
         if (err) {
-          console.log(err);
+          deferred.reject(err);
         } else{
-          console.log("Response updated");
+          deferred.resolve(res);
         }
     
       });
@@ -207,12 +208,14 @@ function saveResponse(userId, index, payload){
       var res = new Response(userResponse);      
       res.save(function(err){
         if(err){
-         console.log(err);
+         deferred.reject(err);
         }
-        console.log('new question saved ');
+         deferred.resolve(res);
       });    
     }
   });
+
+  return deferred.promise;
 
 
 }
