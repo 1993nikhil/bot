@@ -123,7 +123,7 @@ function getUserName(userId) {
      //      nextOption(userId, "...");
           
      //    }, 800);
-     // }
+      }
       else {
       console.error("Unable to send message1.");
       console.error(response);
