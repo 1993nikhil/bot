@@ -119,11 +119,10 @@ function getUserName(userId) {
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
   
      
-     startConversation(userId, result).then(nextOption(userId,"..."));
-     //  setTimeout(function(){ 
-     //      nextOption(userId, "...");
+     startConversation(userId, result).then(setTimeout(function(resp){ 
+          nextOption(userId, "...");
           
-     //    }, 800);
+        }, 800));
       }
       else {
       console.error("Unable to send message1.");
@@ -166,9 +165,8 @@ function startConversation(userId, messageText){
             }
           }
       }; 
-
-     callSendAPI(messageData);
-     deferred.resolve(messageData);      
+     deferred.resolve(messageData);
+     callSendAPI(messageData); 
      return deferred.promise;
 }
 
