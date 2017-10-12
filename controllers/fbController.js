@@ -5,6 +5,7 @@ var fb_api = require('../routes/fbapi')
 var utilMsg = require('../utils/messages')
 var util = require('../utils/utils')
 var conf = require('../config/config')
+var Q = require('q');
 var index = 0;
 var policyNo = false;
 var policyDOB = false;
@@ -118,7 +119,7 @@ function getUserName(userId) {
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
   
      
-      startConversation(userId, result).then(nextOption(userId,"..."));
+         startConversation(userId, result).then(nextOption(userId,"..."));
      //  setTimeout(function(){ 
      //      nextOption(userId, "...");
           
@@ -135,6 +136,7 @@ function getUserName(userId) {
 }
 
 function startConversation(userId, messageText){
+          var deferred=Q.defer();
           var messageData = {
           recipient: {
             id: userId
@@ -164,8 +166,9 @@ function startConversation(userId, messageText){
             }
           }
       }; 
-
+      deferred.resolve(messageData);
      callSendAPI(messageData); 
+     return deferred.promise;
 }
 
 
