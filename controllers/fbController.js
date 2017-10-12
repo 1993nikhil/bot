@@ -367,8 +367,9 @@ function nextDueData(recipientId,category){
    var nextDueMsg = utilMsg.messages.nextDueMessage;
    var messageData = nextDueMsg.replace("#policyid#",resp);
 
-   sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){ 
-          nextQuestion("5-NP-DATA","next", recipientId);
+   sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
+          var newQuestion = "5-"+category+"-DATA"; 
+          nextQuestion(newQuestion,"next", recipientId);
           
         }, 800));
    // setTimeout(function(){ 
