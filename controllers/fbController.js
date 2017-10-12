@@ -349,7 +349,9 @@ function nextQuestion(questionIndex,payload,recipientId){
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var thanksText =  utilMsg.messages.thankyouMessage;
       var queryText =  utilMsg.messages.queryMessage;
-      sendTextMessage(recipientId,thanksText).then(sendQueryMessage(recipientId, queryText));
+      sendTextMessage(recipientId,thanksText).then(function(resp){
+        sendTextMessage(recipientId, queryText);
+      });
       // setTimeout(function(){ 
       //   sendTextMessage(recipientId, queryText);
           
@@ -364,7 +366,9 @@ function nextDueData(recipientId,category){
    var nextDueMsg = utilMsg.messages.nextDueMessage;
    var messageData = nextDueMsg.replace("#policyid#",resp);
 
-   sendTextMessage(recipientId,messageData).then(nextQuestion("5-NP-DATA","next", recipientId));
+   sendTextMessage(recipientId,messageData).then(function(resp){
+    nextQuestion("5-NP-DATA","next", recipientId);
+  });
    // setTimeout(function(){ 
    //    nextQuestion("5-NP-DATA","next", recipientId);
           
@@ -404,18 +408,7 @@ function sendTextMessage(sender, messageText) {
     callSendAPI(messageData);
     return deferred.promise;
 }
-//query message
-function sendQueryMessage(sneder, messageText){
-  var messageData = {
-     recipient: {
-           id: sender
-        },
-        message: {
-          text: messageText
-        }
-    };
-    callSendAPI(messageData);  
-}
+
 
 function callSendAPI(messageData) {
   request({
