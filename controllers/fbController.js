@@ -267,11 +267,15 @@ function nextQuestion(questionIndex,payload,recipientId){
       fbService.saveResponse(recipientId,newQuestionIndex,payload).then(function(data){
         fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
         if(util.validatePolicy(resp)){
-          generateOtp(recipientId);
-          callSendAPI(messageData);
+          generateOtp(recipientId).then(setTimeout(function(resp){
+            callSendAPI(messageData);
+          
+        }, 500));
+          
         }else{
-          sendTextMessage(recipientId,'Policy Details not matched please type Hi/Hello to start your journey again');
-          fbService.updateQuestionIndex(recipientId,"0-null-null");
+          sendTextMessage(recipientId,'Policy Details not matched \n please provide your 8 digit policy number');
+          var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
+          fbService.updateQuestionIndex(recipientId,newQuestionIndex);
         }
       });
       });
@@ -303,7 +307,7 @@ function nextQuestion(questionIndex,payload,recipientId){
           fundValueData(recipientId,indexArray[1]);
         }
         else if(indexArray[i]=='PP') {
-          nextDueData(recipientId,indexArray[1]);
+          payPremium(recipientId,indexArray[1]);
         }
         else if(indexArray[i]=='TAP') {
           totalAmtPaidData(recipientId,indexArray[1]);
@@ -333,7 +337,7 @@ function nextQuestion(questionIndex,payload,recipientId){
           id: recipientId
         },
         message: {
-          text: "Can I help you with something else."
+          text: "Can I help you with something else.(yes\\no)"
         }
       }
       callSendAPI(messageData);            
@@ -423,9 +427,26 @@ function policyStatusData(recipientId,category){
  
  });  
 }
+
+//pay premium service
+function payPremium(recipientId,category){
+     fbService.getPolicyById(recipientId,category).then(function(resp){
+   var messageData = utilMsg.messages.payPremiumMessage;
+   
+   sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
+          var newQuestion = "5-"+category+"-DATA"; 
+          nextQuestion(newQuestion,"next", recipientId);
+          
+        }, 800));
+ 
+ }); 
+}
 function generateOtp(recipientId){
+  var deferred=Q.defer();
   var otp = Math.floor(000001 + Math.random() * 999999);
+  deferred.resolve(otp);
   fbService.saveOtp(recipientId,otp);
+  return deferred.promise;
 }
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
