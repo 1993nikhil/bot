@@ -433,7 +433,7 @@ function payPremium(recipientId,category){
      fbService.getPolicyById(recipientId,category).then(function(resp){
    var messageData = utilMsg.messages.payPremiumMessage;
    
-   sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
+   sendPayPremiumMessage(recipientId,messageData).then(setTimeout(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
           nextQuestion(newQuestion,"next", recipientId);
           
@@ -477,6 +477,32 @@ function sendTextMessage(sender, messageText) {
     return deferred.promise;
 }
 
+//send premium message
+function sendPayPremiumMessage(sender, messageText){
+    var deferred=Q.defer();
+    var messageData = {
+     recipient: {
+           id: sender
+        },
+        message: {
+            attachment: {
+                type: "template",
+                payload:  {
+                template_type: "button",
+                text: messageText,
+                  buttons: [{
+                    type: "web_url",
+                    title: "Click to Pay",
+                    url: "https://www.dhflpramerica.com",
+                  }]
+                }  
+            }
+        }
+    };
+    deferred.resolve(messageData);
+    callSendAPI(messageData);
+    return deferred.promise;
+}
 
 function callSendAPI(messageData) {
   request({
