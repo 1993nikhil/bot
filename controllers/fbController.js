@@ -120,9 +120,9 @@ function getUserName(userId) {
      
       startConversation(userId, result);
       setTimeout(function(){ 
-          nextOption(userId, "and");
+          nextOption(userId, "...");
           
-        }, 500);
+        }, 800);
      }
       else {
       console.error("Unable to send message1.");
