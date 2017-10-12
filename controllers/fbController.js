@@ -297,7 +297,7 @@ function nextQuestion(questionIndex,payload,recipientId){
           nextDueData(recipientId,indexArray[1]);
         }
         else if(indexArray[i]=='PS'){
-          nextDueData(recipientId,indexArray[1]);
+          policyStatusData(recipientId,indexArray[1]);
         }
         else if(indexArray[i]=='FV'){
           fundValueData(recipientId,indexArray[1]);
@@ -306,7 +306,7 @@ function nextQuestion(questionIndex,payload,recipientId){
           nextDueData(recipientId,indexArray[1]);
         }
         else if(indexArray[i]=='TAP') {
-          nextDueData(recipientId,indexArray[1]);
+          totalAmtPaidData(recipientId,indexArray[1]);
         }
         else if(indexArray[i]=='RP') {
           nextDueData(recipientId,indexArray[1]);
@@ -380,7 +380,7 @@ function nextDueData(recipientId,category){
 }  
 
 //fund value service
-function fundValueData(recipient,category){
+function fundValueData(recipientId,category){
   fbService.getPolicyById(recipientId,category).then(function(resp){
    var fundVAlueMsg = utilMsg.messages.fundValueMessage;
    var messageData = fundVAlueMsg.replace("#policyid#",resp);
@@ -394,6 +394,35 @@ function fundValueData(recipient,category){
  });  
 }
 
+//total amount paid service
+function totalAmtPaidData(recipientId,category){
+  fbService.getPolicyById(recipientId,category).then(function(resp){
+   var tapMsg = utilMsg.messages.totalAmtMessage;
+   var messageData = tapMsg.replace("#policyid#",resp);
+
+   sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
+          var newQuestion = "5-"+category+"-DATA"; 
+          nextQuestion(newQuestion,"next", recipientId);
+          
+        }, 800));
+ 
+ });    
+}
+
+//policy status service
+function policyStatusData(recipientId,category){
+   fbService.getPolicyById(recipientId,category).then(function(resp){
+   var msg = utilMsg.messages.policyStatusMessage;
+   var messageData = msg.replace("#policyid#",resp);
+
+   sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
+          var newQuestion = "5-"+category+"-DATA"; 
+          nextQuestion(newQuestion,"next", recipientId);
+          
+        }, 800));
+ 
+ });  
+}
 function generateOtp(recipientId){
   var otp = Math.floor(000001 + Math.random() * 999999);
   fbService.saveOtp(recipientId,otp);
