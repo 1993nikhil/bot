@@ -350,11 +350,11 @@ function nextQuestion(questionIndex,payload,recipientId){
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var thanksText =  utilMsg.messages.thankyouMessage;
       var queryText =  utilMsg.messages.queryMessage;
-      sendTextMessage(recipientId,thanksText);
-      setTimeout(function(){ 
-        sendTextMessage(recipientId, queryText);
+      sendTextMessage(recipientId,thanksText).then(sendTextMessage(recipientId, queryText));
+      // setTimeout(function(){ 
+      //   sendTextMessage(recipientId, queryText);
           
-      }, 500);  
+      // }, 500);  
     }
   }
 }
@@ -365,11 +365,11 @@ function nextDueData(recipientId,category){
    var nextDueMsg = utilMsg.messages.nextDueMessage;
    var messageData = nextDueMsg.replace("#policyid#",resp);
 
-   sendTextMessage(recipientId,messageData);
-   setTimeout(function(){ 
-      nextQuestion("5-NP-DATA","next", recipientId);
+   sendTextMessage(recipientId,messageData).then(nextQuestion("5-NP-DATA","next", recipientId));
+   // setTimeout(function(){ 
+   //    nextQuestion("5-NP-DATA","next", recipientId);
           
-    }, 500); 
+   //  }, 500); 
  });
 }  
 
@@ -392,6 +392,7 @@ function verifyOTP(recipientId,payload,otpTime,questionIndex){
 
 //send message
 function sendTextMessage(sender, messageText) {
+  var deferred=Q.defer();
   var messageData = {
      recipient: {
            id: sender
@@ -400,8 +401,9 @@ function sendTextMessage(sender, messageText) {
           text: messageText
         }
     };
-
+    deferred.resolve(messageData);
     callSendAPI(messageData);
+    return deferred.promise;
 }
 
 
