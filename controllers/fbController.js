@@ -350,7 +350,7 @@ function nextQuestion(questionIndex,payload,recipientId){
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var thanksText =  utilMsg.messages.thankyouMessage;
       var queryText =  utilMsg.messages.queryMessage;
-      sendTextMessage(recipientId,thanksText).then(sendTextMessage(recipientId, queryText));
+      sendTextMessage(recipientId,thanksText).then(sendQueryMessage(recipientId, queryText));
       // setTimeout(function(){ 
       //   sendTextMessage(recipientId, queryText);
           
@@ -405,7 +405,18 @@ function sendTextMessage(sender, messageText) {
     callSendAPI(messageData);
     return deferred.promise;
 }
-
+//query message
+function sendQueryMessage(sneder, messageText){
+  var messageData = {
+     recipient: {
+           id: sender
+        },
+        message: {
+          text: messageText
+        }
+    };
+    callSendAPI(messageData);  
+}
 
 function callSendAPI(messageData) {
   request({
