@@ -118,12 +118,12 @@ function getUserName(userId) {
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
   
      
-      startConversation(userId, result);
-      setTimeout(function(){ 
-          nextOption(userId, "...");
+      startConversation(userId, result).then(nextOption(userId,"..."));
+     //  setTimeout(function(){ 
+     //      nextOption(userId, "...");
           
-        }, 800);
-     }
+     //    }, 800);
+     // }
       else {
       console.error("Unable to send message1.");
       console.error(response);
