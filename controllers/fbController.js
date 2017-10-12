@@ -119,7 +119,7 @@ function getUserName(userId) {
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
   
      
-         startConversation(userId, result).then(nextOption(userId,"..."));
+     startConversation(userId, result).then(nextOption(userId,"..."));
      //  setTimeout(function(){ 
      //      nextOption(userId, "...");
           
@@ -166,8 +166,9 @@ function startConversation(userId, messageText){
             }
           }
       }; 
-      deferred.resolve(messageData);
-     callSendAPI(messageData); 
+
+     callSendAPI(messageData);
+     deferred.resolve(messageData);      
      return deferred.promise;
 }
 
