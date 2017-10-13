@@ -27,8 +27,8 @@ module.exports = {
 					  headers: {'content-type' : 'application/json'},
 					  url: 'https://dhfl-aodkapsgv7xsfukzmx7s6fsd-dev.mbaas1.dpl.redhatmobile.com/sendMessage',
 				 	  body: {
-		                        "mobile": mobile,
-		                        "message": message
+		                        "message": message,
+		                        "mobile": mobile
 		                    }
 					}, function(error, response, body){
 					  console.log(body);
