@@ -457,7 +457,9 @@ function payPremium(recipientId,category){
 }
 function generateOtp(recipientId,mobileNo,timeOfMessage){
   var deferred=Q.defer();
-  var otp = Math.floor(100000 + Math.random() * 999999);
+  var min = 100000;
+  var max = 999999;
+  var otp = Math.floor(Math.random() * (max - min + 1)) + min;
   deferred.resolve(otp);
   fbService.saveOtp(recipientId,otp,mobileNo,timeOfMessage);
   return deferred.promise;
