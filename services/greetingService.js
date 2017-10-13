@@ -244,7 +244,7 @@ function saveOtp(userId,otpGenerated,mobileNumber){
           Log.find({recipientId:userId}, function(err, user){
             if(user){
               //user exists
-              var recipientName = user.userName
+              var recipientName = user.userName;
               sendOTP(mobileNumber,otpGenerated,recipientName);
               console.log('user exist');
             }else{
