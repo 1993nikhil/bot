@@ -26,7 +26,7 @@ module.exports = {
             	request.post({
 					  headers: {'content-type' : 'application/json'},
 					  url: 'https://dhfl-aodkapsgv7xsfukzmx7s6fsd-dev.mbaas1.dpl.redhatmobile.com/sendMessage',
-				 	  body: {
+				 	  form: {
 		                        "message": message,
 		                        "mobile": mobile
 		                    }
