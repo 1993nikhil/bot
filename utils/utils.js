@@ -21,7 +21,7 @@ module.exports = {
 		callService: function(url,type,data,success,failure){
 
 		},
-	  sendSMS: function(mobile, message) {
+	  sendSMS: function(message, mobile) {
         if (mobile) {
             	request.post({
 					  headers: {'content-type' : 'application/json'},

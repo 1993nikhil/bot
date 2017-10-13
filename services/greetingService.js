@@ -269,7 +269,7 @@ function sendOTP(mobileNo,OTP,userName){
 var otpMessage  = messages.messages.OTP;
   otpMessage.replace("#userName",userName);
   otpMessage.replace("#otp",OTP);
-  util.sendSMS(mobileNo,otpMessage);
+  util.sendSMS(otpMessage,mobileNo);
 
 }
 
