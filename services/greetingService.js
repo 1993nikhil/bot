@@ -223,17 +223,16 @@ function saveResponse(userId, index, payload){
 
 //save otp
 function saveOtp(userId,otpGenerated,mobileNo){
-  var currentDate= new Date();
-  currentDate.addMinutes(30);
+  //var currentDate= new Date();
+  //currentDate.addMinutes(30);
       var otpRes = {
         recipientId:userId,
         otp:otpGenerated,
-        mobileNo:mobileNo,
-        expireTime:currentDate
+        mobileNo:mobileNo
 
       }
   var otpGen = new Otp(otpRes);
-
+  
   Otp.findOne({recipientId:userId}, function(err,data){
     if(data){
       var query = {recipientId:userId};
@@ -250,8 +249,7 @@ function saveOtp(userId,otpGenerated,mobileNo){
       var otpRes = {
         recipientId:userId,
         otp:otpGenerated,
-        mobileNo:mobileNo,
-        expireTime:currentDate
+        mobileNo:mobileNo
       }
 
       var otpGen = new Otp(otpRes);    
