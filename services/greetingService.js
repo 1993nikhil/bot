@@ -222,13 +222,13 @@ function saveResponse(userId, index, payload){
 }
 
 //save otp
-function saveOtp(userId,otpGenerated,mobileNo){
+function saveOtp(userId,otpGenerated,mobileNumber){
   //var currentDate= new Date();
   //currentDate.addMinutes(30);
       var otpRes = {
         recipientId:userId,
         otp:otpGenerated,
-        mobileNo:mobileNo
+        mobileNo:mobileNumber
 
       }
   var otpGen = new Otp(otpRes);
@@ -236,7 +236,7 @@ function saveOtp(userId,otpGenerated,mobileNo){
   Otp.findOne({recipientId:userId}, function(err,data){
     if(data){
       var query = {recipientId:userId};
-      var newOtp = { $set: { otp:otpGenerated } };
+      var newOtp = { $set: { otp:otpGenerated, mobileNo:mobileNumber } };
       Otp.updateOne(query, newOtp, function(err, res){
         if(err){
           console.log(err);
