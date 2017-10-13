@@ -1,10 +1,11 @@
-var express = require('express')
-var request = require('request')
-var fbService = require('../services/greetingService')
-var fb_api = require('../routes/fbapi')
-var utilMsg = require('../utils/messages')
-var util = require('../utils/utils')
-var conf = require('../config/config')
+var express = require('express');
+var request = require('request');
+var fbService = require('../services/greetingService');
+var fb_api = require('../routes/fbapi');
+var utilMsg = require('../utils/messages');
+var util = require('../utils/utils');
+var conf = require('../config/config');
+var policyDetail = require('../utils/policyData');
 var Q = require('q');
 var index = 0;
 var policyNo = false;
@@ -451,7 +452,7 @@ function generateOtp(recipientId,mobileNo){
 }
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
-  fbService.getOtp(recipientId).then(function(resp){
+  fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
     if(resp.otp == payload){
       nextQuestion(questionIndex,"verified",recipientId);
     }

@@ -27,9 +27,9 @@ function checkUser(userId){
 }
 
 //get otp
-function getOtp(userId){
+function getOtp(userId,mobileNumber){
   var deferred=Q.defer();
-  Otp.findOne({recipientId:userId}, function(err, res){
+  Otp.findOne({recipientId:userId, mobileNo:mobileNumber}, function(err, res){
     if(err){
       deferred.reject(err);
     }else{
