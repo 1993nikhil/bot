@@ -241,16 +241,19 @@ function saveOtp(userId,otpGenerated,mobileNumber){
         if(err){
           console.log(err);
         }else{
-          Log.find({recipientId:userId}, function(err, user){
-            if(user){
-              //user exists
-              var recipientName = user.userName;
-              sendOTP(mobileNumber,otpGenerated,recipientName);
-              console.log('user exist');
-            }else{
-              console.log(err);
-            }
-          });        
+          getUserName(userId).then(function(user){
+            var senderName = user.userName;
+            sendOTP(mobileNumber,otpGenerated,senderName);
+          });
+          // Log.find({recipientId:userId}, function(err, user){
+          //   if(user){
+          //     //user exists
+          //     sendOTP(mobileNumber,otpGenerated,recipientName);
+          //     console.log('user exist');
+          //   }else{
+          //     console.log(err);
+          //   }
+          // });        
           console.log('otp updated');
         }
       });
@@ -280,6 +283,19 @@ function sendOTP(mobileNo,OTP,userName){
   otpMessage = otpMessage.replace("#otp#",OTP);
   util.sendSMS(otpMessage,mobileNo);
 
+}
+
+//get user name from log
+function getUserName(userId){
+  var deferred=Q.defer();
+  Log.findOne({recipientId:userId}, function(err,data){
+    if(err){
+      deferred.reject(err);
+    }else{
+      deferred.resolve(data);
+    }
+  });
+  return deferred.promise;
 }
 
 module.exports = {
