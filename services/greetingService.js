@@ -241,7 +241,7 @@ function saveOtp(userId,otpGenerated,mobileNo){
         if(err){
           console.log(err);
         }else{
-          sendOTP(mobileNo,otpGenerated,"Nikhil Kumar");
+          sendOTP(mobileNo,otpGenerated,"Nikhil");
           console.log('otp updated');
         }
       });
@@ -267,7 +267,7 @@ function saveOtp(userId,otpGenerated,mobileNo){
 
 function sendOTP(mobileNo,OTP,userName){
   var otpMessage  = messages.messages.OTP;
-  otpMessage = otpMessage.replace("#userName",userName);
+  otpMessage = otpMessage.replace("#userName#",userName);
   otpMessage = otpMessage.replace("#otp#",OTP);
   util.sendSMS(otpMessage,mobileNo);
 
