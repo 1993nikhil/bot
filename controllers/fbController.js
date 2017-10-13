@@ -334,9 +334,11 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
               id: recipientId
             },
             message: {
-              text: "Timed out ."
-            }
+              text: "Timed out .\nPlease provide your 8 digit policy no. number"
+            } 
           }
+          var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
+          fbService.updateQuestionIndex(recipientId,newQuestionIndex);          
           callSendAPI(messageData);         
       }       
     
