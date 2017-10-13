@@ -241,7 +241,7 @@ function saveOtp(userId,otpGenerated,mobileNumber){
         if(err){
           console.log(err);
         }else{
-          sendOTP(mobileNo,otpGenerated,"Nikhil");
+          sendOTP(mobileNumber,otpGenerated,"Nikhil");
           console.log('otp updated');
         }
       });
@@ -249,7 +249,7 @@ function saveOtp(userId,otpGenerated,mobileNumber){
       var otpRes = {
         recipientId:userId,
         otp:otpGenerated,
-        mobileNo:mobileNo
+        mobileNo:mobileNumber
       }
 
       var otpGen = new Otp(otpRes);    
@@ -257,7 +257,7 @@ function saveOtp(userId,otpGenerated,mobileNumber){
         if(err){
           console.log(err);
         }else{
-          sendOTP(mobileNo,otpGenerated,"Nikhil");
+          sendOTP(mobileNumber,otpGenerated,"Nikhil");
           console.log('otp saved');
         }
       });
