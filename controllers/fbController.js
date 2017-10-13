@@ -42,7 +42,7 @@ function receivedMessage(event) {
         if(index==5){
           verifyOTP(senderID,messageText,timeOfMessage,newQuestionIndex);
         }else{
-          nextQuestion(newQuestionIndex,messageText,senderID);
+          nextQuestion(newQuestionIndex,messageText,senderID,timeOfMessage);
         }          
         
       }
@@ -80,22 +80,22 @@ function receivedPostback(messagingEvent){
   }
 
   if(message =='0-NP-null'){
-    nextQuestion("1-NP-PolicyID",message,senderID);
+    nextQuestion("1-NP-PolicyID",message,senderID,timeOfMessage);
   }
   else if(message =='0-PS-null'){
-    nextQuestion("1-PS-PolicyID",message,senderID);
+    nextQuestion("1-PS-PolicyID",message,senderID,timeOfMessage);
   }
   else if(message=='0-FV-null'){
-    nextQuestion("1-FV-PolicyID",message,senderID);
+    nextQuestion("1-FV-PolicyID",message,senderID,timeOfMessage);
   }
   else if(message=='0-PP-null'){
-    nextQuestion("1-PP-PolicyID",message,senderID);
+    nextQuestion("1-PP-PolicyID",message,senderID,timeOfMessage);
   }
   else if(message=='0-TAP-null'){
-    nextQuestion("1-TAP-PolicyID",message,senderID);
+    nextQuestion("1-TAP-PolicyID",message,senderID,timeOfMessage);
   }
   else if(message=='0-RP-null'){
-    nextQuestion("1-RP-PolicyID",message,senderID);
+    nextQuestion("1-RP-PolicyID",message,senderID,timeOfMessage);
   }
   else{
     //Send message for garbage value
@@ -208,7 +208,7 @@ function nextOption(userId, messageText){
 
 
 //questions
-function nextQuestion(questionIndex,payload,recipientId){
+function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
   var indexArray = questionIndex.split("-");
   var qIndex = parseInt(indexArray[0])+1;
   if(qIndex==2){
@@ -269,7 +269,7 @@ function nextQuestion(questionIndex,payload,recipientId){
         fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
         var validatePolicyResult = util.validatePolicy(resp);
         if(validatePolicyResult!=null){
-          generateOtp(recipientId,validatePolicyResult.mobile).then(setTimeout(function(res){
+          generateOtp(recipientId,validatePolicyResult.mobile,timeOfMessage).then(setTimeout(function(res){
             callSendAPI(messageData);
           
         }, 500));
@@ -375,7 +375,7 @@ function nextDueData(recipientId,category){
 
    sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
-          nextQuestion(newQuestion,"next", recipientId);
+          nextQuestion(newQuestion,"next", recipientId,1);
           
         }, 800));
    // setTimeout(function(){ 
@@ -393,7 +393,7 @@ function fundValueData(recipientId,category){
 
    sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
-          nextQuestion(newQuestion,"next", recipientId);
+          nextQuestion(newQuestion,"next", recipientId,1);
           
         }, 800));
  
@@ -408,7 +408,7 @@ function totalAmtPaidData(recipientId,category){
 
    sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
-          nextQuestion(newQuestion,"next", recipientId);
+          nextQuestion(newQuestion,"next", recipientId,1);
           
         }, 800));
  
@@ -423,7 +423,7 @@ function policyStatusData(recipientId,category){
 
    sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
-          nextQuestion(newQuestion,"next", recipientId);
+          nextQuestion(newQuestion,"next", recipientId,1);
           
         }, 800));
  
@@ -437,17 +437,17 @@ function payPremium(recipientId,category){
    
    sendPayPremiumMessage(recipientId,messageData).then(setTimeout(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
-          nextQuestion(newQuestion,"next", recipientId);
+          nextQuestion(newQuestion,"next", recipientId,1);
           
         }, 800));
  
  }); 
 }
-function generateOtp(recipientId,mobileNo){
+function generateOtp(recipientId,mobileNo,timeOfMessage){
   var deferred=Q.defer();
   var otp = Math.floor(000001 + Math.random() * 999999);
   deferred.resolve(otp);
-  fbService.saveOtp(recipientId,otp,mobileNo);
+  fbService.saveOtp(recipientId,otp,mobileNo,timeOfMessage);
   return deferred.promise;
 }
 
