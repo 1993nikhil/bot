@@ -4,6 +4,7 @@ var request = require('request')
 var app = express()
 var fb_api = require('./routes/fbapi')
 var mongoose = require('mongoose');
+var moment = require('moment');
 
 app.set('port', (process.env.PORT || 5000))
 app.set('mongo_url',('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9'));
@@ -64,7 +65,9 @@ app.get('/otp', function (req, res) {
   });
 })
 
-
+var j = new Date();
+var j = moment(j).add(30,'minutes');
+console.log(j);
 
 
 

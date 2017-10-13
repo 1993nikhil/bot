@@ -7,6 +7,7 @@ var Response = require('../models/userResponseModel')
 var Otp = require('../models/otpModel')
 var conf = require('../config/config')
 var Q = require('q');
+var moment = require('moment');
 var util= require('../utils/utils');
 var messages= require('../utils/messages');
 
@@ -223,20 +224,21 @@ function saveResponse(userId, index, payload){
 
 //save otp
 function saveOtp(userId,otpGenerated,mobileNumber){
-  //var currentDate= new Date();
-  //currentDate.addMinutes(30);
+    var currentDate= new Date();
+    currentDate = moment(currentDate).add(30,'minutes');
 
-      var otpRes = {
-        recipientId:userId,
-        otp:otpGenerated,
-        mobileNo:mobileNumber
-      }
-  var otpGen = new Otp(otpRes);
+    var otpRes = {
+      recipientId:userId,
+      otp:otpGenerated,
+      mobileNo:mobileNumber,
+      expireTime:currentDate
+    }
+    var otpGen = new Otp(otpRes);
 
   Otp.findOne({recipientId:userId}, function(err,data){
     if(data){
       var query = {recipientId:userId};
-      var newOtp = { $set: { otp:otpGenerated, mobileNo:mobileNumber } };
+      var newOtp = { $set: { otp:otpGenerated, mobileNo:mobileNumber, expireTime:currentDate } };
       Otp.updateOne(query, newOtp, function(err, res){
         if(err){
           console.log(err);
