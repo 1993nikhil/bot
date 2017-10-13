@@ -226,17 +226,6 @@ function saveOtp(userId,otpGenerated,mobileNumber){
   //var currentDate= new Date();
   //currentDate.addMinutes(30);
 
-      //get recipient name
-      var recipientName = "";
-      Log.find({recipientId:userId}, function(err, user){
-        if(user){
-          //user exists
-          recipientName = user.userName
-          console.log('user exist');
-        }else{
-          console.log(err);
-        }
-      });
       var otpRes = {
         recipientId:userId,
         otp:otpGenerated,
@@ -252,7 +241,16 @@ function saveOtp(userId,otpGenerated,mobileNumber){
         if(err){
           console.log(err);
         }else{
-          sendOTP(mobileNumber,otpGenerated,recipientName);
+          Log.find({recipientId:userId}, function(err, user){
+            if(user){
+              //user exists
+              var recipientName = user.userName
+              sendOTP(mobileNumber,otpGenerated,recipientName);
+              console.log('user exist');
+            }else{
+              console.log(err);
+            }
+          });        
           console.log('otp updated');
         }
       });
