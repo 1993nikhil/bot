@@ -318,7 +318,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
           nextDueData(recipientId,indexArray[1]);
         }                                
      
-      }else{
+      }else if(payload=="not verified"){
           var messageData ={
             recipient: {
               id: recipientId
@@ -328,7 +328,17 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
             }
           }
           callSendAPI(messageData);  
-      }        
+      }else if(payload=="time out"){
+          var messageData ={
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              text: "Timed out ."
+            }
+          }
+          callSendAPI(messageData);         
+      }       
     
   }
   else if(qIndex==6){
@@ -461,7 +471,7 @@ function verifyOTP(recipientId,payload,otpTime,questionIndex){
         nextQuestion(questionIndex,"not verified",recipientId);
       }      
     }else{
-      nextQuestion(questionIndex,"not verified",recipientId);
+      nextQuestion(questionIndex,"time out",recipientId);
     }
   });
 
