@@ -453,10 +453,14 @@ function generateOtp(recipientId,mobileNo,timeOfMessage){
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
   fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
-    if(resp.otp == payload){
-      nextQuestion(questionIndex,"verified",recipientId);
-    }
-    else{
+    if(otpTime<resp.expireTime){
+      if(resp.otp == payload){
+        nextQuestion(questionIndex,"verified",recipientId);
+      }
+      else{
+        nextQuestion(questionIndex,"not verified",recipientId);
+      }      
+    }else{
       nextQuestion(questionIndex,"not verified",recipientId);
     }
   });
