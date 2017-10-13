@@ -232,7 +232,7 @@ function saveOtp(userId,otpGenerated,mobileNo){
 
       }
   var otpGen = new Otp(otpRes);
-  
+
   Otp.findOne({recipientId:userId}, function(err,data){
     if(data){
       var query = {recipientId:userId};
@@ -269,7 +269,7 @@ function sendOTP(mobileNo,OTP,userName){
 var otpMessage  = messages.messages.OTP;
   otpMessage.replace("#userName",userName);
   otpMessage.replace("#otp",OTP);
-  utils.sendSMS(mobileNo,otpMessage);
+  util.sendSMS(mobileNo,otpMessage);
 
 }
 
