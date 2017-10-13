@@ -8,5 +8,6 @@ module.exports = {
 		"payPremiumMessage":"You will be redirected to our DHFL Pramercia Life insurance site for pay renewal payment",
 		"thankyouMessage":"Thanks for using a service. Have a nice day",
 		"queryMessage":"For any query & clarification please call our toll free number 1800-102-7070 or email - contactus@dhflpramerica.com",
+		"OTP":"Dear #userName#, Please use #otp# as One Time Password (OTP) to verify your mobile number. This OTP is valid only for 30 minutes."
 	}
 }

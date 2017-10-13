@@ -1,5 +1,6 @@
 var Q = require('q');
-var policyDetail = require('./policyData')
+var policyDetail = require('./policyData');
+var request = require('request');
 
 module.exports = {
 		validatePolicyNumber: function (argument) {
@@ -12,14 +13,27 @@ module.exports = {
 		},
 		validatePolicy: function(response){
 			if(policyDetail.policy.PolicyNo===response.PolicyNo && policyDetail.policy.DOB===response.DOB){
-				return true;
+				return policyDetail.policy;
 			}else{
-				return false;
+				return null;
 			}
 		},
 		callService: function(url,type,data,success,failure){
 
-		}
-
-
+		},
+	  sendSMS: function(mobile, message) {
+        if (mobile) {
+            	request.post({
+					  headers: {'content-type' : 'application/json'},
+					  url: 'https://dhfl-aodkapsgv7xsfukzmx7s6fsd-dev.mbaas1.dpl.redhatmobile.com/sendMessage',
+				 	  body: {
+		                        "mobile": mobile,
+		                        "message": message
+		                    }
+					}, function(error, response, body){
+					  console.log(body);
+					});
+     //$http(req).then(function(res) {});
+        }
+    }
 }

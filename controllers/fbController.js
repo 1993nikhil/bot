@@ -266,14 +266,15 @@ function nextQuestion(questionIndex,payload,recipientId){
       }  
       fbService.saveResponse(recipientId,newQuestionIndex,payload).then(function(data){
         fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
-        if(util.validatePolicy(resp)){
-          generateOtp(recipientId).then(setTimeout(function(resp){
+        var validatePolicyResult = util.validatePolicy(resp);
+        if(validatePolicyResult!=null){
+          generateOtp(recipientId,validatePolicyResult.mobile).then(setTimeout(function(res){
             callSendAPI(messageData);
           
         }, 500));
           
         }else{
-          sendTextMessage(recipientId,'Policy Details not matched \n please provide your 8 digit policy number');
+          sendTextMessage(recipientId,'Policy Details not matched \nplease provide your 8 digit policy number');
           var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
           fbService.updateQuestionIndex(recipientId,newQuestionIndex);
         }
@@ -441,17 +442,17 @@ function payPremium(recipientId,category){
  
  }); 
 }
-function generateOtp(recipientId){
+function generateOtp(recipientId,mobileNo){
   var deferred=Q.defer();
   var otp = Math.floor(000001 + Math.random() * 999999);
   deferred.resolve(otp);
-  fbService.saveOtp(recipientId,otp);
+  fbService.saveOtp(recipientId,otp,mobileNo);
   return deferred.promise;
 }
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
   fbService.getOtp(recipientId).then(function(resp){
-    if(resp.otp==payload){
+    if(resp.otp == payload){
       nextQuestion(questionIndex,"verified",recipientId);
     }
     else{

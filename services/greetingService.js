@@ -1,4 +1,4 @@
-var express = require('express')
+var express = require('express');
 var request = require('request')
 var fbCtrl = require('../controllers/fbController')
 var fb_api = require('../routes/fbapi')
@@ -7,7 +7,8 @@ var Response = require('../models/userResponseModel')
 var Otp = require('../models/otpModel')
 var conf = require('../config/config')
 var Q = require('q');
-
+var util= require('../utils/utils');
+var messages= require('../utils/messages');
 
 function checkUser(userId){
 
@@ -221,10 +222,15 @@ function saveResponse(userId, index, payload){
 }
 
 //save otp
-function saveOtp(userId,otpGenerated){
+function saveOtp(userId,otpGenerated,mobileNo){
+  var currentDate= new Date();
+  currentDate.addMinutes(30);
       var otpRes = {
         recipientId:userId,
         otp:otpGenerated,
+        mobileNo:mobileNo,
+        expireTime:currentDate
+
       }
   var otpGen = new Otp(otpRes);
 
@@ -236,6 +242,7 @@ function saveOtp(userId,otpGenerated){
         if(err){
           console.log(err);
         }else{
+          sendOTP(mobileNo,otpGenerated,"Nikhil Kumar");
           console.log('otp updated');
         }
       });
@@ -243,6 +250,8 @@ function saveOtp(userId,otpGenerated){
       var otpRes = {
         recipientId:userId,
         otp:otpGenerated,
+        mobileNo:mobileNo,
+        expireTime:currentDate
       }
 
       var otpGen = new Otp(otpRes);    
@@ -250,11 +259,20 @@ function saveOtp(userId,otpGenerated){
         if(err){
           console.log(err);
         }else{
+          sendOTP(mobileNo,otpGenerated,"Nikhil Kumar");
           console.log('otp saved');
         }
       });
     }
   });
+}
+
+function sendOTP(mobileNo,OTP,userName){
+var otpMessage  = messages.messages.OTP;
+  otpMessage.replace("#userName",userName);
+  otpMessage.replace("#otp",OTP);
+  utils.sendSMS(mobileNo,otpMessage);
+
 }
 
 module.exports = {
