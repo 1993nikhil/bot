@@ -27,7 +27,7 @@ function receivedMessage(event) {
       messageText = messageText.toLowerCase();
     }
     
-    if(messageText=='hi'||messageText=='hello'){
+    if(messageText=='hi'||messageText=='hello'||messageText=='new'){
       fbService.checkUser(senderID).then(function(resp){
       if(resp){
           getUserName(senderID);
@@ -38,6 +38,8 @@ function receivedMessage(event) {
         fbService.saveUser(senderID);
       }
     });      
+    }else if(messageText=='cancel'){
+      nextQuestion("7-null-null",messageText,senderID,timeOfMessage);
     }else{
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
@@ -131,7 +133,10 @@ function getUserName(userId) {
   
       sendTextMessage(userId, result).then(setTimeout(function(res){ 
           startConversation(userId, "...").then(setTimeout(function(resp){ 
-          nextOption(userId, "...");
+          nextOption(userId, "...").then(setTimeout(function(resp){ 
+          sendTextMessage(userId, "You can type \"cancel\" at any point in time to exit conversation or type \"New\" to start new conversation");
+          
+        }, 800));
           
         }, 800));
           
@@ -176,23 +181,6 @@ function startConversation(userId, messageText){
                             title: "Fund Value",
                             payload: "0-FV-null",
                           }],
-                  },{
-                      title: "...",
-                      buttons: [{
-                          type: "postback",
-                          title: "Pay Premium",
-                          payload: "0-PP-null",
-                        },
-                        {
-                          type: "postback",
-                          title: "Total Amt. Paid",
-                          payload: "0-TAP-null"
-                        },
-                        {
-                          type: "postback",
-                          title: "Renewal Payment Received or Not",
-                          payload: "0-RP-null",
-                        }],
                   }]
                 }
             }
@@ -210,7 +198,28 @@ function nextOption(userId, messageText){
             id: userId
           },
           message: {
-            text: "You can type \"cancel\" at any point in time to exit conversation or Type \"New\" to start new conversation"
+            attachment: {
+                type: "template",
+                payload:  {
+                template_type: "button",
+                text: messageText,
+                  buttons: [{
+                    type: "postback",
+                    title: "Pay Premium",
+                    payload: "0-PP-null",
+                  },
+                  {
+                    type: "postback",
+                    title: "Total Amt. Paid",
+                    payload: "0-TAP-null"
+                  },
+                  {
+                    type: "postback",
+                    title: "Renewal Payment Received or Not",
+                    payload: "0-RP-null",
+                  }]
+              }
+            }
           }
       }; 
   callSendAPI(messageData);
