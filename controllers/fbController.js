@@ -176,6 +176,23 @@ function startConversation(userId, messageText){
                             title: "Fund Value",
                             payload: "0-FV-null",
                           }],
+                  },{
+                      title: "...",
+                      buttons: [{
+                          type: "postback",
+                          title: "Pay Premium",
+                          payload: "0-PP-null",
+                        },
+                        {
+                          type: "postback",
+                          title: "Total Amt. Paid",
+                          payload: "0-TAP-null"
+                        },
+                        {
+                          type: "postback",
+                          title: "Renewal Payment Received or Not",
+                          payload: "0-RP-null",
+                        }],
                   }]
                 }
             }
@@ -193,28 +210,7 @@ function nextOption(userId, messageText){
             id: userId
           },
           message: {
-            attachment: {
-                type: "template",
-                payload:  {
-                template_type: "button",
-                text: messageText,
-                  buttons: [{
-                    type: "postback",
-                    title: "Pay Premium",
-                    payload: "0-PP-null",
-                  },
-                  {
-                    type: "postback",
-                    title: "Total Amt. Paid",
-                    payload: "0-TAP-null"
-                  },
-                  {
-                    type: "postback",
-                    title: "Renewal Payment Received or Not",
-                    payload: "0-RP-null",
-                  }]
-              }
-            }
+            text: "You can type \"cancel\" at any point in time to exit conversation or Type \"New\" to start new conversation"
           }
       }; 
   callSendAPI(messageData);
