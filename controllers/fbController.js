@@ -126,7 +126,7 @@ function getUserName(userId) {
   
       sendTextMessage(userId, result).then(setTimeout(function(res){ 
           startConversation(userId, "...").then(setTimeout(function(resp){ 
-          nextOption(userId, "     ");
+          nextOption(userId, "...");
           
         }, 800));
           
