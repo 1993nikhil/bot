@@ -5,6 +5,7 @@ var app = express()
 var fb_api = require('./routes/fbapi')
 var mongoose = require('mongoose');
 var moment = require('moment');
+var sql = require('mssql');
 
 app.set('port', (process.env.PORT || 5000))
 app.set('mongo_url',('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9'));
@@ -64,6 +65,24 @@ app.get('/otp', function (req, res) {
     res.json(data);
   });
 })
+
+app.get('/student',function(req, res){
+  var db = sql.connect('mssql://localhost/student');
+  db.connect().then(function(){
+        var request = new sql.Request();
+           
+        // query to the database and get the records
+        request.query('select * from student', function (err, recordset) {
+            
+            if (err) console.log(err)
+
+            // send records as a response
+            res.send(recordset);
+            
+        });
+  });
+})
+
 
 var j = new Date();
 var j = moment(j).add(30,'minutes');
