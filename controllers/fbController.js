@@ -222,7 +222,9 @@ function nextOption(userId, messageText){
             }
           }
       }; 
-  callSendAPI(messageData);
+     deferred.resolve(messageData);
+     callSendAPI(messageData); 
+     return deferred.promise;
 
 }
 
