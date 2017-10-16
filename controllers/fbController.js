@@ -382,7 +382,10 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
   }
   else if(qIndex==7){
     if(payload=='y'||payload=='yes'){
-      getUserName(recipientId);
+      startConversation(recipientId,"Please select an option to proceed").then(setTimeout(function(resp){ 
+          nextOption(recipientId,"...");
+          
+        }, 800));
       fbService.updateQuestionIndex(recipientId,"0-null-null");     
 
     }
