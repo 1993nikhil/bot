@@ -33,7 +33,7 @@ function receivedMessage(event) {
         fbService.saveUser(senderID);
       }
     });      
-  }else{
+    }else{
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
         var newQuestionIndex = resp.questionIndex;
@@ -474,7 +474,7 @@ function generateOtp(recipientId,mobileNo,timeOfMessage){
 //resend otp 
 function resendOTP(recipientId,timeOfMessage){
   fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
-    fbService.saveOtp(recipientId,otp,policyDetail.policy.mobile,timeOfMessage);
+    fbService.saveOtp(recipientId,resp.otp,policyDetail.policy.mobile,timeOfMessage);
     sendTextMessage(recipientId,'OTP has been Successfully resend to your registered number.');
   });
 }
