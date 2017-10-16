@@ -124,11 +124,14 @@ function getUserName(userId) {
      var welcomeMessage = utilMsg.messages.greeting;
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
   
-     
-     startConversation(userId, result).then(setTimeout(function(resp){ 
+      sendTextMessage(userId, result).then(setTimeout(function(res){ 
+          startConversation(userId, "...").then(setTimeout(function(resp){ 
           nextOption(userId, "...");
           
         }, 800));
+          
+        }, 800));
+
       }
       else {
       console.error("Unable to send message1.");
@@ -147,27 +150,29 @@ function startConversation(userId, messageText){
             id: userId
           },
           message: {
-            attachment: {
+               attachment: {
                 type: "template",
-                payload:  {
-                template_type: "button",
-                text: messageText,
-                  buttons: [{
-                    type: "postback",
-                    title: "Next Due Date",
-                    payload: "0-NP-null",
-                  },
-                  {
-                    type: "postback",
-                    title: "Policy Status",
-                    payload: "0-PS-null"
-                  },
-                  {
-                    type: "postback",
-                    title: "Fund Value",
-                    payload: "0-FV-null",
+                payload: {
+                  template_type: "generic",
+                  elements: [{
+                    title: "Please select an option to proceed",
+                    buttons: [{
+                            type: "postback",
+                            title: "Next Due Date",
+                            payload: "0-NP-null",
+                          },
+                          {
+                            type: "postback",
+                            title: "Policy Status",
+                            payload: "0-PS-null"
+                          },
+                          {
+                            type: "postback",
+                            title: "Fund Value",
+                            payload: "0-FV-null",
+                          }],
                   }]
-              }
+                }
             }
           }
       }; 
