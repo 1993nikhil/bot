@@ -193,6 +193,8 @@ function startConversation(userId, messageText){
 
 
 function nextOption(userId, messageText){
+          var deferred=Q.defer();
+  
           var messageData = {
           recipient: {
             id: userId
