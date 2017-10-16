@@ -40,7 +40,12 @@ function receivedMessage(event) {
         var indArray = resp.questionIndex.split("-");
         var index = parseInt(indArray[0])+1;
         if(index==5){
-          verifyOTP(senderID,messageText,timeOfMessage,newQuestionIndex);
+          if(messageText=='resend'){
+            resendOTP(senderID,timeOfMessage);
+          }else{
+            verifyOTP(senderID,messageText,timeOfMessage,newQuestionIndex);
+          }
+          
         }else{
           nextQuestion(newQuestionIndex,messageText,senderID,timeOfMessage);
         }          
@@ -262,7 +267,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
            id: recipientId
         },
         message: {
-          text: "OTP is send to your register no. please provide that"
+          text: "Please enter OTP received on your registered mobile number to validate . If you don't receive an OTP in next 1 minute please enter RESEND"
         }      
       }  
       fbService.saveResponse(recipientId,newQuestionIndex,payload).then(function(data){
@@ -463,6 +468,15 @@ function generateOtp(recipientId,mobileNo,timeOfMessage){
   deferred.resolve(otp);
   fbService.saveOtp(recipientId,otp,mobileNo,timeOfMessage);
   return deferred.promise;
+}
+
+
+//resend otp 
+function resendOTP(recipientId,timeOfMessage){
+  fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
+    fbService.saveOtp(recipientId,otp,policyDetail.policy.mobile,timeOfMessage);
+    sendTextMessage(recipientId,'OTP has been Successfully resend to your registered number.');
+  });
 }
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
