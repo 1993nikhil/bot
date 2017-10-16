@@ -21,7 +21,12 @@ function receivedMessage(event) {
 
     var messageText = message.text;
     var messageAttachments = message.attachments;
-    messageText = messageText.toLowerCase();
+    if(messageText==undefined){
+      return false;
+    }else{
+      messageText = messageText.toLowerCase();
+    }
+    
     if(messageText=='hi'||messageText=='hello'){
       fbService.checkUser(senderID).then(function(resp){
       if(resp){
