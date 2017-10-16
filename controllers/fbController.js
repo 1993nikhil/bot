@@ -39,7 +39,7 @@ function receivedMessage(event) {
       }
     });      
     }else if(messageText=='cancel'){
-      nextQuestion("7-null-null",messageText,senderID,timeOfMessage);
+      nextQuestion("6-null-null",messageText,senderID,timeOfMessage);
     }else{
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
@@ -194,7 +194,7 @@ function startConversation(userId, messageText){
 
 function nextOption(userId, messageText){
           var deferred=Q.defer();
-  
+
           var messageData = {
           recipient: {
             id: userId
