@@ -507,7 +507,6 @@ function verifyOTP(recipientId,payload,otpTime,questionIndex){
     if(otpTime<resp.expireTime){
       var otpNum = parseInt(payload);
       var hashOtp = sha1(otpNum);
-      sendTextMessage(recipientId,hashOtp);
       if(resp.otp === hashOtp){
         nextQuestion(questionIndex,"verified",recipientId);
       }
