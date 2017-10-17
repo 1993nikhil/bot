@@ -496,7 +496,7 @@ function generateOtp(recipientId,mobileNo,timeOfMessage){
 
 //resend otp 
 function resendOTP(recipientId,timeOfMessage){
-  fbService.generateOtp(recipientId,policyDetail.policy.mobile,timeOfMessage).then(function(resp){
+  generateOtp(recipientId,policyDetail.policy.mobile,timeOfMessage).then(function(resp){
     sendTextMessage(recipientId,'OTP has been Successfully resend to your registered number.');
   });
 }
