@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var otpSchema = new Schema({
   mobileNo: {type:Number,default:null},
   recipientId: String,
-  otp: Number,
+  otp: String,
   expireTime: {type:Date,default:null},
   
 });

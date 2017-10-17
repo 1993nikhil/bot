@@ -7,6 +7,7 @@ var util = require('../utils/utils');
 var conf = require('../config/config');
 var policyDetail = require('../utils/policyData');
 var Q = require('q');
+var sha1 = require('sha1');
 var index = 0;
 var policyNo = false;
 var policyDOB = false;
@@ -504,7 +505,8 @@ function resendOTP(recipientId,timeOfMessage){
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
   fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
     if(otpTime<resp.expireTime){
-      if(resp.otp == payload){
+      var hashOtp = sha1("payload");
+      if(resp.otp == hashOtp){
         nextQuestion(questionIndex,"verified",recipientId);
       }
       else{

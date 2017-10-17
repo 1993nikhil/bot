@@ -1,13 +1,14 @@
 var express = require('express');
-var request = require('request')
-var fbCtrl = require('../controllers/fbController')
-var fb_api = require('../routes/fbapi')
-var Log = require('../models/logModel')
-var Response = require('../models/userResponseModel')
+var request = require('request');
+var fbCtrl = require('../controllers/fbController');
+var fb_api = require('../routes/fbapi');
+var Log = require('../models/logModel');
+var Response = require('../models/userResponseModel');
 var Otp = require('../models/otpModel')
-var conf = require('../config/config')
+var conf = require('../config/config');
 var Q = require('q');
 var moment = require('moment');
+var sha1 = require('sha1');
 var util= require('../utils/utils');
 var messages= require('../utils/messages');
 
@@ -225,10 +226,10 @@ function saveResponse(userId, index, payload){
 //save otp
 function saveOtp(userId,otpGenerated,mobileNumber,timeOfMessage){
     var currentDate = moment(timeOfMessage).add(2,'minutes');
-
+    var hashOtp = sha1("otpGenerated");
     var otpRes = {
       recipientId:userId,
-      otp:otpGenerated,
+      otp:hashOtp,
       mobileNo:mobileNumber,
       expireTime:currentDate
     }
@@ -237,7 +238,7 @@ function saveOtp(userId,otpGenerated,mobileNumber,timeOfMessage){
   Otp.findOne({recipientId:userId}, function(err,data){
     if(data){
       var query = {recipientId:userId};
-      var newOtp = { $set: { otp:otpGenerated, mobileNo:mobileNumber, expireTime:currentDate } };
+      var newOtp = { $set: { otp:hashOtp, mobileNo:mobileNumber, expireTime:currentDate } };
       Otp.updateOne(query, newOtp, function(err, res){
         if(err){
           console.log(err);
