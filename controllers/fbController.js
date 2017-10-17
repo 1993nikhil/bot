@@ -505,7 +505,8 @@ function resendOTP(recipientId,timeOfMessage){
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
   fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
     if(otpTime<resp.expireTime){
-      var hashOtp = sha1(payload);
+      var otpNum = parseInt(payload);
+      var hashOtp = sha1(otpNum);
       sendTextMessage(recipientId,hashOtp);
       if(resp.otp === hashOtp){
         nextQuestion(questionIndex,"verified",recipientId);
