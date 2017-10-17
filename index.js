@@ -6,6 +6,7 @@ var fb_api = require('./routes/fbapi')
 var mongoose = require('mongoose');
 var moment = require('moment');
 var sql = require('mssql');
+var sha1 = require('sha1');
 
 app.set('port', (process.env.PORT || 5000))
 app.set('mongo_url',('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9'));
@@ -66,6 +67,8 @@ app.get('/otp', function (req, res) {
   });
 })
 
+
+
 app.get('/student',function(req, res){
   var db = sql.connect('mssql://localhost/student');
   db.connect().then(function(){
@@ -88,7 +91,8 @@ var j = new Date();
 var j = moment(j).add(30,'minutes');
 console.log(j);
 
-
+var hash = sha1("234567");
+console.log(hash);
 
 // for Facebook verification
 app.get('/webhook/', function (req, res) {

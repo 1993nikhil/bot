@@ -242,19 +242,8 @@ function saveOtp(userId,otpGenerated,mobileNumber,timeOfMessage){
         if(err){
           console.log(err);
         }else{
-          getUserName(userId).then(function(user){
-            var senderName = user.userName;
-            sendOTP(mobileNumber,otpGenerated,senderName);
-          });
-          // Log.find({recipientId:userId}, function(err, user){
-          //   if(user){
-          //     //user exists
-          //     sendOTP(mobileNumber,otpGenerated,recipientName);
-          //     console.log('user exist');
-          //   }else{
-          //     console.log(err);
-          //   }
-          // });        
+
+        
           console.log('otp updated');
         }
       });
@@ -275,6 +264,11 @@ function saveOtp(userId,otpGenerated,mobileNumber,timeOfMessage){
         }
       });
     }
+  });
+
+  getUserName(userId).then(function(user){
+    var senderName = user.userName;
+    sendOTP(mobileNumber,otpGenerated,senderName);
   });
 }
 
