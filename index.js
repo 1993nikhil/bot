@@ -91,7 +91,7 @@ var j = new Date();
 var j = moment(j).add(30,'minutes');
 console.log(j);
 
-var hash = sha1("234567");
+var hash = sha1(746903);
 console.log(hash);
 
 // for Facebook verification
