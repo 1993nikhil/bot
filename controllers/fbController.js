@@ -166,7 +166,6 @@ function startConversation(userId, messageText){
                 payload: {
                   template_type: "generic",
                   elements: [{
-                    title: "Please select an option to proceed",
                     buttons: [{
                             type: "postback",
                             title: "Next Due Date",

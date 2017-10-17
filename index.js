@@ -91,6 +91,7 @@ var j = new Date();
 var j = moment(j).add(30,'minutes');
 console.log(j);
 
+//sha1 test
 var hash = sha1(975699);
 console.log(hash);
 
