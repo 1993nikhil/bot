@@ -5,7 +5,7 @@ var app = express()
 var fb_api = require('./routes/fbapi')
 var mongoose = require('mongoose');
 var moment = require('moment');
-var sql = require('mssql');
+var sql = require("mssql");
 var sha1 = require('sha1');
 
 app.set('port', (process.env.PORT || 5000))
@@ -94,6 +94,7 @@ console.log(j);
 //sha1 test
 var hash = sha1(975699);
 console.log(hash);
+
 
 // for Facebook verification
 app.get('/webhook/', function (req, res) {

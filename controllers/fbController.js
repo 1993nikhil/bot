@@ -1,6 +1,6 @@
 var express = require('express');
 var request = require('request');
-var fbService = require('../services/greetingService');
+var fbService = require('../services/fbService');
 var fb_api = require('../routes/fbapi');
 var utilMsg = require('../utils/messages');
 var util = require('../utils/utils');
