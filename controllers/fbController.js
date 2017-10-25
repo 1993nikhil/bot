@@ -144,7 +144,7 @@ function getUserName(userId,timeOfMessage) {
      else if( hours > 17 && hours <= 24 ){
        resultGreet = result.replace("#greet#","Good evening");
      }
-    sendTextMessage(userId, result).then(setTimeout(function(res){ 
+    sendTextMessage(userId, resultGreet).then(setTimeout(function(res){ 
           startConversation(userId, "...").then(setTimeout(function(resp){ 
           nextOption(userId, "...").then(setTimeout(function(resp){ 
           sendTextMessage(userId, "You can type \"cancel\" at any point in time to exit conversation or type \"New\" to start new conversation");
