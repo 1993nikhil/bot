@@ -21,7 +21,7 @@ module.exports = {
 		callService: function(url,type,data,success,failure){
 
 		},
-	  sendSMS: function(message, mobile) {
+	    sendSMS: function(message, mobile) {
         if (mobile) {
             	request.post({
 					  headers: {'content-type' : 'application/json'},
@@ -33,7 +33,7 @@ module.exports = {
 					}, function(error, response, body){
 					  console.log(body);
 					});
-     //$http(req).then(function(res) {});
+     
         }
     }
 }

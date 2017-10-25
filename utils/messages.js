@@ -11,3 +11,4 @@ module.exports = {
 		"OTP":"Dear #userName# , Please use #otp# as One Time Password (OTP) to verify your mobile number. This OTP is valid only for 30 minutes."
 	}
 }
+

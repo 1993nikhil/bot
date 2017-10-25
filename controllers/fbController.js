@@ -494,19 +494,23 @@ function generateOtp(recipientId,mobileNo,timeOfMessage){
 }
 
 
-//resend otp 
+//resend otp
 function resendOTP(recipientId,timeOfMessage){
-  generateOtp(recipientId,policyDetail.policy.mobile,timeOfMessage).then(function(resp){
-    sendTextMessage(recipientId,'OTP has been Successfully resend to your registered number.');
+  fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(res){
+      fbService.saveOtp(recipientId,res.otp,res.mobileNo,timeOfMessage);
+      sendTextMessage(recipientId,'OTP has been Successfully resend to your registered number.');
   });
+  // generateOtp(recipientId,policyDetail.policy.mobile,timeOfMessage).then(function(resp){
+  //   sendTextMessage(recipientId,'OTP has been Successfully resend to your registered number.');
+  // });
 }
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
   fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
     if(otpTime<resp.expireTime){
-      var otpNum = parseInt(payload);
-      var hashOtp = sha1(otpNum);
-      if(resp.otp === hashOtp){
+      // var otpNum = parseInt(payload);
+      // var hashOtp = sha1(otpNum);
+      if(resp.otp === payload){
         nextQuestion(questionIndex,"verified",recipientId);
       }
       else{
@@ -583,6 +587,23 @@ function callSendAPI(messageData) {
     }
   });  
 }
+
+// function handleSwitch(caseVariable,obj){
+//   var deferred = q.defer();
+//   var obj = obj;
+//   switch(caseVariable){
+//     case : 'hi':
+//     case : 'hello':
+//     case : 'new':
+//     handleCondition();
+//     break;
+//     case 'cancel':
+//     handleCancelCondition();
+//     break;
+//     default();
+//   }
+//   return deferred.promise;
+// }
 
 
 module.exports = {
