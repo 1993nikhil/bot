@@ -132,16 +132,17 @@ function getUserName(userId,timeOfMessage) {
      var jsonData = JSON.parse(body);
      var welcomeMessage = utilMsg.messages.greeting;
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
-     var currentDate = moment(timeOfMessage);
+     var currentDate = moment(timeOfMessage).add(6,'hours').subtract(30,'minutes');
      var hours = currentDate.hours();
+     var resultGreet = "";
      if( hours< 12){
-       result = welcomeMessage.replace("#greet#","Good morning");
+       resultGreet = result.replace("#greet#","Good morning");
      }
      else if( hours.getHours() >= 12 && hours.getHours() <= 17 ){
-       result = welcomeMessage.replace("#greet#","Good afternoon");
+       resultGreet = result.replace("#greet#","Good afternoon");
      }
      else if( hours.getHours() > 17 && hours.getHours() <= 24 ){
-       result = welcomeMessage.replace("#greet#","Good evening");
+       resultGreet = result.replace("#greet#","Good evening");
      }
     sendTextMessage(userId, result).then(setTimeout(function(res){ 
           startConversation(userId, "...").then(setTimeout(function(resp){ 
