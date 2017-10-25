@@ -138,10 +138,10 @@ function getUserName(userId,timeOfMessage) {
      if( hours< 12){
        resultGreet = result.replace("#greet#","Good morning");
      }
-     else if( hours.getHours() >= 12 && hours.getHours() <= 17 ){
+     else if( hours >= 12 && hours <= 17 ){
        resultGreet = result.replace("#greet#","Good afternoon");
      }
-     else if( hours.getHours() > 17 && hours.getHours() <= 24 ){
+     else if( hours > 17 && hours <= 24 ){
        resultGreet = result.replace("#greet#","Good evening");
      }
     sendTextMessage(userId, result).then(setTimeout(function(res){ 
