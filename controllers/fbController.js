@@ -145,7 +145,7 @@ function getUserName(userId,timeOfMessage) {
        resultGreet = result.replace("#greet#","Good evening");
      }
     sendTextMessage(userId, resultGreet).then(setTimeout(function(res){ 
-          startConversation(userId, "...").then(setTimeout(function(resp){ 
+          startConversation(userId, utilMsg.messages.buttonMessage).then(setTimeout(function(resp){ 
           nextOption(userId, "...").then(setTimeout(function(resp){ 
           sendTextMessage(userId, "You can type \"cancel\" at any point in time to exit conversation or type \"New\" to start new conversation");
           
@@ -178,7 +178,7 @@ function startConversation(userId, messageText){
                 payload: {
                   template_type: "generic",
                   elements: [{
-                    title: "I can help you with following services. Please select an option to proceed",
+                    title: messageText,
                     buttons: [{
                             type: "postback",
                             title: "Next Due Date",
@@ -395,7 +395,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
   }
   else if(qIndex==7){
     if(payload=='y'||payload=='yes'){
-      startConversation(recipientId,"Please select an option to proceed").then(setTimeout(function(resp){ 
+      startConversation(recipientId,utilMsg.messages.buttonMessage).then(setTimeout(function(resp){ 
           nextOption(recipientId,"...");
           
         }, 800));
