@@ -7,6 +7,7 @@ var util = require('../utils/utils');
 var conf = require('../config/config');
 var policyDetail = require('../utils/policyData');
 var Q = require('q');
+var moment = require('moment');
 var sha1 = require('sha1');
 var index = 0;
 var policyNo = false;
@@ -131,15 +132,15 @@ function getUserName(userId,timeOfMessage) {
      var jsonData = JSON.parse(body);
      var welcomeMessage = utilMsg.messages.greeting;
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
-     var myDate = new Date();
-     myDate = timeOfMessage;
-     if(myDate.getHours() < 12){
+     var currentDate = moment(timeOfMessage);
+     var hours = currentDate.hours();
+     if( hours< 12){
        result = welcomeMessage.replace("#greet#","Good morning");
      }
-     else if( myDate.getHours() >= 12 && myDate.getHours() <= 17 ){
+     else if( hours.getHours() >= 12 && hours.getHours() <= 17 ){
        result = welcomeMessage.replace("#greet#","Good afternoon");
      }
-     else if( myDate.getHours() > 17 && myDate.getHours() <= 24 ){
+     else if( hours.getHours() > 17 && hours.getHours() <= 24 ){
        result = welcomeMessage.replace("#greet#","Good evening");
      }
     sendTextMessage(userId, result).then(setTimeout(function(res){ 
