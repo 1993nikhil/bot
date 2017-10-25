@@ -31,11 +31,11 @@ function receivedMessage(event) {
     if(messageText=='hi'||messageText=='hello'||messageText=='new'){
       fbService.checkUser(senderID).then(function(resp){
       if(resp){
-          getUserName(senderID);
+          getUserName(senderID,timeOfMessage);
           fbService.updateQuestionIndex(senderID,"0-null-null");
       }
       else{
-        getUserName(senderID);
+        getUserName(senderID,timeOfMessage);
         fbService.saveUser(senderID);
       }
     });      
@@ -81,11 +81,11 @@ function receivedPostback(messagingEvent){
 
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
-          getUserName(senderID);
+          getUserName(senderID,timeOfMessage);
           fbService.updateQuestionIndex(senderID,'0-null-null');
       }
       else{
-        getUserName(senderID);
+        getUserName(senderID,timeOfMessage);
         fbService.saveUser(senderID);
       }
     });
@@ -118,7 +118,7 @@ function receivedPostback(messagingEvent){
 
 }
 
-function getUserName(userId) {
+function getUserName(userId,timeOfMessage) {
   var getInfoUserAPI=' https://graph.facebook.com/v2.6/'+userId+'?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token='+conf.token;
 
  request({
@@ -131,8 +131,16 @@ function getUserName(userId) {
      var jsonData = JSON.parse(body);
      var welcomeMessage = utilMsg.messages.greeting;
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
-  
-      sendTextMessage(userId, result).then(setTimeout(function(res){ 
+     if(timeOfMessage.getHours() < 12){
+       result = welcomeMessage.replace("#greet#","Good morning");
+     }
+     else if( timeOfMessage.getHours() >= 12 && timeOfMessage.getHours() <= 17 ){
+       result = welcomeMessage.replace("#greet#","Good afternoon");
+     }
+     else if( timeOfMessage.getHours() > 17 && timeOfMessage.getHours() <= 24 ){
+       result = welcomeMessage.replace("#greet#","Good evening");
+     }
+    sendTextMessage(userId, result).then(setTimeout(function(res){ 
           startConversation(userId, "...").then(setTimeout(function(resp){ 
           nextOption(userId, "...").then(setTimeout(function(resp){ 
           sendTextMessage(userId, "You can type \"cancel\" at any point in time to exit conversation or type \"New\" to start new conversation");
