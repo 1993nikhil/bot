@@ -134,17 +134,16 @@ function getUserName(userId,timeOfMessage) {
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
      var currentDate = moment(timeOfMessage).add(6,'hours').subtract(30,'minutes');
      var hours = currentDate.hours();
-     var resultGreet = "";
      if( hours< 12){
-       resultGreet = result.replace("#greet#","Good morning");
+       result = result.replace("#greet#","Good morning");
      }
      else if( hours >= 12 && hours < 17 ){
-       resultGreet = result.replace("#greet#","Good afternoon");
+       result = result.replace("#greet#","Good afternoon");
      }
      else if( hours >= 17 && hours <= 24 ){
-       resultGreet = result.replace("#greet#","Good evening");
+       result = result.replace("#greet#","Good evening");
      }
-    sendTextMessage(userId, resultGreet).then(setTimeout(function(res){ 
+    sendTextMessage(userId, result).then(setTimeout(function(res){ 
           startConversation(userId, utilMsg.messages.buttonMessage).then(setTimeout(function(resp){ 
           nextOption(userId, "...").then(setTimeout(function(resp){ 
           sendTextMessage(userId, "You can type \"cancel\" at any point in time to exit conversation or type \"New\" to start new conversation");
