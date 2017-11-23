@@ -13,6 +13,7 @@ function getPolicyDetail(policyId){
       console.log("error");
     }else{
       deferred.resolve(data);
+      console.log("Data");
       console.log(data);
     }
   });
