@@ -28,7 +28,8 @@ module.exports = {
 						return null
 					}
 			    }
-			   }); 			
+			   }); 
+			   return policyDetail.policy;		
 			// policyService.getPolicyDetail(response.policyNo).then(function(resp){
 			// 	if(resp){
 			// 		if(resp.policyNo===response.policyNo && resp.DOB===response.DOB){
