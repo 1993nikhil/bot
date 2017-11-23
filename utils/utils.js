@@ -15,15 +15,21 @@ module.exports = {
 		},
 		validatePolicy: function(response){
 			console.log(response);
-			var completeData = policyDetail.policy;
-			for (var i = 0; i < completeData.length; i++) {
-				if(i==completeData.length){
-					return null;
-				}
-				if(completeData[i].PolicyNo == response.policyNo && completeData[i].PolicyNo == response.DOB ){
-					return completeData[i];
-				}
+			// var completeData = policyDetail.policy;
+			// for (var i = 0; i < completeData.length; i++) {
+			// 	if(i==completeData.length){
+			// 		return null;
+			// 	}
+			// 	if(completeData[i].PolicyNo == response.policyNo && completeData[i].PolicyNo == response.DOB ){
+			// 		return completeData[i];
+			// 	}
 
+			// }
+			if(policyDetail.policy.PolicyNo === response.policyNo && policyDetail.policy.DOB===response.DOB){
+				return policyDetail.policy;
+			}
+			else{
+				return null;
 			}
 			  		
 		},
