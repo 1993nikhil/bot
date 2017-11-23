@@ -6,8 +6,13 @@ var Policy = require('../models/policyDetailModel');
 
 module.exports = {
 		validatePolicyNumber: function (argument) {
-			var isnum = /^[0-9]{8}/.test(argument);
-			return isnum;
+			if(argument.length==8){
+				var isnum = /^[0-9]{8}/.test(argument);
+				return isnum;				
+			}else{
+				return false;
+			}
+
 		},
 		validateDOB: function(argument){
 			var isDOB = /^[0-9]{2}[-|\/]{1}[0-9]{2}[-|\/]{1}[0-9]{4}/.test(argument);
