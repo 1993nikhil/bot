@@ -17,11 +17,11 @@ module.exports = {
 				if(resp){
 					if(resp.policyNo===response.policyNo && resp.DOB===response.DOB){
 						console.log("detail matched");
-						return resp;
+						return policyDetail.policy;
 					}
 					else{
 						console.log("detail not matched in if");
-						return policyDetail.policy;
+						return null
 					}
 				}
 				else{
