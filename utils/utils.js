@@ -19,7 +19,7 @@ module.exports = {
 				if(i==completeData.length){
 					return null;
 				}
-				if(completeData[i].PolicyNo == response.policyNo && completeData[i].PolicyNo == response.DOB ){
+				if(completeData[i].PolicyNo === response.policyNo && completeData[i].PolicyNo === response.DOB ){
 					return completeData[i];
 				}
 
