@@ -388,7 +388,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
       callSendAPI(messageData);            
   }
   else if(qIndex==7){
-    if(payload=='yes'){
+    if(payload=='yes' || payload=='y'){
       startConversation(recipientId,utilMsg.messages.buttonMessage).then(setTimeout(function(resp){ 
           nextOption(recipientId,"...");
           
@@ -396,7 +396,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
       fbService.updateQuestionIndex(recipientId,"0-null-null");     
 
     }
-    else if(payload=='no'){
+    else if(payload=='no' || payload=='n'){
       var newQuestionIndex = "7-"+indexArray[1]+"-COMP";
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var thanksText =  utilMsg.messages.thankyouMessage;
