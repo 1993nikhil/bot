@@ -21,12 +21,12 @@ module.exports = {
 					}
 					else{
 						console.log("detail not matched in if");
-						return null
+						return policyDetail.policy;
 					}
 				}
 				else{
 					console.log("detail not matched outside if");
-					return policyDetail.policy;
+					return null;
 				}
 			});
 		},
