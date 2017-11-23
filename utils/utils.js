@@ -14,7 +14,7 @@ module.exports = {
 			return isDOB;
 		},
 		validatePolicy: function(response){
-			  Policy.findOne({policyNo:policyId}, function(err,data){
+			  Policy.findOne({policyNo:response.policyNo}, function(err,data){
 			    if(err){
 			      console.log("error1");
 			      return null
