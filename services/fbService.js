@@ -266,7 +266,7 @@ function saveOtp(userId,otpGenerated,mobileNumber,timeOfMessage){
         if(err){
           console.log(err);
         }else{
-          sendOTP(mobileNumber,otpGenerated,"Nikhil");
+          //sendOTP(mobileNumber,otpGenerated,"Nikhil");
           console.log('otp saved');
         }
       });
