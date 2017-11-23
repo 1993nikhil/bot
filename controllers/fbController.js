@@ -300,7 +300,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
         fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
         var validatePolicyResult = util.validatePolicy(resp);
         if(validatePolicyResult!=null){
-          policyDetailNum = validatePolicyResult.PolicyNo;
+          policyDetailNum = validatePolicyResult.mobile;
           generateOtp(recipientId,validatePolicyResult.mobile,timeOfMessage).then(setTimeout(function(res){
             callSendAPI(messageData);
           
