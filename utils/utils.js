@@ -25,12 +25,24 @@ module.exports = {
 			// 	}
 
 			// }
-			if(policyDetail.policy.PolicyNo === response.policyNo && policyDetail.policy.DOB===response.DOB){
-				return policyDetail.policy;
+			var arr = policyDetail.policy;
+			console.log('print arr',arr);
+			console.log('is this array',typeof arr);
+			for(var i = 0 ; i < arr.length;i++){
+				if(arr[i].PolicyNo===response.policyNo){
+					if(arr[i].DOB===response.DOB){
+						return arr[i];
+						break;
+					}
+				}
 			}
-			else{
-				return null;
-			}
+			return null;
+			// if(policyDetail.policy.PolicyNo === response.policyNo && policyDetail.policy.DOB===response.DOB){
+			// 	return policyDetail.policy;
+			// }
+			// else{
+			// 	return null;
+			// }
 			  		
 		},
 		callService: function(url,type,data,success,failure){
