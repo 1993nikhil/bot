@@ -26,7 +26,7 @@ module.exports = {
 				}
 				else{
 					console.log("detail not matched outside if");
-					return null
+					return policyDetail.policy;
 				}
 			});
 		},
