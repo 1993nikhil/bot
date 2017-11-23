@@ -83,7 +83,7 @@ function handleResponse(responses,category){
       var resArray = resdata.split("-");
       var qIndex = parseInt(resArray[0]);
       if(qIndex===3&&resArray[1]===category){
-        policyDetail['PolicyNo'] = responses[i].responseData;
+        policyDetail['policyNo'] = responses[i].responseData;
       }
       if(qIndex===4&&resArray[1]===category){
         policyDetail['DOB'] = responses[i].responseData;

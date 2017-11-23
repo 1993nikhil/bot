@@ -1,10 +1,10 @@
 'use strict';
 const defaultUser = [{
-	"PolicyNo":"12345678",
+	"policyNo":"12345678",
 		"DOB":"01-01-1994",
 		"mobile":"8002848962"
 },{
-	"PolicyNo":"99887766",
+	"policyNo":"99887766",
 		"DOB":"03-12-1993",
 		"mobile":"8059533445"
 }]

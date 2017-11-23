@@ -1,6 +1,7 @@
 var Q = require('q');
 var policyDetail = require('./policyData');
 var request = require('request');
+var policyService = require('../services/policyDetailService');
 
 module.exports = {
 		validatePolicyNumber: function (argument) {
@@ -12,11 +13,19 @@ module.exports = {
 			return isDOB;
 		},
 		validatePolicy: function(response){
-			if(policyDetail.policy.PolicyNo===response.PolicyNo && policyDetail.policy.DOB===response.DOB){
-				return policyDetail.policy;
-			}else{
-				return null;
-			}
+			policyService.getPolicyDetail(response.policyNo).then(function(resp){
+				if(resp){
+					if(resp.policyNo===response.policyNo && resp.DOB===response.DOB){
+						return resp;
+					}
+					else{
+						return null
+					}
+				}
+				else{
+					return null
+				}
+			});
 		},
 		callService: function(url,type,data,success,failure){
 
