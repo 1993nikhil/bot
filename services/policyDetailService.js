@@ -10,7 +10,7 @@ function getPolicyDetail(policyId){
   Policy.findOne({policyNo:policyId}, function(err,data){
     if(err){
       deferred.reject(err);
-      console.log("error");
+      console.log("error1");
     }else{
       deferred.resolve(data);
       console.log("Data");
