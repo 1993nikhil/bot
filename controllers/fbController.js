@@ -128,7 +128,9 @@ function getUserName(userId,timeOfMessage) {
     if (!error && response.statusCode == 200) {
      var jsonData = JSON.parse(body);
      var welcomeMessage = utilMsg.messages.greeting;
-     console.log('jsonData',jsonData);
+     //console.log('jsonData',jsonData);
+     jsonData.first_name = jsonData.first_name||'';
+     jsonData.last_name = jsonData.last_name||'';
      var result = welcomeMessage.replace("#userName#",jsonData.first_name+" "+jsonData.last_name);
      var currentDate = moment(timeOfMessage).add(6,'hours').subtract(30,'minutes');
      var hours = currentDate.hours();
