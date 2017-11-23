@@ -13,11 +13,12 @@ module.exports = {
 			return isDOB;
 		},
 		validatePolicy: function(response){
+			
 			policyService.getPolicyDetail(response.policyNo).then(function(resp){
 				if(resp){
 					if(resp.policyNo===response.policyNo && resp.DOB===response.DOB){
 						console.log("detail matched");
-						return policyDetail.policy;
+						return resp;
 					}
 					else{
 						console.log("detail not matched in if");
