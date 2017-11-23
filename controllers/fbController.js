@@ -55,7 +55,9 @@ function receivedMessage(event) {
             verifyOTP(senderID,messageText,timeOfMessage,newQuestionIndex);
           }
           
-        }else{
+        }else if(index==0){
+            sendTextMessage(senderID,"You can type \"cancel\" at any point in time to exit conversation or type \"New\" to start new conversation");
+        }else {
           nextQuestion(newQuestionIndex,messageText,senderID,timeOfMessage);
         }          
         
