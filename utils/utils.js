@@ -14,38 +14,17 @@ module.exports = {
 			return isDOB;
 		},
 		validatePolicy: function(response){
-			  Policy.find({policyNo:response.policyNo}, function(err,data){
-			    if(err){
-			      console.log("error1");
-			      return null
-			    }else{
-					if(data.policyNo===response.policyNo && data.DOB===response.DOB){
-						console.log("detail matched");
-						return data;
-					}
-					else{
-						console.log("detail not matched in if");
-						return null
-					}
-			    }
-			   }); 
+			var completeData = policyDetail.policy;
+			for (var i = 0; i < completeData.length; i++) {
+				if(i==completeData.length){
+					return null;
+				}
+				if(completeData[i].PolicyNo == response.policyNo && completeData[i].PolicyNo == response.DOB ){
+					return completeData[i];
+				}
+
+			}
 			  		
-			// policyService.getPolicyDetail(response.policyNo).then(function(resp){
-			// 	if(resp){
-			// 		if(resp.policyNo===response.policyNo && resp.DOB===response.DOB){
-			// 			console.log("detail matched");
-			// 			return resp;
-			// 		}
-			// 		else{
-			// 			console.log("detail not matched in if");
-			// 			return null
-			// 		}
-			// 	}
-			// 	else{
-			// 		console.log("detail not matched outside if");
-			// 		return null;
-			// 	}
-			// });
 		},
 		callService: function(url,type,data,success,failure){
 
