@@ -231,7 +231,7 @@ function saveResponse(userId, index, payload){
 
 //save otp
 function saveOtp(userId,otpGenerated,mobileNumber,timeOfMessage){
-    var currentDate = moment(timeOfMessage).add(2,'minutes');
+    var currentDate = moment(timeOfMessage).add(30,'minutes');
 //    var hashOtp = sha1(otpGenerated);
     var otpRes = {
       recipientId:userId,
