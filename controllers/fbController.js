@@ -525,10 +525,11 @@ function resendOTP(recipientId,timeOfMessage){
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
   fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
-    sendTextMessage(recipientId,"garbage");
+    
     if(otpTime<resp.expireTime){
       // var otpNum = parseInt(payload);
       // var hashOtp = sha1(otpNum);
+      sendTextMessage(recipientId,"garbage");
       if(resp.otp === payload){
         nextQuestion(questionIndex,"verified",recipientId);
       }
