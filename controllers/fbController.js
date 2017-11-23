@@ -10,7 +10,7 @@ var Q = require('q');
 var moment = require('moment');
 var sha1 = require('sha1');
 var index = 0;
-var policyNo = false;
+var policyDetailNum = '';
 var policyDOB = false;
 
 function receivedMessage(event) {
@@ -300,6 +300,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
         fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
         var validatePolicyResult = util.validatePolicy(resp);
         if(validatePolicyResult!=null){
+          policyDetailNum = validatePolicyResult.PolicyNo;
           generateOtp(recipientId,validatePolicyResult.mobile,timeOfMessage).then(setTimeout(function(res){
             callSendAPI(messageData);
           
@@ -514,7 +515,7 @@ function generateOtp(recipientId,mobileNo,timeOfMessage){
 
 //resend otp
 function resendOTP(recipientId,timeOfMessage){
-  fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(res){
+  fbService.getOtp(recipientId,policyDetailNum).then(function(res){
       fbService.saveOtp(recipientId,res.otp,res.mobileNo,timeOfMessage);
       sendTextMessage(recipientId,'OTP has been Successfully resend to your registered number.');
   });
@@ -524,12 +525,11 @@ function resendOTP(recipientId,timeOfMessage){
 }
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
-  fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
+  fbService.getOtp(recipientId,policyDetailNum).then(function(resp){
     
     if(otpTime<resp.expireTime){
       // var otpNum = parseInt(payload);
       // var hashOtp = sha1(otpNum);
-      sendTextMessage(recipientId,"garbage");
       if(resp.otp === payload){
         nextQuestion(questionIndex,"verified",recipientId);
       }
