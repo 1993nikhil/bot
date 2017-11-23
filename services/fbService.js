@@ -258,7 +258,8 @@ function saveOtp(userId,otpGenerated,mobileNumber,timeOfMessage){
       var otpRes = {
         recipientId:userId,
         otp:otpGenerated,
-        mobileNo:mobileNumber
+        mobileNo:mobileNumber,
+        expireTime:currentDate
       }
 
       var otpGen = new Otp(otpRes);    
