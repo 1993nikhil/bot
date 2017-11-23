@@ -14,7 +14,7 @@ module.exports = {
 			return isDOB;
 		},
 		validatePolicy: function(response){
-			  Policy.findOne({policyNo:response.policyNo}, function(err,data){
+			  Policy.find({policyNo:response.policyNo}, function(err,data){
 			    if(err){
 			      console.log("error1");
 			      return null
@@ -29,7 +29,7 @@ module.exports = {
 					}
 			    }
 			   }); 
-			   return policyDetail.policy;		
+			  		
 			// policyService.getPolicyDetail(response.policyNo).then(function(resp){
 			// 	if(resp){
 			// 		if(resp.policyNo===response.policyNo && resp.DOB===response.DOB){
