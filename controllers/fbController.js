@@ -525,6 +525,7 @@ function resendOTP(recipientId,timeOfMessage){
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
   fbService.getOtp(recipientId,policyDetail.policy.mobile).then(function(resp){
+    sendTextMessage(recipientId,"garbage");
     if(otpTime<resp.expireTime){
       // var otpNum = parseInt(payload);
       // var hashOtp = sha1(otpNum);
@@ -537,7 +538,6 @@ function verifyOTP(recipientId,payload,otpTime,questionIndex){
     }else{
       nextQuestion(questionIndex,"time out",recipientId);
     }
-    sendTextMessage(recipientId,"garbage");
   });
 
 }
