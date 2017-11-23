@@ -36,6 +36,17 @@ app.get('/', function (req, res) {
 var Log = require('./models/logModel');
 var Response = require('./models/userResponseModel');
 var Otp = require('./models/otpModel');
+var Policy = require('./models/policyDetailModel');
+
+app.get('/policy', function(req,res){
+  Policy.find({},{},function(err, data){
+    if(err){
+      res.send(err);
+      console.log("error");
+    }
+    res.json(data);
+  });
+})
 
 app.get('/user', function (req, res) {
 	Log.find({},{},function(err, data){

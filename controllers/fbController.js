@@ -108,9 +108,6 @@ function receivedPostback(messagingEvent){
   else if(message=='0-TAP-null'){
     nextQuestion("1-TAP-PolicyID",message,senderID,timeOfMessage);
   }
-  else if(message=='0-RP-null'){
-    nextQuestion("1-RP-PolicyID",message,senderID,timeOfMessage);
-  }
   else{
     //Send message for garbage value
   }
@@ -226,11 +223,6 @@ function nextOption(userId, messageText){
                     type: "postback",
                     title: "Total Amt. Paid",
                     payload: "0-TAP-null"
-                  },
-                  {
-                    type: "postback",
-                    title: "Renewal Payment Received or Not",
-                    payload: "0-RP-null",
                   }]
               }
             }
@@ -393,7 +385,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
       callSendAPI(messageData);            
   }
   else if(qIndex==7){
-    if(payload=='y'||payload=='yes'){
+    if(payload=='yes'){
       startConversation(recipientId,utilMsg.messages.buttonMessage).then(setTimeout(function(resp){ 
           nextOption(recipientId,"...");
           
@@ -401,7 +393,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
       fbService.updateQuestionIndex(recipientId,"0-null-null");     
 
     }
-    else{
+    else if(payload=='no'){
       var newQuestionIndex = "7-"+indexArray[1]+"-COMP";
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var thanksText =  utilMsg.messages.thankyouMessage;
@@ -414,6 +406,19 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
       //   sendTextMessage(recipientId, queryText);
           
       // }, 500);  
+    }
+    else {
+      var newQuestionIndex = "6-"+indexArray[1]+"-RES";
+      fbService.updateQuestionIndex(recipientId,newQuestionIndex);
+      var messageData ={
+      recipient: {
+          id: recipientId
+        },
+        message: {
+          text: "Please reply (yes\\no)"
+        }
+      }
+      callSendAPI(messageData);       
     }
   }
 }
