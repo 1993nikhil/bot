@@ -2,6 +2,7 @@ var Q = require('q');
 var policyDetail = require('./policyData');
 var request = require('request');
 var policyService = require('../services/policyDetailService');
+var Policy = require('../models/policyDetailModel');
 
 module.exports = {
 		validatePolicyNumber: function (argument) {
@@ -13,23 +14,37 @@ module.exports = {
 			return isDOB;
 		},
 		validatePolicy: function(response){
-			
-			policyService.getPolicyDetail(response.policyNo).then(function(resp){
-				if(resp){
-					if(resp.policyNo===response.policyNo && resp.DOB===response.DOB){
+			  Policy.findOne({policyNo:policyId}, function(err,data){
+			    if(err){
+			      console.log("error1");
+			      return null
+			    }else{
+					if(data.policyNo===response.policyNo && data.DOB===response.DOB){
 						console.log("detail matched");
-						return resp;
+						return data;
 					}
 					else{
 						console.log("detail not matched in if");
 						return null
 					}
-				}
-				else{
-					console.log("detail not matched outside if");
-					return null;
-				}
-			});
+			    }
+			   }); 			
+			// policyService.getPolicyDetail(response.policyNo).then(function(resp){
+			// 	if(resp){
+			// 		if(resp.policyNo===response.policyNo && resp.DOB===response.DOB){
+			// 			console.log("detail matched");
+			// 			return resp;
+			// 		}
+			// 		else{
+			// 			console.log("detail not matched in if");
+			// 			return null
+			// 		}
+			// 	}
+			// 	else{
+			// 		console.log("detail not matched outside if");
+			// 		return null;
+			// 	}
+			// });
 		},
 		callService: function(url,type,data,success,failure){
 
