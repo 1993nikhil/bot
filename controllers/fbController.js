@@ -371,21 +371,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
           var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
           fbService.updateQuestionIndex(recipientId,newQuestionIndex);          
           callSendAPI(messageData);         
-      }
-      else{
-          var messageData ={
-            recipient: {
-              id: recipientId
-            },
-            message: {
-              text: "garbage"
-            } 
-          }
-          var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
-          fbService.updateQuestionIndex(recipientId,newQuestionIndex);          
-          callSendAPI(messageData);        
-      }       
-    
+      }   
   }
   else if(qIndex==6){
       var newQuestionIndex = "6-"+indexArray[1]+"-RES";
@@ -551,6 +537,7 @@ function verifyOTP(recipientId,payload,otpTime,questionIndex){
     }else{
       nextQuestion(questionIndex,"time out",recipientId);
     }
+    sendTextMessage(recipientId,"garbage");
   });
 
 }
