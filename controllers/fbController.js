@@ -303,10 +303,19 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
         var validatePolicyResult = util.validatePolicy(resp);
         if(validatePolicyResult!=null){
           policyDetailNum = validatePolicyResult.mobile;
-          generateOtp(recipientId,validatePolicyResult.mobile,timeOfMessage).then(setTimeout(function(res){
-            callSendAPI(messageData);
+          fbService.getVerification(recipientId,validatePolicyResult.PolicyNo).then(function(exist){
+             if(exist){
+                var newQIndex = "4-"+indexArray[1]+"-OTP";
+                nextQuestion(newQIndex,"verified",recipientId);
+             }
+             else{
+               generateOtp(recipientId,validatePolicyResult.mobile,timeOfMessage).then(setTimeout(function(res){
+                 callSendAPI(messageData);
+                 fbService.saveVerification(recipientId,validatePolicyResult.PolicyNo);
           
-        }, 500));
+               }, 500));
+             }
+          });
           
         }else{
           sendTextMessage(recipientId,'Policy Details not matched \nplease provide your 8 digit policy number');
@@ -398,7 +407,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
       fbService.updateQuestionIndex(recipientId,"0-null-null");     
 
     }
-    else if(payload=='no' || payload=='n'){
+    else if(payload=='no' || payload=='n' || payload=='cancel'){
       var newQuestionIndex = "7-"+indexArray[1]+"-COMP";
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var thanksText =  utilMsg.messages.thankyouMessage;

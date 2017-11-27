@@ -5,6 +5,7 @@ var fb_api = require('../routes/fbapi');
 var Log = require('../models/logModel');
 var Response = require('../models/userResponseModel');
 var Otp = require('../models/otpModel')
+var Verify = require('../models/otpVerificationModel');
 var conf = require('../config/config');
 var Q = require('q');
 var moment = require('moment');
@@ -27,6 +28,42 @@ function checkUser(userId){
      return deferred.promise;
 
 }
+
+
+//otp verification for policyid and userid
+function getVerification(userId,policyNo){
+
+    var deferred=Q.defer();
+    Verify.findOne({recipientId:userId,policyId:policyNo}, function(err, user){
+      if(err){
+        deferred.reject(err);
+      }else{
+        deferred.resolve(user);
+      }
+
+     
+    });
+     return deferred.promise;
+
+}
+
+function saveVerification(userId,policyNo){
+    var verified = {
+        recipientId: userId,
+        policyId: policyNo,
+        isOtpVerified: true
+      }
+ 
+      var verifiedDetail = new Verify(verified);          
+      verifiedDetail.save(function(err){
+      if(err){
+        console.log(err);
+      }
+        console.log('new data saved ');
+      });  
+}
+
+
 
 //get otp
 function getOtp(userId,mobileNumber){
@@ -309,6 +346,8 @@ module.exports = {
    getPolicyData:getPolicyData,
    getOtp:getOtp,
    saveOtp:saveOtp,
+   getVerification:getVerification,
+   saveVerification:saveVerification,
    getPolicyById:getPolicyById
 };
 

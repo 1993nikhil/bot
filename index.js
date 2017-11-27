@@ -37,9 +37,11 @@ var Log = require('./models/logModel');
 var Response = require('./models/userResponseModel');
 var Otp = require('./models/otpModel');
 var Policy = require('./models/policyDetailModel');
+var Verify = require('./models/otpVerificationModel');
 
-app.get('/policy', function(req,res){
-  Policy.find({},{},function(err, data){
+
+app.get('/verify',function(req,res){
+  Verify.find({},{},function(err, data){
     if(err){
       res.send(err);
       console.log("error");
