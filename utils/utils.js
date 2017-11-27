@@ -19,17 +19,7 @@ module.exports = {
 			return isDOB;
 		},
 		validatePolicy: function(response){
-			console.log(response);
-			// var completeData = policyDetail.policy;
-			// for (var i = 0; i < completeData.length; i++) {
-			// 	if(i==completeData.length){
-			// 		return null;
-			// 	}
-			// 	if(completeData[i].PolicyNo == response.policyNo && completeData[i].PolicyNo == response.DOB ){
-			// 		return completeData[i];
-			// 	}
 
-			// }
 			var arr = policyDetail.policy;
 			console.log('print arr',arr);
 			console.log('is this array',typeof arr);
@@ -42,12 +32,7 @@ module.exports = {
 				}
 			}
 			return null;
-			// if(policyDetail.policy.PolicyNo === response.policyNo && policyDetail.policy.DOB===response.DOB){
-			// 	return policyDetail.policy;
-			// }
-			// else{
-			// 	return null;
-			// }
+
 			  		
 		},
 		callService: function(url,type,data,success,failure){
