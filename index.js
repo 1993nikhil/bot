@@ -39,6 +39,14 @@ var Otp = require('./models/otpModel');
 var Policy = require('./models/policyDetailModel');
 var Verify = require('./models/otpVerificationModel');
 
+// Verify.remove(function(err){
+//   if(err){
+//     console.log(err);
+//   }
+//   else{
+//     console.log("data removed");
+//   }
+// });
 
 app.get('/verify',function(req,res){
   Verify.find({},{},function(err, data){
