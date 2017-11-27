@@ -250,7 +250,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
            id: recipientId
         },
         message: {
-          text: "Please provide me with your 8 digit policy number"
+          text: "Please provide your 8 digit policy number"
         }      
     }
     var newQuestionIndex = "2-"+indexArray[1]+"-"+indexArray[2];
@@ -268,7 +268,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
             id: recipientId
          },
          message: {
-           text: "Please provide me with your DOB in DD-MM-YYYY format"
+           text: "Please provide your DOB in DD-MM-YYYY format"
          }      
       }  
 
@@ -367,7 +367,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
               id: recipientId
             },
             message: {
-              text: "otp not verified . please provide otp send to your registered mobile"
+              text: "OTP not verified . Please provide OTP send to your registered mobile"
             }
           }
           callSendAPI(messageData);  
@@ -393,7 +393,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
           id: recipientId
         },
         message: {
-          text: "Can I help you with something else.(yes\\no)"
+          text: "Can I help you with something else(Yes\\No)"
         }
       }
       callSendAPI(messageData);            
@@ -513,6 +513,7 @@ function payPremium(recipientId,category){
  
  }); 
 }
+
 function generateOtp(recipientId,mobileNo,timeOfMessage){
   var deferred=Q.defer();
   var min = 100000;
@@ -586,7 +587,7 @@ function sendPayPremiumMessage(sender, messageText){
                   buttons: [{
                     type: "web_url",
                     title: "Click to Pay",
-                    url: "https://www.dhflpramerica.com",
+                    url: "https://www.dhflpramerica.com/PolicyPaymentLogin#pnlView",
                   }]
                 }  
             }
@@ -618,23 +619,6 @@ function callSendAPI(messageData) {
     }
   });  
 }
-
-// function handleSwitch(caseVariable,obj){
-//   var deferred = q.defer();
-//   var obj = obj;
-//   switch(caseVariable){
-//     case : 'hi':
-//     case : 'hello':
-//     case : 'new':
-//     handleCondition();
-//     break;
-//     case 'cancel':
-//     handleCancelCondition();
-//     break;
-//     default();
-//   }
-//   return deferred.promise;
-// }
 
 
 module.exports = {
