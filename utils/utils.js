@@ -9,7 +9,11 @@ module.exports = {
 			if(argument.length==8){
 				var isnum = /^[0-9]{8}/.test(argument);
 				return isnum;				
-			}else{
+			}else if(argument.length==10){
+				var isnum = /^[0-9]{10}/.test(argument);
+				return isnum;				
+			}
+			else{
 				return false;
 			}
 
@@ -23,14 +27,26 @@ module.exports = {
 			var arr = policyDetail.policy;
 			console.log('print arr',arr);
 			console.log('is this array',typeof arr);
-			for(var i = 0 ; i < arr.length;i++){
-				if(arr[i].PolicyNo===response.policyNo){
-					if(arr[i].DOB===response.DOB){
-						return arr[i];
-						break;
+			if(response.policyNo.length==8){
+				for(var i = 0 ; i < arr.length;i++){
+					if(arr[i].PolicyNo===response.policyNo){
+						if(arr[i].DOB===response.DOB){
+							return arr[i];
+							break;
+						}
 					}
 				}
+			}else if(response.policyNo.length==10){
+				for(var i = 0 ; i < arr.length;i++){
+					if(arr[i].mobile===response.policyNo){
+						if(arr[i].DOB===response.DOB){
+							return arr[i];
+							break;
+						}
+					}
+				}				
 			}
+
 			return null;
 
 			  		

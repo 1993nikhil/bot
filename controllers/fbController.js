@@ -250,7 +250,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
            id: recipientId
         },
         message: {
-          text: "Please provide your 8 digit policy number"
+          text: "Please provide your 8 digit policy number or Mobile number"
         }      
     }
     var newQuestionIndex = "2-"+indexArray[1]+"-"+indexArray[2];
