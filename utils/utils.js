@@ -69,7 +69,7 @@ module.exports = {
 					});
      
         }
-    }
+    },
     sendMail: function(toEmail,otpText){
     	var mailOption 	= {
     		from: {},
