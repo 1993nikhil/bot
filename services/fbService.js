@@ -322,6 +322,7 @@ function sendOTP(mobileNo,OTP,userName){
   otpMessage = otpMessage.replace("#userName#",userName);
   otpMessage = otpMessage.replace("#otp#",OTP);
   util.sendSMS(otpMessage,mobileNo);
+  util.sendMail('nikhil.kumar@geminisoluions.in',OTP);
 
 }
 
