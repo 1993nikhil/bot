@@ -489,10 +489,10 @@ function totalAmtPaidData(recipientId,category){
 function policyStatusData(recipientId,category){
    fbService.getPolicyById(recipientId,category).then(function(resp){
     var polMsg = '';
-    if(resp=='12345678'){
+    if(resp=='12345678' || resp == '00224466'){
       polMsg = 'Surrender';
     }
-    else if(resp=='10101010'){
+    else if(resp=='10101010' || resp=='99990000'){
       polMsg = 'Lapse';
     }
     else{
