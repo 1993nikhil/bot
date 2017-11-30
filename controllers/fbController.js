@@ -488,8 +488,19 @@ function totalAmtPaidData(recipientId,category){
 //policy status service
 function policyStatusData(recipientId,category){
    fbService.getPolicyById(recipientId,category).then(function(resp){
+    var polMsg = '';
+    if(resp=='12345678'){
+      polMsg = 'Surrender';
+    }
+    else if(resp=='10101010'){
+      polMsg = 'Lapse';
+    }
+    else{
+      polMsg = 'Premium Paying';
+    }
    var msg = utilMsg.messages.policyStatusMessage;
    var messageData = msg.replace("#policyid#",resp);
+   var messageData = msg.replace("policyStat",polMsg);
 
    sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 

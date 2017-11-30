@@ -5,7 +5,7 @@ module.exports = {
 		//"fundValueMessage":"Your fund value for Policy No. #policyid# is :-\n \t\t\tNAV\n \t\tFund value : 4556(unit*NAV)\n \t\tFund Name : Balance Fund & units : 56\n \t\tTotal Fund Value : 45600(unit:NAV)",
 		"fundValueMessage":"Your Fund value for Policy No. #policyid# is :-\nFund Name :- Balanced Fund\nNet Asset Value :- 18.33\nNumber of Units :- 16\nFund Value :- 14000\n\nFund Name :- Growth Fund\nNet Asset Value :- 18.33\nNumber of Units :- 16\nFund Value :- 14000\n\nFund Name :- Equity Fund\nNet Asset Value :- 18.33\nNumber of Units :- 16\nFund Value :- 14000\n\nTotal Fund Value :- 49999",
 		"totalAmtMessage":"Your Total amount paid till date for Policy No. #policyid# is :- Total Amount Paid :- 4567",
-		"policyStatusMessage":"Your Policy Status for Policy No. #policyid# is :- Premium Paying",
+		"policyStatusMessage":"Your Policy Status for Policy No. #policyid# is :- #policyStat#",
 		"payPremiumMessage":"You will be redirected to our DHFL Pramercia Life insurance site for pay renewal payment",
 		"thankyouMessage":"Thanks for using a service. Have a nice day",
 		"queryMessage":"For any query & clarification please call our toll free number 1800-102-7070 or email - contactus@dhflpramerica.com",
