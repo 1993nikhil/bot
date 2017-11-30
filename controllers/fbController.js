@@ -279,7 +279,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
             id: recipientId
           },
       message: {
-          text: "Provide valid policy number"
+          text: "Provide valid policy number or mobile number"
         }      
       }  
       callSendAPI(messageData); 
