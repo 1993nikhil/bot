@@ -279,7 +279,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
             id: recipientId
           },
       message: {
-          text: "Provide valid policy Number"
+          text: "Provide valid policy number"
         }      
       }  
       callSendAPI(messageData); 
@@ -377,7 +377,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
               id: recipientId
             },
             message: {
-              text: "Timed out .\nPlease provide your 8 digit policy no. number"
+              text: "Timed out .\nPlease provide your 8 digit policy number"
             } 
           }
           var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
