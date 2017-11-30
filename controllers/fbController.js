@@ -500,7 +500,7 @@ function policyStatusData(recipientId,category){
     }
    var msg = utilMsg.messages.policyStatusMessage;
    var messageData = msg.replace("#policyid#",resp);
-   var messageData = msg.replace("policyStat",polMsg);
+   var messageData = msg.replace("#policyStat#",polMsg);
 
    sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
