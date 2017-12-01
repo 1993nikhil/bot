@@ -578,25 +578,18 @@ function sendCancelMessage(sender, messageText){
         message: {
             attachment: {
                 type: "template",
-                payload: {
-                  template_type: "list",
-                  top_element_style: "<LARGE | COMPACT>",
-                  elements: [
+                payload:  {
+                template_type: "button",
+                text: messageText,
+                buttons: [
                     {
-                      title: messageText,
-                      subtitle: "if you wish to continue please click below",          
-                      buttons: [
-                          {
-                            type: "postback",
-                            title: "START AGAIN",
-                            payload: "get started",
-                          }
-                      ],
-
+                      type: "postback",
+                      title: "START AGAIN",
+                      payload: "get started",
                     }
-                  ] 
-                }
-        }
+                ]
+              }
+            }          
       }
     };
     callSendAPI(messageData);  
