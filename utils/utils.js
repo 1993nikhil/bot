@@ -5,6 +5,7 @@ var policyService = require('../services/policyDetailService');
 var Policy = require('../models/policyDetailModel');
 var conf = require('../config/config');
 
+
 module.exports = {
 		validatePolicyNumber: function (argument) {
 			if(argument.length==8){
@@ -71,6 +72,8 @@ module.exports = {
         }
     },
     sendMail: function(toEmail,otpText){
+
+    	console.log(toEmail+""+otpText);
     	var mailOption 	= {
     		from: {},
 
@@ -80,6 +83,6 @@ module.exports = {
     		text: "Please use "+otpText+"as One Time Password(OTP) to verify your Policy.This OTP is valid only for 30 minutes",
     	}
     	console.log("EMail");
-    	return conf.mailer.sendMail(mailOptions);
+    	return conf.mailer.sendMail(mailOption);
     }
 }

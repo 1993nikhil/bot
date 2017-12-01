@@ -8,6 +8,7 @@ var moment = require('moment');
 var sql = require("mssql");
 var sha1 = require('sha1');
 var conf = require('./config/config');
+var util = require('./utils/utils');
 
 app.set('port', (process.env.PORT || 5000))
 app.set('mongo_url',('mongodb://heroku_g7rvskm9:kcnrvqiqag5fs9e7b3kpdrdpj1@ds161574.mlab.com:61574/heroku_g7rvskm9'));
@@ -128,6 +129,11 @@ app.get('/webhook/', function (req, res) {
 })
 
 app.post('/webhook/', fb_api.facebookWebhookListener); 
+
+app.get('/sendMail', function (req, res) {
+    util.sendMail('nikhil.kumar@geminisolutions.in','234223');
+   // res.send('Error, wrong token')
+})
 
 // Spin up the server
 app.listen(app.get('port'), function() {

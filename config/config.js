@@ -16,10 +16,11 @@ var nodemailer = require("nodemailer");
     transporter: nodemailer.createTransport('direct:?name=' + smtpConfig.host + ':' + smtpConfig.port),
    // transporter:transporter,
     sendMail: function(mailOptions) {
-        mailOptions.from = '"AceApp" <aceapp@dpli.com>';
+        mailOptions.from = '"AceApp" <aceapp@dhflpramerica.com>';
         //console.log(mailOptions);
         config.mailer.transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
+            	console.log('Error');
                 console.log(error);
                 return error;
             }
