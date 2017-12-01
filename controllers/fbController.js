@@ -41,7 +41,7 @@ function receivedMessage(event) {
       }
     });      
     }else if(messageText=='cancel'){
-      nextQuestion("6-null-null",messageText,senderID,timeOfMessage);
+      sendCancelMessage(senderID,"Dear Customer, Your sessioin has been cancelled");
     }else{
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
@@ -567,6 +567,39 @@ function sendTextMessage(sender, messageText) {
     deferred.resolve(messageData);
     callSendAPI(messageData);
     return deferred.promise;
+}
+
+//cancel message
+function sendCancelMessage(sender, messageText){
+  var messageData = {
+     "recipient": {
+           "id": sender
+        },
+        "message": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "list",
+                  "top_element_style": "<LARGE | COMPACT>",
+                  "elements": [
+                    {
+                      "title": "<TITLE_TEXT>",
+                      "subtitle": "<SUBTITLE_TEXT>",          
+                      "buttons": [
+                          {
+                            type: "postback",
+                            title: "START AGAIN",
+                            payload: "get started",
+                          }
+                      ],
+
+                    }
+                  ] 
+                }
+        }
+      }
+    };
+    callSendAPI(messageData);  
 }
 
 //send premium message

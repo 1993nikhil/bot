@@ -20,7 +20,7 @@ mongoose.connect(app.get('mongo_url'),function(err){
     console.log(err);
     process.exit(1);
   }
-  console.log("connected to " + app.get('mongo_url'));
+  console.log("connected to " + app.get('modelsngo_url'));
 });
 
 
@@ -132,6 +132,7 @@ app.post('/webhook/', fb_api.facebookWebhookListener);
 
 app.get('/sendMail', function (req, res) {
     util.sendMail('nikhil.kumar@geminisolutions.in','234223');
+    res.send("email sending");
    // res.send('Error, wrong token')
 })
 
