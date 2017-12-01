@@ -585,6 +585,13 @@ function sendCancelMessage(sender, messageText){
                {
                 title: messageText,
                 subtitle: "if you wish to continue please click below",
+                buttons: [
+                  {
+                    type: "postback",
+                    title: "START AGAIN",
+                    payload: "get startedsta",
+                  }
+                ]                
                }
               ],
               buttons: [
