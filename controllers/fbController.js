@@ -572,20 +572,20 @@ function sendTextMessage(sender, messageText) {
 //cancel message
 function sendCancelMessage(sender, messageText){
   var messageData = {
-     "recipient": {
-           "id": sender
+     recipient: {
+           id: sender
         },
-        "message": {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                  "template_type": "list",
-                  "top_element_style": "<LARGE | COMPACT>",
-                  "elements": [
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                  template_type: "list",
+                  top_element_style: "<LARGE | COMPACT>",
+                  elements: [
                     {
-                      "title": "<TITLE_TEXT>",
-                      "subtitle": "<SUBTITLE_TEXT>",          
-                      "buttons": [
+                      title: messageText,
+                      subtitle: "if you wish to continue please click below",          
+                      buttons: [
                           {
                             type: "postback",
                             title: "START AGAIN",
