@@ -148,7 +148,7 @@ function getUserName(userId,timeOfMessage) {
     sendTextMessage(userId, result).then(setTimeout(function(res){ 
           startConversation(userId, utilMsg.messages.buttonMessage).then(setTimeout(function(resp){ 
           nextOption(userId, "...").then(setTimeout(function(resp){ 
-          sendTextMessage(userId, "You can type \"cancel\" at any point in time to exit conversation or type \"New\" to start new conversation");
+          sendTextMessage(userId, "You can type \"Cancel\" at any point in time to exit the conversation or type \"New\" to start new conversation.");
           
         }, 800));
           
@@ -250,7 +250,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
            id: recipientId
         },
         message: {
-          text: "Please provide your 8 digit policy number or Mobile number"
+          text: "Please provide your 8 digit policy number or 10 digit mobile number."
         }      
     }
     var newQuestionIndex = "2-"+indexArray[1]+"-"+indexArray[2];
@@ -268,7 +268,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
             id: recipientId
          },
          message: {
-           text: "Please provide your DOB in DD-MM-YYYY format"
+           text: "Please provide date of birth in DD-MM-YYYY format."
          }      
       }  
 
@@ -279,7 +279,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
             id: recipientId
           },
       message: {
-          text: "Provide valid policy number or mobile number"
+          text: "Please provide a valid policy number or mobile number."
         }      
       }  
       callSendAPI(messageData); 
@@ -319,7 +319,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
           });
           
         }else{
-          sendTextMessage(recipientId,'Policy Details not matched \nplease provide your 8 digit policy number or mobile number');
+          sendTextMessage(recipientId,'We are not able to validate your information in our records, please check the information provided and try again.');
           var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
           fbService.updateQuestionIndex(recipientId,newQuestionIndex);
         }
@@ -391,7 +391,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
           id: recipientId
         },
         message: {
-          text: "Can I help you with something else(Yes\\No)"
+          text: "Can I help you with any other service request? (Yes/No)"
         }
       }
       callSendAPI(messageData);            
@@ -409,9 +409,9 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
       var newQuestionIndex = "7-"+indexArray[1]+"-COMP";
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var thanksText =  utilMsg.messages.thankyouMessage;
-      var queryText =  utilMsg.messages.queryMessage;
+      //var queryText =  utilMsg.messages.queryMessage;
       sendTextMessage(recipientId,thanksText).then(setTimeout(function(resp){ 
-          sendTextMessage(recipientId, queryText);
+          sendCancelMessage(recipientId,"Dear Customer, Your sessioin has been cancelled");
           
         }, 800));
       // setTimeout(function(){ 
