@@ -1,7 +1,7 @@
 module.exports = {
 	 messages:{
 		"greeting":"Dear #userName#, #greet#. Welcome to DHFL Pramerica Life insurance.\nI will help you fulfill your policy servicing request e.g.- Policy renewal date, Fund value, Policy status etc.",
-		"nextDueMessage":"Your next premium due date details for policy no.#policyid# are: \n \t\tPremium Due Date: 25-12-2017 \n \t\tPremium Amount: INR 4,566",
+		"nextDueMessage":"Your next premium due date details for policy no.#policyid# are: \n\tPremium Due Date: 25-12-2017 \n\tPremium Amount: INR 4,566",
 		//"fundValueMessage":"Your fund value for Policy No. #policyid# is :-\n \t\t\tNAV\n \t\tFund value : 4556(unit*NAV)\n \t\tFund Name : Balance Fund & units : 56\n \t\tTotal Fund Value : 45600(unit:NAV)",
 		"fundValueMessage":"Your fund value details for policy no.#policyid# are as follows:\nFund Name: Balanced Fund\nNet Asset Value: 18.33\nNumber of Units: 16\nFund Value: INR 14,000\n\nFund Name: Growth Fund\nNet Asset Value: 16.33\nNumber of Units: 14\nFund Value: INR 12,000\n\nFund Name: Equity Fund\nNet Asset Value: 18.33\nNumber of Units: 18\nFund Value: INR 16,000\n\nTotal Fund Value: INR 42,000",
 		"totalAmtMessage":"The total amount paid till date for policy no.#policyid# is INR 4,567",
