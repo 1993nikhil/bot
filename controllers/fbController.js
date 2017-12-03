@@ -304,6 +304,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
         if(validatePolicyResult!=null){
           policyDetailNum = validatePolicyResult.mobile;
           policyIDTemp = validatePolicyResult.PolicyNo;
+          fbService.savaPolicyNo(recipientId,validatePolicyResult.PolicyNo);
           fbService.getVerification(recipientId,validatePolicyResult.PolicyNo).then(function(exist){
              if(exist){
                 var newQIndex = "4-"+indexArray[1]+"-OTP";

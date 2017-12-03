@@ -12,6 +12,7 @@ var moment = require('moment');
 var sha1 = require('sha1');
 var util= require('../utils/utils');
 var messages= require('../utils/messages');
+var Pol = require('../models/policyNoModel');
 
 function checkUser(userId){
 
@@ -159,6 +160,48 @@ function updateQuestionIndex(senderID, index){
       console.log("questionIndex updated");
     }
     
+  });
+}
+
+
+//Save policy after verification 
+function savaPolicyNo(userId,policyId) {
+    var policy = {
+        recipientId: userId,
+        policyNo: policyId
+      }
+ 
+      var verPolicy = new Pol(policy);          
+
+  Pol.findOne({recipientId:userId}, function(err,data){
+    if(data){
+      var query = {recipientId:userId};
+      var newPol = { $set: { policyNo:policyId } };
+      Pol.updateOne(query, newPol, function(err, res){
+        if(err){
+          console.log(err);
+        }else{
+
+        
+          console.log('policy updated');
+        }
+      });
+    }else{
+    var policy = {
+        recipientId: userId,
+        policyNo: policyId
+      }
+
+      var verPolicy = new Pol(policy);    
+      verPolicy.save(function(err){
+        if(err){
+          console.log(err);
+        }else{
+          //sendOTP(mobileNumber,otpGenerated,"Nikhil");
+          console.log('pol saved');
+        }
+      });
+    }
   });
 }
 
