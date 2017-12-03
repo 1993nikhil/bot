@@ -392,6 +392,7 @@ module.exports = {
    saveOtp:saveOtp,
    getVerification:getVerification,
    saveVerification:saveVerification,
-   getPolicyById:getPolicyById
+   getPolicyById:getPolicyById,
+   savaPolicyNo:savaPolicyNo
 };
 
