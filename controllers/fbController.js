@@ -309,11 +309,14 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
         validatePol.validatePolicy(resp).then(function(res){
              if(res){
                   if(res.result.recordset.length>1){
-                    sendTextMessage(recipientId,JSON.stringify(res.result.recordset));
+                    console.log("more than one policy");
+                    sendTextMessage(recipientId,JSON.stringify(res.result.recordset[0]));
                     var newQIndex = "4-"+indexArray[1]+"-OTP";
                     nextQuestion(newQIndex,"verified",recipientId);
                   }
                   else{
+                      console.log("length not verified");
+                      sendTextMessage(recipientId,"check your bug");
                       var policyData = res.result.recordset[0];
                       policyIDTemp = policyData["Policy Number"];
                       policyDetailNum = policyData["Mobile number"];
