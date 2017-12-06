@@ -392,10 +392,10 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
   }
   else if(qIndex=='4a'){
     policyIDTemp = payload;
+    var newQIndex = "4-"+indexArray[1]+"-OTP";
     fbService.savaPolicyNo(recipientId,policyIDTemp);             
     fbService.getVerification(recipientId,policyIDTemp).then(function(exist){
        if(exist){
-          var newQIndex = "4-"+indexArray[1]+"-OTP";
           fbService.updateQuestionIndex(recipientId,newQIndex);
           nextQuestion(newQIndex,"verified",recipientId);
        }
@@ -403,6 +403,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
          generateOtp(recipientId,policyDetailNum,timeOfMessage).then(function(res){
            sendTextMessage(recipientId,"Please enter OTP received on your registered mobile number to validate . If you don't receive an OTP in next 1 minute please enter RESEND");
            fbService.saveVerification(recipientId,policyIDTemp); 
+           fbService.updateQuestionIndex(recipientId,newQIndex);
          },function(err){
              sendTextMessage(recipientId,JSON.stringify(err));
          });
