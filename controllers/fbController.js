@@ -327,6 +327,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                                 }
                                 policyDetailNum = res.result.recordset[0]["Mobile number"]
                                 var newQIndex = "4a-" + indexArray[1] + "-OTP";
+                                fbService.updateQuestionIndex(recipientId, newQIndex);
                                 //nextQuestion(newQIndex,"verified",recipientId);
                                 dynamicPolicy(recipientId, policyButtons);
 
