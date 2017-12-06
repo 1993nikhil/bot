@@ -53,6 +53,24 @@ module.exports = {
 
 			  		
 		},
+		convertDate: function(date) {
+        if (date && date != '-') {
+            var d = new Date(date);
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth() + 1;
+            var curr_year = d.getFullYear();
+            if (curr_date < 10) {
+                curr_date = "0" + curr_date;
+            }
+            if (curr_month < 10) {
+                curr_month = "0" + curr_month;
+            }
+            return curr_date.toString() + "-" + curr_month.toString() + "-" + curr_year.toString();
+
+        }else{        	
+          return "-";
+        }
+        },		
 		callService: function(url,type,data,success,failure){
 
 		},

@@ -79,19 +79,19 @@ var policyMock = {
                     "Last_Name": "Pillai",
                     "DOB": "1979-04-05T00:00:00.000Z",
                     "Application_No": "ON00000044",
-                    "Mobile number": "8588872029",
+                    "Mobile number": "8002848962",
                     "Policy issue date": "2016-06-10T00:00:00.000Z"
                 }
             ]
         ],
         "recordset": [
             {
-                "Policy Number": "00425653",
+                "Policy Number": "10101010",
                 "First_name": "PramodVasudevan",
                 "Last_Name": "Pillai",
                 "DOB": "1979-04-05T00:00:00.000Z",
                 "Application_No": "ON00000044",
-                "Mobile number": "8588872029",
+                "Mobile number": "8002848962",
                 "Policy issue date": "2016-06-10T00:00:00.000Z"
             },{
                 "Policy Number": "00425653",
@@ -99,15 +99,15 @@ var policyMock = {
                 "Last_Name": "Pillai",
                 "DOB": "1979-04-05T00:00:00.000Z",
                 "Application_No": "ON00000044",
-                "Mobile number": "8588872029",
+                "Mobile number": "8002848962",
                 "Policy issue date": "2016-06-10T00:00:00.000Z"
             },{
-                "Policy Number": "00425653",
+                "Policy Number": "11114444",
                 "First_name": "PramodVasudevan",
                 "Last_Name": "Pillai",
                 "DOB": "1979-04-05T00:00:00.000Z",
                 "Application_No": "ON00000044",
-                "Mobile number": "8588872029",
+                "Mobile number": "8002848962",
                 "Policy issue date": "2016-06-10T00:00:00.000Z"
             }
         ],
@@ -122,7 +122,7 @@ function validatePolicy(response){
 
       var deferred = Q.defer();
       try{
-        if(response.policyNo!=''){
+        if(response.policyNo!=''){        
           deferred.resolve(policyMock);
         // dataAccessCtrl.validateByPolicyNo(response).then(function(res){
         //     var policyData = res.result.recordset[0];
@@ -162,7 +162,7 @@ function validatePolicy(response){
 function getPolicyInformation(policyNo){
   var deferred = Q.defer();
   try{
-    var policyData = policyDataMock.result.recordset
+    var policyData = policyDataMock.result.recordset;
     for(var i in policyData){
       if(policyNo==policyData[i]["Policy_Number"]){
         deferred.resolve(policyData[i])

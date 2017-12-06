@@ -46,10 +46,15 @@ function receivedMessage(event) {
     }else{
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
-        console.log('resp',resp);
         var newQuestionIndex = resp.questionIndex;
         var indArray = resp.questionIndex.split("-");
-        var index = parseInt(indArray[0])+1;
+        var index = '';
+        if(indArray=='4a'){
+          index = '4a';
+        }
+        else{
+          index = parseInt(indArray[0])+1;
+        }
         console.log('index',index);
         if(index==5){
           console.log('messageText',messageText);
@@ -248,7 +253,13 @@ function nextOption(userId, messageText){
 //questions
 function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
   var indexArray = questionIndex.split("-");
-  var qIndex = parseInt(indexArray[0])+1;
+  var qIndex = '';
+  if(indexArray=='4a'){
+    qIndex = '4a';
+  }else{
+    qIndex = parseInt(indexArray[0])+1;
+  }
+  
   console.log('qIndex',qIndex);
   if(qIndex==2){
     var messageData ={
@@ -295,7 +306,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
     
     if(util.validateDOB(payload)){
       var newQuestionIndex = "4-"+indexArray[1]+"-OTP";
-      fbService.updateQuestionIndex(recipientId,newQuestionIndex);;
+      fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var messageData ={
       recipient: {
            id: recipientId
@@ -310,13 +321,18 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
              if(res){
                   if(res.result.recordset.length>1){
                     console.log("more than one policy");
-                    sendTextMessage(recipientId,JSON.stringify(res.result.recordset[0]));
-                    var newQIndex = "4-"+indexArray[1]+"-OTP";
-                    nextQuestion(newQIndex,"verified",recipientId);
+                    var msg = "Please select one from your following policy:";
+                    for(var i in res.result.recordset){
+                        msg = msg + "\n" + res.result.recordset[i]["Policy Number"];
+                    }
+                    policyDetailNum = res.result.recordset[0]["Mobile number"]
+                    sendTextMessage(recipientId,msg);
+                    var newQIndex = "4a-"+indexArray[1]+"-OTP";
+                    //nextQuestion(newQIndex,"verified",recipientId);
+                    fbService.updateQuestionIndex(recipientId,newQIndex);
                   }
                   else{
                       console.log("length not verified");
-                      sendTextMessage(recipientId,"check your bug");
                       var policyData = res.result.recordset[0];
                       policyIDTemp = policyData["Policy Number"];
                       policyDetailNum = policyData["Mobile number"];
@@ -371,6 +387,25 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
     }
     
   }
+  else if(qIndex=='4a'){
+    policyIDTemp = payload;
+    fbService.savaPolicyNo(recipientId,policyIDTemp);             
+    fbService.getVerification(recipientId,policyIDTemp).then(function(exist){
+       if(exist){
+          var newQIndex = "4-"+indexArray[1]+"-OTP";
+          fbService.updateQuestionIndex(recipientId,newQIndex);
+          nextQuestion(newQIndex,"verified",recipientId);
+       }
+       else{
+         generateOtp(recipientId,policyDetailNum,timeOfMessage).then(function(res){
+           sendTextMessage(recipientId,"Please enter OTP received on your registered mobile number to validate . If you don't receive an OTP in next 1 minute please enter RESEND");
+           fbService.saveVerification(recipientId,policyIDTemp); 
+         },function(err){
+             sendTextMessage(recipientId,JSON.stringify(err));
+         });
+       }
+    });     
+  }
   else if(qIndex==5){
     console.log('payload is',payload);
       if(payload=="verified"){
@@ -380,7 +415,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
         validatePol.getPolicyInformation(policyIDTemp).then(function(res){
               //sendTextMessage(recipientId,JSON.stringify(res));
               console.log('final r',JSON.stringify(res));
-              policyInfoObj = res.result.recordset[0];
+              policyInfoObj = res;
               console.log('policyInfoObj',policyInfoObj);
               console.log('indexArray[i]',indexArray[i]);
               if(indexArray[i]=='NP'){
