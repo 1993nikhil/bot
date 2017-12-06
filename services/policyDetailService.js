@@ -3,7 +3,7 @@ var request = require('request');
 var fb_api = require('../routes/fbapi');
 var Policy = require('../models/policyDetailModel');
 var conf = require('../config/config');
-var dataAccessCtrl = require('../controllers/dataAccessLayerController');
+//var dataAccessCtrl = require('../controllers/dataAccessLayerController');
 var util = require('../utils/utils');
 var Q = require('q');
 
@@ -22,7 +22,7 @@ var Q = require('q');
 //   return deferred.promise; 
 // }
 
-var policyMock = {
+var policyDataMock = {
     "err": null,
     "result": {
         "recordsets": [
@@ -59,6 +59,56 @@ var policyMock = {
                 "Policy status": "In Force",
                 "Amount Deposited in Policy Till": 911.75,
                 "Last_Payment_date": "2017-07-07T00:00:00.000Z"
+            }
+        ],
+        "output": {},
+        "rowsAffected": [
+            1
+        ]
+    }
+}
+
+var policyMock = {
+    "err": null,
+    "result": {
+        "recordsets": [
+            [
+                {
+                    "Policy Number": "00425653",
+                    "First_name": "PramodVasudevan",
+                    "Last_Name": "Pillai",
+                    "DOB": "1979-04-05T00:00:00.000Z",
+                    "Application_No": "ON00000044",
+                    "Mobile number": "8588872029",
+                    "Policy issue date": "2016-06-10T00:00:00.000Z"
+                }
+            ]
+        ],
+        "recordset": [
+            {
+                "Policy Number": "00425653",
+                "First_name": "PramodVasudevan",
+                "Last_Name": "Pillai",
+                "DOB": "1979-04-05T00:00:00.000Z",
+                "Application_No": "ON00000044",
+                "Mobile number": "8588872029",
+                "Policy issue date": "2016-06-10T00:00:00.000Z"
+            },{
+                "Policy Number": "00425653",
+                "First_name": "PramodVasudevan",
+                "Last_Name": "Pillai",
+                "DOB": "1979-04-05T00:00:00.000Z",
+                "Application_No": "ON00000044",
+                "Mobile number": "8588872029",
+                "Policy issue date": "2016-06-10T00:00:00.000Z"
+            },{
+                "Policy Number": "00425653",
+                "First_name": "PramodVasudevan",
+                "Last_Name": "Pillai",
+                "DOB": "1979-04-05T00:00:00.000Z",
+                "Application_No": "ON00000044",
+                "Mobile number": "8588872029",
+                "Policy issue date": "2016-06-10T00:00:00.000Z"
             }
         ],
         "output": {},
@@ -112,9 +162,16 @@ function validatePolicy(response){
 function getPolicyInformation(policyNo){
   var deferred = Q.defer();
   try{
-    dataAccessCtrl.getPolicyInfo(policyNo).then(function(res){
-       deferred.resolve(res); 
-    });
+    var policyData = policyDataMock.result.recordset
+    for(var i in policyData){
+      if(policyNo==policyData[i]["Policy_Number"]){
+        deferred.resolve(policyData[i])
+      }
+    }
+
+    // dataAccessCtrl.getPolicyInfo(policyNo).then(function(res){
+    //    deferred.resolve(res); 
+    // });
   } catch(e){
     deferred.reject();
   }
