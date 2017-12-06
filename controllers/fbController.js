@@ -306,7 +306,6 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
     
     if(util.validateDOB(payload)){
       var newQuestionIndex = "4-"+indexArray[1]+"-OTP";
-      fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var messageData ={
       recipient: {
            id: recipientId
@@ -326,10 +325,11 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
                         msg = msg + "\n" + res.result.recordset[i]["Policy Number"];
                     }
                     policyDetailNum = res.result.recordset[0]["Mobile number"]
-                    sendTextMessage(recipientId,msg);
                     var newQIndex = "4a-"+indexArray[1]+"-OTP";
                     //nextQuestion(newQIndex,"verified",recipientId);
-                    fbService.updateQuestionIndex(recipientId,newQIndex);
+                    fbService.updateQuestionIndex(recipientId,newQIndex);                    
+                    sendTextMessage(recipientId,msg);
+
                   }
                   else{
                       console.log("length not verified");
@@ -341,11 +341,14 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
                          if(exist){
                             var newQIndex = "4-"+indexArray[1]+"-OTP";
                             nextQuestion(newQIndex,"verified",recipientId);
+                            fbService.updateQuestionIndex(recipientId,newQuestionIndex);
+
                          }
                          else{
                            generateOtp(recipientId,policyDetailNum,timeOfMessage).then(function(res){
                              callSendAPI(messageData);
-                             fbService.saveVerification(recipientId,policyIDTemp); 
+                             fbService.saveVerification(recipientId,policyIDTemp);
+                             fbService.updateQuestionIndex(recipientId,newQuestionIndex); 
                            },function(err){
                                sendTextMessage(recipientId,JSON.stringify(err));
                            });
