@@ -49,7 +49,7 @@ function receivedMessage(event) {
         var newQuestionIndex = resp.questionIndex;
         var indArray = resp.questionIndex.split("-");
         var index = '';
-        if(indArray=='4a'){
+        if(indArray[0]=='4a'){
           index = '4a';
         }
         else{
@@ -254,7 +254,7 @@ function nextOption(userId, messageText){
 function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
   var indexArray = questionIndex.split("-");
   var qIndex = '';
-  if(indexArray=='4a'){
+  if(indexArray[0]=='4a'){
     qIndex = '4a';
   }else{
     qIndex = parseInt(indexArray[0])+1;
