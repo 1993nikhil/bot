@@ -121,10 +121,17 @@ function handleResponse(responses,category){
       var resArray = resdata.split("-");
       var qIndex = parseInt(resArray[0]);
       if(qIndex===3&&resArray[1]===category){
-        policyDetail['policyNo'] = responses[i].responseData;
+        if(responses[i].responseData.length==8){
+          policyDetail['policyNo'] = responses[i].responseData;
+          policyDetail['mobileNo'] = '';  
+        }else{
+          policyDetail['mobileNo'] = responses[i].responseData;
+          policyDetail['policyNo'] = ''; 
+        }
+         
       }
       if(qIndex===4&&resArray[1]===category){
-        policyDetail['DOB'] = responses[i].responseData;
+        policyDetail['dob'] = responses[i].responseData;
       }
 
     })(i);

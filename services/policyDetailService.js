@@ -3,23 +3,125 @@ var request = require('request');
 var fb_api = require('../routes/fbapi');
 var Policy = require('../models/policyDetailModel');
 var conf = require('../config/config');
+var dataAccessCtrl = require('../controllers/dataAccessLayerController');
+var util = require('../utils/utils');
 var Q = require('q');
 
-function getPolicyDetail(policyId){
-  var deferred=Q.defer();
-  Policy.findOne({policyNo:policyId}, function(err,data){
-    if(err){
-      deferred.reject(err);
-      console.log("error1");
-    }else{
-      deferred.resolve(data);
-      console.log("Data");
-      console.log(data);
+// function getPolicyDetail(policyId){
+//   var deferred=Q.defer();
+//   Policy.findOne({policyNo:policyId}, function(err,data){
+//     if(err){
+//       deferred.reject(err);
+//       console.log("error1");
+//     }else{
+//       deferred.resolve(data);
+//       console.log("Data");
+//       console.log(data);
+//     }
+//   });
+//   return deferred.promise; 
+// }
+
+var policyMock = {
+    "err": null,
+    "result": {
+        "recordsets": [
+            [
+                {
+                    "Policy_Number": "00426202",
+                    "Premium Due Date": "2018-06-13T00:00:00.000Z",
+                    "Premium Due Amount": 365,
+                    "Policy status": "In Force",
+                    "Amount Deposited in Policy Till": 711.75,
+                    "Last_Payment_date": "2017-07-07T00:00:00.000Z"
+                }
+            ]
+        ],
+        "recordset": [
+            {
+                "Policy_Number": "12345678",
+                "Premium Due Date": "2018-06-13T00:00:00.000Z",
+                "Premium Due Amount": 365,
+                "Policy status": "In Force",
+                "Amount Deposited in Policy Till": 711.75,
+                "Last_Payment_date": "2017-07-07T00:00:00.000Z"
+            },{
+                "Policy_Number": "10101010",
+                "Premium Due Date": "2018-08-16T00:00:00.000Z",
+                "Premium Due Amount": 766,
+                "Policy status": "In Force",
+                "Amount Deposited in Policy Till": 1711,
+                "Last_Payment_date": "2017-07-07T00:00:00.000Z"
+            },{
+                "Policy_Number": "11114444",
+                "Premium Due Date": "2018-06-23T00:00:00.000Z",
+                "Premium Due Amount": 565,
+                "Policy status": "In Force",
+                "Amount Deposited in Policy Till": 911.75,
+                "Last_Payment_date": "2017-07-07T00:00:00.000Z"
+            }
+        ],
+        "output": {},
+        "rowsAffected": [
+            1
+        ]
     }
-  });
-  return deferred.promise;	
+}
+
+function validatePolicy(response){
+
+      var deferred = Q.defer();
+      try{
+        if(response.policyNo!=''){
+          deferred.resolve(policyMock);
+        // dataAccessCtrl.validateByPolicyNo(response).then(function(res){
+        //     var policyData = res.result.recordset[0];
+        //     if(policyData){
+        //        if(response.dob==util.convertDate(policyData["DOB"])){
+        //           deferred.resolve(res);
+        //        }     
+        //        else{
+        //           deferred.resolve();
+        //         } 
+        //     }else{
+        //       deferred.resolve();
+        //     }              
+        // }); 
+      }else{
+        deferred.resolve(policyMock);
+        // dataAccessCtrl.validateByMobile(response).then(function(res){
+        //     var policyData = res.result.recordset[0];
+        //     if(policyData){
+        //        if(response.dob==util.convertDate(policyData["DOB"])){
+        //           deferred.resolve(res);
+        //        }     
+        //        else{
+        //           deferred.resolve();
+        //         } 
+        //     }else{
+        //       deferred.resolve();
+        //     }
+        // });
+      }
+      } catch(e){
+        deferred.reject();
+      }            
+      return deferred.promise;  
+}
+
+function getPolicyInformation(policyNo){
+  var deferred = Q.defer();
+  try{
+    dataAccessCtrl.getPolicyInfo(policyNo).then(function(res){
+       deferred.resolve(res); 
+    });
+  } catch(e){
+    deferred.reject();
+  }
+  return deferred.promise;  
 }
 
 module.exports = {
-	getPolicyDetail:getPolicyDetail
+  validatePolicy:validatePolicy,
+  getPolicyInformation:getPolicyInformation
 };

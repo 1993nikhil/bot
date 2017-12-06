@@ -38,7 +38,7 @@ app.get('/', function (req, res) {
 var Log = require('./models/logModel');
 var Response = require('./models/userResponseModel');
 var Otp = require('./models/otpModel');
-var Policy = require('./models/policyDetailModel');
+var Pol = require('./models/policyNoModel');
 var Verify = require('./models/otpVerificationModel');
 
 // Verify.remove(function(err){
@@ -59,6 +59,18 @@ app.get('/verify',function(req,res){
     res.json(data);
   });
 })
+
+
+app.get('/policyNo',function(req,res){
+  Pol.find({},{},function(err, data){
+    if(err){
+      res.send(err);
+      console.log("error");
+    }
+    res.json(data);
+  });
+})
+
 
 app.get('/user', function (req, res) {
 	Log.find({},{},function(err, data){

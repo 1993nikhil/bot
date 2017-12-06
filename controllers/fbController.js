@@ -6,6 +6,7 @@ var utilMsg = require('../utils/messages');
 var util = require('../utils/utils');
 var conf = require('../config/config');
 var policyDetail = require('../utils/policyData');
+var validatePol = require('../services/policyDetailService');
 var Q = require('q');
 var moment = require('moment');
 var sha1 = require('sha1');
@@ -14,7 +15,7 @@ var policyDetailNum = '';
 var policyIDTemp = '';
 
 function receivedMessage(event) {
-	var senderID = event.sender.id;
+  var senderID = event.sender.id;
     var pageId = event.recipient.id;
     var timeOfMessage = event.timestamp;
     var message = event.message;
@@ -41,14 +42,17 @@ function receivedMessage(event) {
       }
     });      
     }else if(messageText=='cancel'){
-      sendCancelMessage(senderID,"Dear Customer, Your sessioin has been cancelled");
+       sendCancelMessage(senderID,"Dear Customer, Your sessioin has been cancelled");
     }else{
     fbService.checkUser(senderID).then(function(resp){
       if(resp){
+        console.log('resp',resp);
         var newQuestionIndex = resp.questionIndex;
         var indArray = resp.questionIndex.split("-");
         var index = parseInt(indArray[0])+1;
+        console.log('index',index);
         if(index==5){
+          console.log('messageText',messageText);
           if(messageText=='resend'){
             resendOTP(senderID,timeOfMessage);
           }else{
@@ -145,26 +149,25 @@ function getUserName(userId,timeOfMessage) {
      else if( hours >= 17 && hours <= 24 ){
        result = result.replace("#greet#","Good evening");
      }
-    sendTextMessage(userId, result).then(setTimeout(function(res){ 
-          startConversation(userId, utilMsg.messages.buttonMessage).then(setTimeout(function(resp){ 
-          nextOption(userId, "...").then(setTimeout(function(resp){ 
-          sendTextMessage(userId, "You can type \"Cancel\" at any point in time to exit the conversation or type \"New\" to start new conversation.");
-          
-        }, 800));
-          
-        }, 800));
-          
-        }, 800));
-
-      }
-      else {
+     console.log("aaaaaaa");
+        return sendTextMessage(userId, result)
+        .then(function(){ 
+          console.log("bbbbbb");
+          return startConversation(userId, utilMsg.messages.buttonMessage);
+        })
+        .then(function(){ 
+          console.log("ccccccc");
+          return nextOption(userId, "...");
+        })
+        .then(function(){ 
+          console.log("ddddd");
+          return sendTextMessage(userId, "You can type \"Cancel\" at any point in time to exit the conversation or Type \"New\" to start new conversation."); 
+        });  
+    }
+    else {
       console.error("Unable to send message1.");
-      console.error(response);
-      console.error(error);
     }
   }); 
-
-
 }
 
 function startConversation(userId, messageText){
@@ -200,8 +203,9 @@ function startConversation(userId, messageText){
             }
           }
       }; 
-     deferred.resolve(messageData);
-     callSendAPI(messageData); 
+      callSendAPI(messageData).then(function(){
+        deferred.resolve(messageData);
+      });    
      return deferred.promise;
 }
 
@@ -233,8 +237,9 @@ function nextOption(userId, messageText){
             }
           }
       }; 
-     deferred.resolve(messageData);
-     callSendAPI(messageData); 
+      callSendAPI(messageData).then(function(){
+        deferred.resolve(messageData);
+      });
      return deferred.promise;
 
 }
@@ -244,13 +249,14 @@ function nextOption(userId, messageText){
 function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
   var indexArray = questionIndex.split("-");
   var qIndex = parseInt(indexArray[0])+1;
+  console.log('qIndex',qIndex);
   if(qIndex==2){
     var messageData ={
      recipient: {
            id: recipientId
         },
         message: {
-          text: "Please provide your 8 digit policy number or 10 digit mobile number."
+          text: "Please provide your 8 digit policy number or 10 digit Mobile number."
         }      
     }
     var newQuestionIndex = "2-"+indexArray[1]+"-"+indexArray[2];
@@ -268,7 +274,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
             id: recipientId
          },
          message: {
-           text: "Please provide date of birth in DD-MM-YYYY format."
+           text: "Please provide Date of Birth in DD-MM-YYYY format"
          }      
       }  
 
@@ -300,31 +306,53 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
       }  
       fbService.saveResponse(recipientId,newQuestionIndex,payload).then(function(data){
         fbService.getPolicyData(recipientId,indexArray[1]).then(function(resp){
-        var validatePolicyResult = util.validatePolicy(resp);
-        if(validatePolicyResult!=null){
-          policyDetailNum = validatePolicyResult.mobile;
-          policyIDTemp = validatePolicyResult.PolicyNo;
-          fbService.savaPolicyNo(recipientId,validatePolicyResult.PolicyNo);
-          fbService.getVerification(recipientId,validatePolicyResult.PolicyNo).then(function(exist){
-             if(exist){
-                var newQIndex = "4-"+indexArray[1]+"-OTP";
-                nextQuestion(newQIndex,"verified",recipientId);
-             }
-             else{
-               generateOtp(recipientId,validatePolicyResult.mobile,timeOfMessage).then(setTimeout(function(res){
-                 callSendAPI(messageData);
-                 fbService.saveVerification(recipientId,validatePolicyResult.PolicyNo);
-          
-               }, 500));
-             }
-          });
-          
-        }else{
-          sendTextMessage(recipientId,'We are not able to validate your information in our records, please check the information provided and try again.');
-          var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
-          fbService.updateQuestionIndex(recipientId,newQuestionIndex);
-        }
-      });
+        validatePol.validatePolicy(resp).then(function(res){
+             if(res){
+                  if(res.result.recordset.length>1){
+                    sendTextMessage(recipientId,JSON.stringify(res.result.recordset));
+                    var newQIndex = "4-"+indexArray[1]+"-OTP";
+                    nextQuestion(newQIndex,"verified",recipientId);
+                  }
+                  else{
+                      var policyData = res.result.recordset[0];
+                      policyIDTemp = policyData["Policy Number"];
+                      policyDetailNum = policyData["Mobile number"];
+                      fbService.savaPolicyNo(recipientId,policyIDTemp);             
+                      fbService.getVerification(recipientId,policyIDTemp).then(function(exist){
+                         if(exist){
+                            var newQIndex = "4-"+indexArray[1]+"-OTP";
+                            nextQuestion(newQIndex,"verified",recipientId);
+                         }
+                         else{
+                           generateOtp(recipientId,policyDetailNum,timeOfMessage).then(function(res){
+                             callSendAPI(messageData);
+                             fbService.saveVerification(recipientId,policyIDTemp); 
+                           },function(err){
+                               sendTextMessage(recipientId,JSON.stringify(err));
+                           });
+                         }
+                      });                      
+                  }
+              
+                }else{
+
+                    var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
+                    fbService.updateQuestionIndex(recipientId,newQuestionIndex);
+                    console.log("npnp");                  
+                      return sendTextMessage(recipientId,'We are not able to validate your information in our records, please check the information provided and try again')
+                      .then(function(){ 
+                          return sendTextMessage(recipientId,'Please provide your 8 digit policy number or 10 digit Mobile number.');
+                       });
+                    //sendTextMessage(recipientId,'We are not able to validate your information in our records, please check the information provided and try again');
+              
+                }                       
+            },function(err){
+                sendTextMessage(recipientId,JSON.stringify(err));
+                sendTextMessage(recipientId,'We are not able to validate your information in our records, please check the information provided and try again');
+                var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
+                fbService.updateQuestionIndex(recipientId,newQuestionIndex);              
+           });
+        });
       });
      
     }else{
@@ -341,32 +369,44 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
     
   }
   else if(qIndex==5){
+    console.log('payload is',payload);
       if(payload=="verified"){
         var newQuestionIndex = "5-"+indexArray[1]+"-VOTP";
         fbService.updateQuestionIndex(recipientId,newQuestionIndex);
-        if(indexArray[i]=='NP'){
-          nextDueData(recipientId,indexArray[1]);
-        }
-        else if(indexArray[i]=='PS'){
-          policyStatusData(recipientId,indexArray[1]);
-        }
-        else if(indexArray[i]=='FV'){
-          fundValueData(recipientId,indexArray[1]);
-        }
-        else if(indexArray[i]=='PP') {
-          payPremium(recipientId,indexArray[1]);
-        }
-        else if(indexArray[i]=='TAP') {
-          totalAmtPaidData(recipientId,indexArray[1]);
-        }                               
-     
+        console.log('policyIDTemp',policyIDTemp);
+        validatePol.getPolicyInformation(policyIDTemp).then(function(res){
+              //sendTextMessage(recipientId,JSON.stringify(res));
+              console.log('final r',JSON.stringify(res));
+              policyInfoObj = res.result.recordset[0];
+              console.log('policyInfoObj',policyInfoObj);
+              console.log('indexArray[i]',indexArray[i]);
+              if(indexArray[i]=='NP'){
+                nextDueData(recipientId,indexArray[1],policyInfoObj);
+              }
+              else if(indexArray[i]=='PS'){
+                policyStatusData(recipientId,indexArray[1],policyInfoObj);
+              }
+              else if(indexArray[i]=='FV'){
+                fundValueData(recipientId,indexArray[1],policyInfoObj);
+              }
+              else if(indexArray[i]=='PP') {
+                payPremium(recipientId,indexArray[1],policyInfoObj);
+              }
+              else if(indexArray[i]=='TAP') {
+                totalAmtPaidData(recipientId,indexArray[1],policyInfoObj);
+              }  
+        },function(err){
+          console.log(err);                   
+          
+        });
+
       }else if(payload=="not verified"){
           var messageData ={
             recipient: {
               id: recipientId
             },
             message: {
-              text: "OTP not verified . Please provide OTP send to your registered mobile"
+              text: "We are not able to verify your OTP in our records. Please provide OTP sent to your registered mobile number"
             }
           }
           callSendAPI(messageData);  
@@ -376,7 +416,7 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
               id: recipientId
             },
             message: {
-              text: "Timed out .\nPlease provide your 8 digit policy number or mobile number"
+              text: "Timed out .\nPlease provide your policy number or mobile number again"
             } 
           }
           var newQuestionIndex = "2-"+indexArray[1]+"-policyID";
@@ -399,10 +439,9 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
   }
   else if(qIndex==7){
     if(payload=='yes' || payload=='y'){
-      startConversation(recipientId,utilMsg.messages.buttonMessage).then(setTimeout(function(resp){ 
-          nextOption(recipientId,"...");
-          
-        }, 800));
+      startConversation(recipientId,utilMsg.messages.buttonMessage).then(function(resp){ 
+          nextOption(recipientId,"...");          
+        });
       fbService.updateQuestionIndex(recipientId,"0-null-null");     
 
     }
@@ -410,15 +449,11 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
       var newQuestionIndex = "7-"+indexArray[1]+"-COMP";
       fbService.updateQuestionIndex(recipientId,newQuestionIndex);
       var thanksText =  utilMsg.messages.thankyouMessage;
-      //var queryText =  utilMsg.messages.queryMessage;
-      sendTextMessage(recipientId,thanksText).then(setTimeout(function(resp){ 
+      var queryText =  utilMsg.messages.queryMessage;
+      sendTextMessage(recipientId,thanksText).then(function(resp){ 
           sendCancelMessage(recipientId,"Dear Customer, Your sessioin has been cancelled");
           
-        }, 800));
-      // setTimeout(function(){ 
-      //   sendTextMessage(recipientId, queryText);
-          
-      // }, 500);  
+        });
     }
     else {
       var newQuestionIndex = "6-"+indexArray[1]+"-RES";
@@ -437,67 +472,63 @@ function nextQuestion(questionIndex,payload,recipientId,timeOfMessage){
 }
 
 //next payment due date service
-function nextDueData(recipientId,category){
+function nextDueData(recipientId,category,policyInfo){
+   var nextDueDate = util.convertDate(policyInfo["Premium Due Date"]);
+   //var nextDueAmt = util.convertCurrency(policyInfo["Premium Due Amount"]);
+   var nextDueAmt = policyInfo["Premium Due Amount"];
+
    var nextDueMsg = utilMsg.messages.nextDueMessage;
    var messageData = nextDueMsg.replace("#policyid#",policyIDTemp);
+   var dueDateMsg = messageData.replace("#dueDate#",nextDueDate);
+   var newMsg = dueDateMsg.replace("#dueAmount#",nextDueAmt);
 
-   sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
+   sendTextMessage(recipientId,newMsg).then(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
           nextQuestion(newQuestion,"next", recipientId,1);
           
-        }, 800));
-
+        });
 }  
 
 //fund value service
-function fundValueData(recipientId,category){
+function fundValueData(recipientId,category,policyInfo){
    var fundVAlueMsg = utilMsg.messages.fundValueMessage;
    var messageData = fundVAlueMsg.replace("#policyid#",policyIDTemp);
 
-   sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
+   sendTextMessage(recipientId,messageData).then(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
           nextQuestion(newQuestion,"next", recipientId,1);
           
-        }, 800));
- 
+        }); 
 }
 
 //total amount paid service
-function totalAmtPaidData(recipientId,category){
+function totalAmtPaidData(recipientId,category,policyInfo){
+   //var totalAmtPaid = util.convertCurrency(policyInfo["Amount Deposited in Policy Till"]);
+   var totalAmtPaid = policyInfo["Amount Deposited in Policy Till"];
 
    var tapMsg = utilMsg.messages.totalAmtMessage;
    var messageData = tapMsg.replace("#policyid#",policyIDTemp);
+   var totalAmtMsg = messageData.replace("#totalAmt#",totalAmtPaid);
 
-   sendTextMessage(recipientId,messageData).then(setTimeout(function(resp){
+   sendTextMessage(recipientId,totalAmtMsg).then(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
           nextQuestion(newQuestion,"next", recipientId,1);
           
-        }, 800));
-  
+        });  
 }
 
-//policy status service
-function policyStatusData(recipientId,category){
-    var polMsg = '';
-    if(policyIDTemp=='12345678' || policyIDTemp == '00224466' || policyIDTemp=='22445566' || policyIDTemp=='00334455'){
-      polMsg = 'Surrender';
-    }
-    else if(policyIDTemp=='10101010' || policyIDTemp=='99990000' || policyIDTemp=='00223355'){
-      polMsg = 'Lapse';
-    }
-    else{
-      polMsg = 'Premium Paying';
-    }
+//policy status servicepolicyInfo
+function policyStatusData(recipientId,category,policyInfo){
+   var polMsg = policyInfo["Policy status"];
    var msg = utilMsg.messages.policyStatusMessage;
    var messageData = msg.replace("#policyid#",policyIDTemp);
    var messageDataNew = messageData.replace("#policyStat#",polMsg);
 
-   sendTextMessage(recipientId,messageDataNew).then(setTimeout(function(resp){
+   sendTextMessage(recipientId,messageDataNew).then(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
           nextQuestion(newQuestion,"next", recipientId,1);
           
-        }, 800));
-
+        });
 }
 
 //pay premium service
@@ -505,22 +536,35 @@ function payPremium(recipientId,category){
 
    var messageData = utilMsg.messages.payPremiumMessage;
    
-   sendPayPremiumMessage(recipientId,messageData).then(setTimeout(function(resp){
+   sendPayPremiumMessage(recipientId,messageData).then(function(resp){
           var newQuestion = "5-"+category+"-DATA"; 
           nextQuestion(newQuestion,"next", recipientId,1);
           
-        }, 800));
-
+        });
 }
 
 function generateOtp(recipientId,mobileNo,timeOfMessage){
+  var data = {
+    recipientId:recipientId,
+    mobileNo:mobileNo,
+    timeOfMessage:timeOfMessage
+  }
+  //sendTextMessage(recipientId,JSON.stringify(data));
   var deferred=Q.defer();
-  var min = 100000;
-  var max = 999999;
-  var otp = Math.floor(Math.random() * (max - min + 1)) + min;
-  deferred.resolve(otp);
-  fbService.saveOtp(recipientId,otp,mobileNo,timeOfMessage);
-  return deferred.promise;
+  try{
+     var min = 100000;
+    var max = 999999;
+    var otp = Math.floor(Math.random() * (max - min + 1)) + min;
+    fbService.saveOtp(recipientId,otp,mobileNo,timeOfMessage);
+    //sendTextMessage(recipientId,otp);
+    deferred.resolve(otp);
+
+  } catch(e){
+     sendTextMessage(recipientId,"Error");
+    deferred.reject(e);
+
+  }
+   return deferred.promise;
 }
 
 
@@ -536,38 +580,26 @@ function resendOTP(recipientId,timeOfMessage){
 }
 
 function verifyOTP(recipientId,payload,otpTime,questionIndex){
+  console.log(recipientId,payload,otpTime,questionIndex);
   fbService.getOtp(recipientId,policyDetailNum).then(function(resp){
-    
+    console.log('otp module',JSON.stringify(resp));
     if(otpTime<resp.expireTime){
       // var otpNum = parseInt(payload);
       // var hashOtp = sha1(otpNum);
       if(resp.otp === payload){
+        console.log("aaaa");
         nextQuestion(questionIndex,"verified",recipientId);
       }
       else{
+        console.log("aabbbbbbbbaa");
         nextQuestion(questionIndex,"not verified",recipientId);
       }      
     }else{
+      console.log("ccccc");
       nextQuestion(questionIndex,"time out",recipientId);
     }
   });
 
-}
-
-//send message
-function sendTextMessage(sender, messageText) {
-  var deferred=Q.defer();
-  var messageData = {
-     recipient: {
-           id: sender
-        },
-        message: {
-          text: messageText
-        }
-    };
-    deferred.resolve(messageData);
-    callSendAPI(messageData);
-    return deferred.promise;
 }
 
 //cancel message
@@ -599,6 +631,46 @@ function sendCancelMessage(sender, messageText){
     callSendAPI(messageData);  
 }
 
+
+
+//send message
+function sendTextMessage(sender, messageText) {
+  var deferred=Q.defer();
+  var messageData = {
+     recipient: {
+           id: sender
+        },
+        message: {
+          text: messageText
+        }
+    };
+    callSendAPI(messageData).then(function(res){
+      deferred.resolve();
+    });   
+    return deferred.promise;
+}
+
+
+function callSendAPI(messageData) {
+  var deferred=Q.defer();
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token: conf.token},
+    method: 'POST',
+    json: messageData
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var recipientId = body.recipient_id;
+      var messageId = body.message_id;
+      deferred.resolve();      
+    } else {
+      console.error("Unable to send message.");
+      deferred.resolve();
+    }
+  });  
+  return deferred.promise;
+}
+
 //send premium message
 function sendPayPremiumMessage(sender, messageText){
     var deferred=Q.defer();
@@ -626,30 +698,9 @@ function sendPayPremiumMessage(sender, messageText){
     return deferred.promise;
 }
 
-function callSendAPI(messageData) {
-  request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token: conf.token},
-    method: 'POST',
-    json: messageData
-
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
-
-      console.log("Successfully sent generic message with id %s to recipient %s", 
-        messageId, recipientId);
-    } else {
-      console.error("Unable to send message.");
-      //console.error(response);
-      console.error(error);
-    }
-  });  
-}
 
 
 module.exports = {
-	receivedMessage:receivedMessage,
-	receivedPostback:receivedPostback
+  receivedMessage:receivedMessage,
+  receivedPostback:receivedPostback
 };

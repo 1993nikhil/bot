@@ -2,7 +2,7 @@ var express = require('express')
 var request = require('request')
 var fb_ctrl = require('../controllers/fbController')
 
-var token = "EAABslGNoL6QBANvp5xlRviWBBkaiV0rdgHuxfiUU0Pf3LZCZAJF3VulksBaSuHwSVUEPcpYdyza1b7JBpUNwqY0ePJUgTB15YOzOe0pfulu2UaNoMIqpsATFm0slRZAObb4gCA4mFbn1rYVWqDZA2l5ReCEOzZAXWGiacu8gZBZCQZDZD"
+var token = "EAAXOoe2ERoQBAE0pZCjLD6bwC9ustHXZCbsg2UZB13Li2I5GA8dZCN41hKQxt3v5snu6nXPlblLrG2g4yT9Fh6ZApAeoUJFQv0nhq0MAzxzZCnhw5cSVZBZBlf57RkkcjeIeCcpWn2sCQISHMyX5ZAO0h0UMtFilZB2jKpHZCNVWsXPGCA0ZBjadve6y"
 
 
 function facebookWebhookListener(req, res) {
