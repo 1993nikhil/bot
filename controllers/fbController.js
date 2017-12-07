@@ -448,7 +448,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             console.log('policyIDTemp', policyIDTemp);
             validatePol.getPolicyInformation(policyIDTemp).then(function(res) {
                 //sendTextMessage(recipientId,JSON.stringify(res));
-                console.log('final r', JSON.stringify(res));
+                //console.log('final r', JSON.stringify(res));
                 var policyInfoObj = res;
                 console.log('policyInfoObj', policyInfoObj);
                 console.log('indexArray[1]', indexArray[1]);
@@ -676,7 +676,7 @@ function dynamicPolicy(userId, policyButtons) {
                 type: "template",
                 payload: {
                     template_type: "button",
-                    text: "Please select any one of your following policies:",
+                    text: "Please select any one of your policy:",
                     buttons: policyButtons
                 }
             }
