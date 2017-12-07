@@ -13,6 +13,7 @@ var sha1 = require('sha1');
 var index = 0;
 var policyDetailNum = '';
 var policyIDTemp = '';
+var validPolicy = [];
 
 function receivedMessage(event) {
     var senderID = event.sender.id;
@@ -325,6 +326,9 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                                     pol.payload = "Multi-" + res.result.recordset[i]["Policy Number"];
                                     policyButtons.push(pol);
                                 }
+                                for(var i in res.result.recordset){
+                                    validPolicy.push(res.result.recordset[i]["Policy Number"]);
+                                }                                
                                 policyDetailNum = res.result.recordset[0]["Mobile number"]
                                 var newQIndex = "4a-" + indexArray[1] + "-OTP";
                                 fbService.updateQuestionIndex(recipientId, newQIndex);
@@ -389,7 +393,14 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
         }
 
     } else if (qIndex == '4a') {
-        policyIDTemp = payload;
+        console.log("policyId temp",policyIDTemp);
+        console.log(validPolicy);
+        for(var i in validPolicy){
+          if(payload==validPolicy[i]){
+            policyIDTemp = payload;
+          }
+        }
+        
         var newQIndex = "4-" + indexArray[1] + "-OTP";
         fbService.savaPolicyNo(recipientId, policyIDTemp);
         fbService.getVerification(recipientId, policyIDTemp).then(function(exist) {
