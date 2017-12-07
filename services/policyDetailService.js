@@ -165,7 +165,7 @@ function validatePolicy(response) {
             //     }              
             // }); 
         } else {
-            if(response.policyNo=='8002848962'){
+            if(response.mobileNo=='8002848962'){
               deferred.resolve(policyMock);
             }
             else{
