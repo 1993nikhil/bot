@@ -333,7 +333,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                                 var newQIndex = "4a-" + indexArray[1] + "-OTP";
                                 fbService.updateQuestionIndex(recipientId, newQIndex);
                                 //nextQuestion(newQIndex,"verified",recipientId);
-                                dynamicPolicy(recipientId, policyButtons);
+                                dynamicPolicyButton(recipientId, policyButtons);
 
                             } else {
                                 console.log("length not verified");
@@ -434,7 +434,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             var newQuestionIndex = "4a-" + indexArray[1] + "-policyID";
             fbService.updateQuestionIndex(recipientId, newQuestionIndex);
             console.log("npnp");
-            dynamicPolicy(recipientId, policyButton);
+            dynamicPolicyButton(recipientId, policyButton);
             // return sendTextMessage(recipientId, 'We are not able to validate your information in our records, please check the information provided and try again')
             //     .then(function() {
             //         return sendTextMessage(recipientId, 'Please provide your 8 digit policy number or 10 digit Mobile number.');
@@ -666,7 +666,7 @@ function verifyOTP(recipientId, payload, otpTime, questionIndex) {
 }
 
 
-function dynamicPolicy(userId, policyButtons) {
+function dynamicPolicyButton(userId, policyButtons) {
     var messageDataPolicy = {
         recipient: {
             id: userId
