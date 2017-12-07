@@ -396,6 +396,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
         console.log("policyId temp", policyIDTemp);
         console.log(validPolicy);
         policyIDTemp = '';
+        console.log("policyId temp", policyIDTemp);
         for (var i in validPolicy) {
             if (payload == validPolicy[i]) {
                 policyIDTemp = payload;
