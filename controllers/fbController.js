@@ -326,9 +326,9 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                                     pol.payload = "Multi-" + res.result.recordset[i]["Policy Number"];
                                     policyButtons.push(pol);
                                 }
-                                for(var i in res.result.recordset){
+                                for (var i in res.result.recordset) {
                                     validPolicy.push(res.result.recordset[i]["Policy Number"]);
-                                }                                
+                                }
                                 policyDetailNum = res.result.recordset[0]["Mobile number"]
                                 var newQIndex = "4a-" + indexArray[1] + "-OTP";
                                 fbService.updateQuestionIndex(recipientId, newQIndex);
@@ -393,31 +393,42 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
         }
 
     } else if (qIndex == '4a') {
-        console.log("policyId temp",policyIDTemp);
+        console.log("policyId temp", policyIDTemp);
         console.log(validPolicy);
-        for(var i in validPolicy){
-          if(payload==validPolicy[i]){
-            policyIDTemp = payload;
-          }
-        }
-        
-        var newQIndex = "4-" + indexArray[1] + "-OTP";
-        fbService.savaPolicyNo(recipientId, policyIDTemp);
-        fbService.getVerification(recipientId, policyIDTemp).then(function(exist) {
-            if (exist) {
-                fbService.updateQuestionIndex(recipientId, newQIndex);
-                console.log("newQIndex",newQIndex);
-                nextQuestion(newQIndex, "verified", recipientId);
-            } else {
-                generateOtp(recipientId, policyDetailNum, timeOfMessage).then(function(res) {
-                    sendTextMessage(recipientId, "Please enter OTP received on your registered mobile number to validate . If you don't receive an OTP in next 1 minute please enter RESEND");
-                    fbService.saveVerification(recipientId, policyIDTemp);
-                    fbService.updateQuestionIndex(recipientId, newQIndex);
-                }, function(err) {
-                    sendTextMessage(recipientId, JSON.stringify(err));
-                });
+        for (var i in validPolicy) {
+            if (payload == validPolicy[i]) {
+                policyIDTemp = payload;
             }
-        });
+        }
+        if (policyIDTemp) {
+            var newQIndex = "4-" + indexArray[1] + "-OTP";
+            fbService.savaPolicyNo(recipientId, policyIDTemp);
+            fbService.getVerification(recipientId, policyIDTemp).then(function(exist) {
+                if (exist) {
+                    fbService.updateQuestionIndex(recipientId, newQIndex);
+                    console.log("newQIndex", newQIndex);
+                    nextQuestion(newQIndex, "verified", recipientId);
+                } else {
+                    generateOtp(recipientId, policyDetailNum, timeOfMessage).then(function(res) {
+                        sendTextMessage(recipientId, "Please enter OTP received on your registered mobile number to validate . If you don't receive an OTP in next 1 minute please enter RESEND");
+                        fbService.saveVerification(recipientId, policyIDTemp);
+                        fbService.updateQuestionIndex(recipientId, newQIndex);
+                    }, function(err) {
+                        sendTextMessage(recipientId, JSON.stringify(err));
+                    });
+                }
+            });
+
+        } else {
+
+            var newQuestionIndex = "2-" + indexArray[1] + "-policyID";
+            fbService.updateQuestionIndex(recipientId, newQuestionIndex);
+            console.log("npnp");
+            return sendTextMessage(recipientId, 'We are not able to validate your information in our records, please check the information provided and try again')
+                .then(function() {
+                    return sendTextMessage(recipientId, 'Please provide your 8 digit policy number or 10 digit Mobile number.');
+                });
+        }
     } else if (qIndex == 5) {
         console.log('payload is', payload);
         if (payload == "verified") {
