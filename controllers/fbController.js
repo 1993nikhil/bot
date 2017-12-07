@@ -402,6 +402,14 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                 policyIDTemp = payload;
             }
         }
+        var policyButton = [];
+        for (var i in validPolicy) {
+            var pol = {};
+            pol.type = "postback";
+            pol.title = validPolicy[i];
+            pol.payload = "Multi-" + validPolicy[i];
+            policyButton.push(pol);
+        }
         if (policyIDTemp) {
             var newQIndex = "4-" + indexArray[1] + "-OTP";
             fbService.savaPolicyNo(recipientId, policyIDTemp);
@@ -423,13 +431,14 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
 
         } else {
 
-            var newQuestionIndex = "2-" + indexArray[1] + "-policyID";
+            var newQuestionIndex = "4a-" + indexArray[1] + "-policyID";
             fbService.updateQuestionIndex(recipientId, newQuestionIndex);
             console.log("npnp");
-            return sendTextMessage(recipientId, 'We are not able to validate your information in our records, please check the information provided and try again')
-                .then(function() {
-                    return sendTextMessage(recipientId, 'Please provide your 8 digit policy number or 10 digit Mobile number.');
-                });
+            dynamicPolicy(recipientId, policyButton);
+            // return sendTextMessage(recipientId, 'We are not able to validate your information in our records, please check the information provided and try again')
+            //     .then(function() {
+            //         return sendTextMessage(recipientId, 'Please provide your 8 digit policy number or 10 digit Mobile number.');
+            //     });
         }
     } else if (qIndex == 5) {
         console.log('payload is', payload);
