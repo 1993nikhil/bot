@@ -68,6 +68,40 @@ var policyDataMock = {
     }
 }
 
+var policyIDMock = {
+    "err": null,
+    "result": {
+        "recordsets": [
+            [
+                {
+                    "Policy Number": "00425653",
+                    "First_name": "PramodVasudevan",
+                    "Last_Name": "Pillai",
+                    "DOB": "1979-04-05T00:00:00.000Z",
+                    "Application_No": "ON00000044",
+                    "Mobile number": "8002848962",
+                    "Policy issue date": "2016-06-10T00:00:00.000Z"
+                }
+            ]
+        ],
+        "recordset": [
+            {
+                "Policy Number": "10101010",
+                "First_name": "PramodVasudevan",
+                "Last_Name": "Pillai",
+                "DOB": "1979-04-05T00:00:00.000Z",
+                "Application_No": "ON00000044",
+                "Mobile number": "8002848962",
+                "Policy issue date": "2016-06-10T00:00:00.000Z"
+            }
+        ],
+        "output": {},
+        "rowsAffected": [
+            1
+        ]
+    }
+}
+
 var policyMock = {
     "err": null,
     "result": {
@@ -122,8 +156,8 @@ function validatePolicy(response){
 
       var deferred = Q.defer();
       try{
-        if(response.policyNo!=''){        
-          deferred.resolve(policyMock);
+        if(response.policyNo!=''){               
+          deferred.resolve(policyIDMock);
         // dataAccessCtrl.validateByPolicyNo(response).then(function(res){
         //     var policyData = res.result.recordset[0];
         //     if(policyData){
