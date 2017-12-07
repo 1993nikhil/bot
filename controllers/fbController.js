@@ -406,6 +406,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
         fbService.getVerification(recipientId, policyIDTemp).then(function(exist) {
             if (exist) {
                 fbService.updateQuestionIndex(recipientId, newQIndex);
+                console.log("newQIndex",newQIndex);
                 nextQuestion(newQIndex, "verified", recipientId);
             } else {
                 generateOtp(recipientId, policyDetailNum, timeOfMessage).then(function(res) {
