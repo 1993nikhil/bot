@@ -429,16 +429,16 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                 console.log('final r', JSON.stringify(res));
                 var policyInfoObj = res;
                 console.log('policyInfoObj', policyInfoObj);
-                console.log('indexArray[i]', indexArray[i]);
-                if (indexArray[i] == 'NP') {
+                console.log('indexArray[1]', indexArray[i]);
+                if (indexArray[1] == 'NP') {
                     nextDueData(recipientId, indexArray[1], policyInfoObj);
-                } else if (indexArray[i] == 'PS') {
+                } else if (indexArray[1] == 'PS') {
                     policyStatusData(recipientId, indexArray[1], policyInfoObj);
-                } else if (indexArray[i] == 'FV') {
+                } else if (indexArray[1] == 'FV') {
                     fundValueData(recipientId, indexArray[1], policyInfoObj);
-                } else if (indexArray[i] == 'PP') {
+                } else if (indexArray[1] == 'PP') {
                     payPremium(recipientId, indexArray[1], policyInfoObj);
-                } else if (indexArray[i] == 'TAP') {
+                } else if (indexArray[1] == 'TAP') {
                     totalAmtPaidData(recipientId, indexArray[1], policyInfoObj);
                 }
             }, function(err) {
