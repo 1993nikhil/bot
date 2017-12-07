@@ -395,6 +395,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
     } else if (qIndex == '4a') {
         console.log("policyId temp", policyIDTemp);
         console.log(validPolicy);
+        policyIDTemp = '';
         for (var i in validPolicy) {
             if (payload == validPolicy[i]) {
                 policyIDTemp = payload;
