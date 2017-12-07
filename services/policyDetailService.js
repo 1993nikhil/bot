@@ -64,12 +64,12 @@ var policyDataMock = {
     }
 }
 
-var policyIDMock = {
+var policyIDMock1 = {
     "err": null,
     "result": {
         "recordsets": [
             [{
-                "Policy Number": "00425653",
+                "Policy Number": "10101010",
                 "First_name": "PramodVasudevan",
                 "Last_Name": "Pillai",
                 "DOB": "1979-04-05T00:00:00.000Z",
@@ -94,6 +94,65 @@ var policyIDMock = {
     }
 }
 
+var policyIDMock2 = {
+    "err": null,
+    "result": {
+        "recordsets": [
+            [{
+                "Policy Number": "00425653",
+                "First_name": "PramodVasudevan",
+                "Last_Name": "Pillai",
+                "DOB": "1979-04-05T00:00:00.000Z",
+                "Application_No": "ON00000044",
+                "Mobile number": "8002848962",
+                "Policy issue date": "2016-06-10T00:00:00.000Z"
+            }]
+        ],
+        "recordset": [{
+            "Policy Number": "00425653",
+            "First_name": "PramodVasudevan",
+            "Last_Name": "Pillai",
+            "DOB": "1979-04-05T00:00:00.000Z",
+            "Application_No": "ON00000044",
+            "Mobile number": "8002848962",
+            "Policy issue date": "2016-06-10T00:00:00.000Z"
+        }],
+        "output": {},
+        "rowsAffected": [
+            1
+        ]
+    }
+}
+
+var policyIDMock3 = {
+    "err": null,
+    "result": {
+        "recordsets": [
+            [{
+                "Policy Number": "11114444",
+                "First_name": "PramodVasudevan",
+                "Last_Name": "Pillai",
+                "DOB": "1979-04-05T00:00:00.000Z",
+                "Application_No": "ON00000044",
+                "Mobile number": "8002848962",
+                "Policy issue date": "2016-06-10T00:00:00.000Z"
+            }]
+        ],
+        "recordset": [{
+            "Policy Number": "11114444",
+            "First_name": "PramodVasudevan",
+            "Last_Name": "Pillai",
+            "DOB": "1979-04-05T00:00:00.000Z",
+            "Application_No": "ON00000044",
+            "Mobile number": "8002848962",
+            "Policy issue date": "2016-06-10T00:00:00.000Z"
+        }],
+        "output": {},
+        "rowsAffected": [
+            1
+        ]
+    }
+}
 var policyMock = {
     "err": null,
     "result": {
@@ -146,7 +205,11 @@ function validatePolicy(response) {
     try {
         if (response.policyNo != '') {
             if(response.policyNo=='10101010'){
-              deferred.resolve(policyIDMock);
+              deferred.resolve(policyIDMock1);
+            }else if(response.policyNo=='00425653'){
+              deferred.resolve(policyIDMock2);
+            }else if(response.policyNo=='11114444'){
+              deferred.resolve(policyIDMock3);
             }else{
               deferred.resolve();
             }

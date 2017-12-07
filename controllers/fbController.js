@@ -442,7 +442,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                 console.log('final r', JSON.stringify(res));
                 var policyInfoObj = res;
                 console.log('policyInfoObj', policyInfoObj);
-                console.log('indexArray[1]', indexArray[i]);
+                console.log('indexArray[1]', indexArray[1]);
                 if (indexArray[1] == 'NP') {
                     nextDueData(recipientId, indexArray[1], policyInfoObj);
                 } else if (indexArray[1] == 'PS') {
