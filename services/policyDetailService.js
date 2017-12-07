@@ -36,7 +36,7 @@ var policyDataMock = {
             }]
         ],
         "recordset": [{
-            "Policy_Number": "00425653",
+            "Policy_Number": "90909090",
             "Premium Due Date": "2018-06-13T00:00:00.000Z",
             "Premium Due Amount": 365,
             "Policy status": "In Force",
@@ -99,7 +99,7 @@ var policyIDMock2 = {
     "result": {
         "recordsets": [
             [{
-                "Policy Number": "00425653",
+                "Policy Number": "90909090",
                 "First_name": "PramodVasudevan",
                 "Last_Name": "Pillai",
                 "DOB": "1979-04-05T00:00:00.000Z",
@@ -109,7 +109,7 @@ var policyIDMock2 = {
             }]
         ],
         "recordset": [{
-            "Policy Number": "00425653",
+            "Policy Number": "90909090",
             "First_name": "PramodVasudevan",
             "Last_Name": "Pillai",
             "DOB": "1979-04-05T00:00:00.000Z",
@@ -176,7 +176,7 @@ var policyMock = {
             "Mobile number": "8002848962",
             "Policy issue date": "2016-06-10T00:00:00.000Z"
         }, {
-            "Policy Number": "00425653",
+            "Policy Number": "90909090",
             "First_name": "PramodVasudevan",
             "Last_Name": "Pillai",
             "DOB": "1979-04-05T00:00:00.000Z",
@@ -206,7 +206,7 @@ function validatePolicy(response) {
         if (response.policyNo != '') {
             if(response.policyNo=='10101010'){
               deferred.resolve(policyIDMock1);
-            }else if(response.policyNo=='00425653'){
+            }else if(response.policyNo=='90909090'){
               deferred.resolve(policyIDMock2);
             }else if(response.policyNo=='11114444'){
               deferred.resolve(policyIDMock3);
