@@ -51,6 +51,10 @@ function receivedMessage(event) {
                 var index = '';
                 if (indArray[0] == '4a') {
                     index = '4a';
+                } else if (indArray[0] == '4b') {
+                    index = '4b';
+                } else if (indArray[0] == '4c') {
+                    index = '4c'
                 } else {
                     index = parseInt(indArray[0]) + 1;
                 }
@@ -102,17 +106,72 @@ function receivedPostback(messagingEvent) {
     }
 
     var msgArr = message.split("-");
-
+    console.log("msgArr",msgArr[0]);
     if (message == '0-NP-null') {
-        nextQuestion("1-NP-PolicyID", message, senderID, timeOfMessage);
+        fbService.checkUser(senderID).then(function(resp) {
+            if (resp) {
+                var questionIndex = resp.questionIndex;
+                var index = questionIndex.split("-");
+                if (index[0] == '4b') {
+                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    nextQuestion(newQIndex, message, senderID, timeOfMessage);
+                } else {
+                    nextQuestion("1-NP-PolicyID", message, senderID, timeOfMessage);
+                }
+            }
+        });
     } else if (message == '0-PS-null') {
-        nextQuestion("1-PS-PolicyID", message, senderID, timeOfMessage);
+        fbService.checkUser(senderID).then(function(resp) {
+            if (resp) {
+                var questionIndex = resp.questionIndex;
+                var index = questionIndex.split("-");
+                if (index[0] == '4b') {
+                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    nextQuestion(newQIndex, message, senderID, timeOfMessage);
+                } else {
+                    nextQuestion("1-PS-PolicyID", message, senderID, timeOfMessage);
+                }
+            }
+        });
     } else if (message == '0-FV-null') {
-        nextQuestion("1-FV-PolicyID", message, senderID, timeOfMessage);
+        fbService.checkUser(senderID).then(function(resp) {
+            if (resp) {
+                var questionIndex = resp.questionIndex;
+                var index = questionIndex.split("-");
+                if (index[0] == '4b') {
+                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    nextQuestion(newQIndex, message, senderID, timeOfMessage);
+                } else {
+                    nextQuestion("1-FV-PolicyID", message, senderID, timeOfMessage);
+                }
+            }
+        });
     } else if (message == '0-PP-null') {
-        nextQuestion("1-PP-PolicyID", message, senderID, timeOfMessage);
+        fbService.checkUser(senderID).then(function(resp) {
+            if (resp) {
+                var questionIndex = resp.questionIndex;
+                var index = questionIndex.split("-");
+                if (index[0] == '4b') {
+                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    nextQuestion(newQIndex, message, senderID, timeOfMessage);
+                } else {
+                    nextQuestion("1-PP-PolicyID", message, senderID, timeOfMessage);
+                }
+            }
+        });
     } else if (message == '0-TAP-null') {
-        nextQuestion("1-TAP-PolicyID", message, senderID, timeOfMessage);
+        fbService.checkUser(senderID).then(function(resp) {
+            if (resp) {
+                var questionIndex = resp.questionIndex;
+                var index = questionIndex.split("-");
+                if (index[0] == '4b') {
+                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    nextQuestion(newQIndex, message, senderID, timeOfMessage);
+                } else {
+                    nextQuestion("1-TAP-PolicyID", message, senderID, timeOfMessage);
+                }
+            }
+        });
     } else if (msgArr[0] == 'Multi') {
         fbService.checkUser(senderID).then(function(resp) {
             if (resp) {
@@ -255,9 +314,14 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
     var qIndex = '';
     if (indexArray[0] == '4a') {
         qIndex = '4a';
+    } else if (indexArray[0] == '4b') {
+        qIndex = '4b';
+    } else if (indexArray[0] == '4c') {
+        qIndex = '4c';
     } else {
         qIndex = parseInt(indexArray[0]) + 1;
     }
+
 
     console.log('qIndex', qIndex);
     if (qIndex == 2) {
@@ -440,6 +504,56 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             //         return sendTextMessage(recipientId, 'Please provide your 8 digit policy number or 10 digit Mobile number.');
             //     });
         }
+    } else if (qIndex == '4b') {
+        var newQIndex = "4c" + indexArray[1] + "VOTP"
+        console.log("newQ",newQIndex);
+        sendTextMessage(recipientId, 'Do you want the details for same policy number(Yes/No)');
+        fbService.updateQuestionIndex(recipientId, newQIndex);
+
+    } else if (qIndex == '4c') {
+        if (payload == 'yes' || payload == 'y') {
+            var newQIndex = '5-' + indexArray[1] + 'VOTP';
+            fbService.updateQuestionIndex(recipientId, newQIndex);
+            console.log('policyIDTemp', policyIDTemp);
+            validatePol.getPolicyInformation(policyIDTemp).then(function(res) {
+                //sendTextMessage(recipientId,JSON.stringify(res));
+                //console.log('final r', JSON.stringify(res));
+                var policyInfoObj = res;
+                console.log('policyInfoObj-4c', policyInfoObj);
+                console.log('indexArray[1] -4c', indexArray[1]);
+                if (indexArray[1] == 'NP') {
+                    nextDueData(recipientId, indexArray[1], policyInfoObj);
+                } else if (indexArray[1] == 'PS') {
+                    policyStatusData(recipientId, indexArray[1], policyInfoObj);
+                } else if (indexArray[1] == 'FV') {
+                    fundValueData(recipientId, indexArray[1], policyInfoObj);
+                } else if (indexArray[1] == 'PP') {
+                    payPremium(recipientId, indexArray[1], policyInfoObj);
+                } else if (indexArray[1] == 'TAP') {
+                    totalAmtPaidData(recipientId, indexArray[1], policyInfoObj);
+                }
+            }, function(err) {
+                console.log(err);
+
+            });
+        } else if (payload == 'no' || payload == 'n') {
+            var newQIndex = '1-' + indexArray[1] + 'policyId';
+            console.log("4c-no")
+            fbService.updateQuestionIndex(recipientId, newQIndex);
+            nextQuestion(newQIndex, "newPolicy", recipientId, timeOfMessage);
+        } else {
+            var newQuestionIndex = "4c-" + indexArray[1] + "-VOTP";
+            fbService.updateQuestionIndex(recipientId, newQuestionIndex);
+            var messageData = {
+                recipient: {
+                    id: recipientId
+                },
+                message: {
+                    text: "Please reply (yes/no)"
+                }
+            }
+            callSendAPI(messageData);
+        }
     } else if (qIndex == 5) {
         console.log('payload is', payload);
         if (payload == "verified") {
@@ -508,7 +622,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             startConversation(recipientId, utilMsg.messages.buttonMessage).then(function(resp) {
                 nextOption(recipientId, "...");
             });
-            fbService.updateQuestionIndex(recipientId, "0-null-null");
+            fbService.updateQuestionIndex(recipientId, "4b-null-null");
 
         } else if (payload == 'no' || payload == 'n' || payload == 'cancel') {
             var newQuestionIndex = "7-" + indexArray[1] + "-COMP";
@@ -527,7 +641,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                     id: recipientId
                 },
                 message: {
-                    text: "Please reply (yes\\no)"
+                    text: "Please reply (yes/no)"
                 }
             }
             callSendAPI(messageData);

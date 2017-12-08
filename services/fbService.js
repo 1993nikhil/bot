@@ -170,6 +170,18 @@ function updateQuestionIndex(senderID, index) {
     });
 }
 
+//get policy no.
+function getpolicyNo(userId){
+    var deferred = Q.defer();
+    Pol.findOne({ recipientId: userId }, function(err, data) {
+        if (err) {
+            deferred.reject(err);
+        } else {
+            deferred.resolve(data);
+        }
+    });
+    return deferred.promise;  
+}
 
 //Save policy after verification 
 function savaPolicyNo(userId, policyId) {
