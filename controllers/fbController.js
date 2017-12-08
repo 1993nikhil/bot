@@ -759,6 +759,8 @@ function verifyOTP(recipientId, payload, otpTime, questionIndex) {
 
 
 function dynamicPolicyButton(userId, policyButtons) {
+    console.log("userid",userId);
+    console.log("button -->",policyButtons);
     var messageDataPolicy = {
         recipient: {
             id: userId
