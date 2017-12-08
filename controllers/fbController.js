@@ -152,84 +152,6 @@ function receivedPostback(messagingEvent) {
         }
     });
 
-
-    // if (message == '0-NP-null') {
-    //     fbService.checkUser(senderID).then(function(resp) {
-    //         if (resp) {
-    //             var questionIndex = resp.questionIndex;
-    //             var index = questionIndex.split("-");
-    //             if (index[0] == '4b') {
-    //                 var newQIndex = '4b-' + msgArr[1] + '-OTP'
-    //                 nextQuestion(newQIndex, message, senderID, timeOfMessage);
-    //             } else {
-    //                 nextQuestion("1-NP-PolicyID", message, senderID, timeOfMessage);
-    //             }
-    //         }
-    //     });
-    // } else if (message == '0-PS-null') {
-    //     fbService.checkUser(senderID).then(function(resp) {
-    //         if (resp) {
-    //             var questionIndex = resp.questionIndex;
-    //             var index = questionIndex.split("-");
-    //             if (index[0] == '4b') {
-    //                 var newQIndex = '4b-' + msgArr[1] + '-OTP'
-    //                 nextQuestion(newQIndex, message, senderID, timeOfMessage);
-    //             } else {
-    //                 nextQuestion("1-PS-PolicyID", message, senderID, timeOfMessage);
-    //             }
-    //         }
-    //     });
-    // } else if (message == '0-FV-null') {
-    //     fbService.checkUser(senderID).then(function(resp) {
-    //         if (resp) {
-    //             var questionIndex = resp.questionIndex;
-    //             var index = questionIndex.split("-");
-    //             if (index[0] == '4b') {
-    //                 var newQIndex = '4b-' + msgArr[1] + '-OTP'
-    //                 nextQuestion(newQIndex, message, senderID, timeOfMessage);
-    //             } else {
-    //                 nextQuestion("1-FV-PolicyID", message, senderID, timeOfMessage);
-    //             }
-    //         }
-    //     });
-    // } else if (message == '0-PP-null') {
-    //     fbService.checkUser(senderID).then(function(resp) {
-    //         if (resp) {
-    //             var questionIndex = resp.questionIndex;
-    //             var index = questionIndex.split("-");
-    //             if (index[0] == '4b') {
-    //                 var newQIndex = '4b-' + msgArr[1] + '-OTP'
-    //                 nextQuestion(newQIndex, message, senderID, timeOfMessage);
-    //             } else {
-    //                 nextQuestion("1-PP-PolicyID", message, senderID, timeOfMessage);
-    //             }
-    //         }
-    //     });
-    // } else if (message == '0-TAP-null') {
-    //     fbService.checkUser(senderID).then(function(resp) {
-    //         if (resp) {
-    //             var questionIndex = resp.questionIndex;
-    //             var index = questionIndex.split("-");
-    //             if (index[0] == '4b') {
-    //                 var newQIndex = '4b-' + msgArr[1] + '-OTP'
-    //                 nextQuestion(newQIndex, message, senderID, timeOfMessage);
-    //             } else {
-    //                 nextQuestion("1-TAP-PolicyID", message, senderID, timeOfMessage);
-    //             }
-    //         }
-    //     });
-    // } else if (msgArr[0] == 'Multi') {
-    //     fbService.checkUser(senderID).then(function(resp) {
-    //         if (resp) {
-    //             var questionIndex = resp.questionIndex;
-    //             nextQuestion(questionIndex, msgArr[1], senderID, timeOfMessage);
-
-    //         }
-    //     });
-    // }
-
-
-
 }
 
 function getUserName(userId, timeOfMessage) {
@@ -943,8 +865,9 @@ function sendPayPremiumMessage(sender, messageText) {
             }
         }
     };
-    deferred.resolve(messageData);
-    callSendAPI(messageData);
+    callSendAPI(messageData).then(function(res) {
+        deferred.resolve();
+    });
     return deferred.promise;
 }
 
