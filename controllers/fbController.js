@@ -14,6 +14,7 @@ var index = 0;
 var policyDetailNum = '';
 var policyIDTemp = '';
 var validPolicy = [];
+var policyButtons = [];
 
 function receivedMessage(event) {
     var senderID = event.sender.id;
@@ -350,7 +351,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                             if (res.result.recordset.length > 1) {
                                 console.log("more than one policy");
                                 var msg = "Please select any one of your following policies:";
-                                var policyButtons = [];
+                                
                                 for (var i in res.result.recordset) {
                                     var pol = {};
                                     pol.type = "postback";
@@ -434,15 +435,16 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                 policyIDTemp = payload;
             }
         }
-        var policyButton = [];
-        for (var i in validPolicy) {
-            var pol = {};
-            pol.type = "postback";
-            pol.title = validPolicy[i];
-            pol.payload = "Multi-" + validPolicy[i];
-            policyButton.push(pol);
-        }
-        console.log("policyButton",policyButton);
+        // var policyButton = [];
+
+        // for (var i in validPolicy) {
+        //     var pol = {};
+        //     pol.type = "postback";
+        //     pol.title = validPolicy[i];
+        //     pol.payload = "Multi-" + validPolicy[i];
+        //     policyButton.push(pol);
+        // }
+        console.log("policyButton",policyButtons);
         if (policyIDTemp) {
             var newQIndex = "4-" + indexArray[1] + "-OTP";
             fbService.savaPolicyNo(recipientId, policyIDTemp);
@@ -467,8 +469,8 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             var newQuestionIndex = "4a-" + indexArray[1] + "-policyID";
             fbService.updateQuestionIndex(recipientId, newQuestionIndex);
             console.log("npnp");
-            console.log("policy button ->", policyButton);
-            dynamicPolicyButton(recipientId, policyButton);
+            console.log("policy button ->", policyButtons);
+            dynamicPolicyButton(recipientId, policyButtons);
             // return sendTextMessage(recipientId, 'We are not able to validate your information in our records, please check the information provided and try again')
             //     .then(function() {
             //         return sendTextMessage(recipientId, 'Please provide your 8 digit policy number or 10 digit Mobile number.');
