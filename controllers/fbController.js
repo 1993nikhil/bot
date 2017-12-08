@@ -442,6 +442,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             pol.payload = "Multi-" + validPolicy[i];
             policyButton.push(pol);
         }
+        console.log("policyButton",policyButton);
         if (policyIDTemp) {
             var newQIndex = "4-" + indexArray[1] + "-OTP";
             fbService.savaPolicyNo(recipientId, policyIDTemp);
