@@ -841,6 +841,7 @@ function callSendAPI(messageData) {
             deferred.resolve();
         } else {
             console.error("Unable to send message.");
+            console.log("unable to send error-",error);
             deferred.resolve();
         }
     });
