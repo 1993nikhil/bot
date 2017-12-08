@@ -411,5 +411,6 @@ module.exports = {
     getVerification: getVerification,
     saveVerification: saveVerification,
     getPolicyById: getPolicyById,
-    savaPolicyNo: savaPolicyNo
+    savaPolicyNo: savaPolicyNo,
+    getpolicyNo: getpolicyNo
 };

@@ -106,8 +106,8 @@ function receivedPostback(messagingEvent) {
     }
 
     var msgArr = message.split("-");
-    console.log("msgArr",msgArr[0]);
-    console.log("msgArr[1]=",msgArr[1]);
+    console.log("msgArr", msgArr[0]);
+    console.log("msgArr[1]=", msgArr[1]);
     if (message == '0-NP-null') {
         fbService.checkUser(senderID).then(function(resp) {
             if (resp) {
@@ -507,7 +507,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
         }
     } else if (qIndex == '4b') {
         var newQIndex = "4c-" + indexArray[1] + "-VOTP"
-        console.log("newQ",newQIndex);
+        console.log("newQ", newQIndex);
         sendTextMessage(recipientId, 'Do you want the details for same policy number(Yes/No)');
         fbService.updateQuestionIndex(recipientId, newQIndex);
 
@@ -516,27 +516,35 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             var newQIndex = '5-' + indexArray[1] + 'VOTP';
             fbService.updateQuestionIndex(recipientId, newQIndex);
             console.log('policyIDTemp', policyIDTemp);
-            validatePol.getPolicyInformation(policyIDTemp).then(function(res) {
-                //sendTextMessage(recipientId,JSON.stringify(res));
-                //console.log('final r', JSON.stringify(res));
-                var policyInfoObj = res;
-                console.log('policyInfoObj-4c', policyInfoObj);
-                console.log('indexArray[1] -4c', indexArray[1]);
-                if (indexArray[1] == 'NP') {
-                    nextDueData(recipientId, indexArray[1], policyInfoObj);
-                } else if (indexArray[1] == 'PS') {
-                    policyStatusData(recipientId, indexArray[1], policyInfoObj);
-                } else if (indexArray[1] == 'FV') {
-                    fundValueData(recipientId, indexArray[1], policyInfoObj);
-                } else if (indexArray[1] == 'PP') {
-                    payPremium(recipientId, indexArray[1], policyInfoObj);
-                } else if (indexArray[1] == 'TAP') {
-                    totalAmtPaidData(recipientId, indexArray[1], policyInfoObj);
-                }
-            }, function(err) {
-                console.log(err);
+            fbService.getpolicyNo(recipientId).then(function(result) {
+                if (result) {
+                  console.log("result->",result.policyNo);
+                    validatePol.getPolicyInformation(result.policyNo).then(function(res) { //sendTextMessage(recipientId,JSON.stringify(res));
+                        //console.log('final r', JSON.stringify(res));
+                        var policyInfoObj = res;
+                        console.log('policyInfoObj-4c', policyInfoObj);
+                        console.log('indexArray[1] -4c', indexArray[1]);
+                        if (indexArray[1] == 'NP') {
+                            nextDueData(recipientId, indexArray[1], policyInfoObj);
+                        } else if (indexArray[1] == 'PS') {
+                            policyStatusData(recipientId, indexArray[1], policyInfoObj);
+                        } else if (indexArray[1] == 'FV') {
+                            fundValueData(recipientId, indexArray[1], policyInfoObj);
+                        } else if (indexArray[1] == 'PP') {
+                            payPremium(recipientId, indexArray[1], policyInfoObj);
+                        } else if (indexArray[1] == 'TAP') {
+                            totalAmtPaidData(recipientId, indexArray[1], policyInfoObj);
+                        }
+                    }, function(err) {
+                        console.log(err);
+
+                    });
+                  }else{
+                    console.log("no data found");
+                  }
 
             });
+
         } else if (payload == 'no' || payload == 'n') {
             var newQIndex = '1-' + indexArray[1] + 'policyId';
             console.log("4c-no")
