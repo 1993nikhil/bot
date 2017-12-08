@@ -546,7 +546,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             });
 
         } else if (payload == 'no' || payload == 'n') {
-            var newQIndex = '1-' + indexArray[1] + 'policyId';
+            var newQIndex = '1-' + indexArray[1] + '-policyId';
             console.log("4c-no")
             fbService.updateQuestionIndex(recipientId, newQIndex);
             nextQuestion(newQIndex, "newPolicy", recipientId, timeOfMessage);
