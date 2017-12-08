@@ -107,6 +107,7 @@ function receivedPostback(messagingEvent) {
 
     var msgArr = message.split("-");
     console.log("msgArr",msgArr[0]);
+    console.log("msgArr[1]=",msgArr[1]);
     if (message == '0-NP-null') {
         fbService.checkUser(senderID).then(function(resp) {
             if (resp) {
@@ -505,7 +506,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             //     });
         }
     } else if (qIndex == '4b') {
-        var newQIndex = "4c" + indexArray[1] + "VOTP"
+        var newQIndex = "4c-" + indexArray[1] + "-VOTP"
         console.log("newQ",newQIndex);
         sendTextMessage(recipientId, 'Do you want the details for same policy number(Yes/No)');
         fbService.updateQuestionIndex(recipientId, newQIndex);
