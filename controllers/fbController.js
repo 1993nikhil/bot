@@ -351,7 +351,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                             if (res.result.recordset.length > 1) {
                                 console.log("more than one policy");
                                 var msg = "Please select any one of your following policies:";
-                                
+                                policyButtons = [];
                                 for (var i in res.result.recordset) {
                                     var pol = {};
                                     pol.type = "postback";
