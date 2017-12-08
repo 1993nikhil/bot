@@ -467,6 +467,7 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
             var newQuestionIndex = "4a-" + indexArray[1] + "-policyID";
             fbService.updateQuestionIndex(recipientId, newQuestionIndex);
             console.log("npnp");
+            console.log("policy button ->", policyButton);
             dynamicPolicyButton(recipientId, policyButton);
             // return sendTextMessage(recipientId, 'We are not able to validate your information in our records, please check the information provided and try again')
             //     .then(function() {
