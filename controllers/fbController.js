@@ -114,7 +114,7 @@ function receivedPostback(messagingEvent) {
                 var questionIndex = resp.questionIndex;
                 var index = questionIndex.split("-");
                 if (index[0] == '4b') {
-                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    var newQIndex = '4b-' + msgArr[1] + '-OTP'
                     nextQuestion(newQIndex, message, senderID, timeOfMessage);
                 } else {
                     nextQuestion("1-NP-PolicyID", message, senderID, timeOfMessage);
@@ -127,7 +127,7 @@ function receivedPostback(messagingEvent) {
                 var questionIndex = resp.questionIndex;
                 var index = questionIndex.split("-");
                 if (index[0] == '4b') {
-                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    var newQIndex = '4b-' + msgArr[1] + '-OTP'
                     nextQuestion(newQIndex, message, senderID, timeOfMessage);
                 } else {
                     nextQuestion("1-PS-PolicyID", message, senderID, timeOfMessage);
@@ -140,7 +140,7 @@ function receivedPostback(messagingEvent) {
                 var questionIndex = resp.questionIndex;
                 var index = questionIndex.split("-");
                 if (index[0] == '4b') {
-                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    var newQIndex = '4b-' + msgArr[1] + '-OTP'
                     nextQuestion(newQIndex, message, senderID, timeOfMessage);
                 } else {
                     nextQuestion("1-FV-PolicyID", message, senderID, timeOfMessage);
@@ -153,7 +153,7 @@ function receivedPostback(messagingEvent) {
                 var questionIndex = resp.questionIndex;
                 var index = questionIndex.split("-");
                 if (index[0] == '4b') {
-                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    var newQIndex = '4b-' + msgArr[1] + '-OTP'
                     nextQuestion(newQIndex, message, senderID, timeOfMessage);
                 } else {
                     nextQuestion("1-PP-PolicyID", message, senderID, timeOfMessage);
@@ -166,7 +166,7 @@ function receivedPostback(messagingEvent) {
                 var questionIndex = resp.questionIndex;
                 var index = questionIndex.split("-");
                 if (index[0] == '4b') {
-                    var newQIndex = '4b-' + index[1] + '-OTP'
+                    var newQIndex = '4b-' + msgArr[1] + '-OTP'
                     nextQuestion(newQIndex, message, senderID, timeOfMessage);
                 } else {
                     nextQuestion("1-TAP-PolicyID", message, senderID, timeOfMessage);
