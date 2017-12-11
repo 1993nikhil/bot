@@ -43,7 +43,7 @@ var policyDataMock = {
             "Amount Deposited in Policy Till": 711.75,
             "Last_Payment_date": "2017-07-07T00:00:00.000Z"
         }, {
-            "Policy_Number": "89898989",
+            "Policy_Number": "88880000",
             "Premium Due Date": "2018-08-16T00:00:00.000Z",
             "Premium Due Amount": 766,
             "Policy status": "In Force",
@@ -122,7 +122,7 @@ var policyIDMock3 = {
     "result": {
         "recordsets": [
             [{
-                "Policy Number": "89898989",
+                "Policy Number": "88880000",
                 "First_name": "PramodVasudevan",
                 "Last_Name": "Pillai",
                 "DOB": "1979-04-05T00:00:00.000Z",
@@ -132,7 +132,7 @@ var policyIDMock3 = {
             }]
         ],
         "recordset": [{
-            "Policy Number": "89898989",
+            "Policy Number": "88880000",
             "First_name": "PramodVasudevan",
             "Last_Name": "Pillai",
             "DOB": "1979-04-05T00:00:00.000Z",
@@ -161,7 +161,7 @@ var policyMock = {
                     "Policy issue date": "2016-06-21T00:00:00.000Z"
                 },
                 {
-                    "Policy Number": "89898989",
+                    "Policy Number": "88880000",
                     "First_name": "Mehak",
                     "Last_Name": "Aggarwal",
                     "DOB": "1987-04-11T00:00:00.000Z",
@@ -182,7 +182,7 @@ var policyMock = {
                 "Policy issue date": "2016-06-21T00:00:00.000Z"
             },
             {
-                "Policy Number": "89898989",
+                "Policy Number": "88880000",
                 "First_name": "Mehak",
                 "Last_Name": "Aggarwal",
                 "DOB": "1987-04-11T00:00:00.000Z",
@@ -207,7 +207,7 @@ function validatePolicy(response) {
               deferred.resolve(policyIDMock1);
             }else if(response.policyNo=='09090909'){
               deferred.resolve(policyIDMock2);
-            }else if(response.policyNo=='89898989'){
+            }else if(response.policyNo=='88880000'){
               deferred.resolve(policyIDMock3);
             }else{
               deferred.resolve();
