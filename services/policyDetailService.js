@@ -36,25 +36,18 @@ var policyDataMock = {
             }]
         ],
         "recordset": [{
-            "Policy_Number": "90909090",
+            "Policy_Number": "09090909",
             "Premium Due Date": "2018-06-13T00:00:00.000Z",
             "Premium Due Amount": 365,
             "Policy status": "In Force",
             "Amount Deposited in Policy Till": 711.75,
             "Last_Payment_date": "2017-07-07T00:00:00.000Z"
         }, {
-            "Policy_Number": "10101010",
+            "Policy_Number": "89898989",
             "Premium Due Date": "2018-08-16T00:00:00.000Z",
             "Premium Due Amount": 766,
             "Policy status": "In Force",
             "Amount Deposited in Policy Till": 1711,
-            "Last_Payment_date": "2017-07-07T00:00:00.000Z"
-        }, {
-            "Policy_Number": "11114444",
-            "Premium Due Date": "2018-06-23T00:00:00.000Z",
-            "Premium Due Amount": 565,
-            "Policy status": "In Force",
-            "Amount Deposited in Policy Till": 911.75,
             "Last_Payment_date": "2017-07-07T00:00:00.000Z"
         }],
         "output": {},
@@ -99,7 +92,7 @@ var policyIDMock2 = {
     "result": {
         "recordsets": [
             [{
-                "Policy Number": "90909090",
+                "Policy Number": "0909090909",
                 "First_name": "PramodVasudevan",
                 "Last_Name": "Pillai",
                 "DOB": "1979-04-05T00:00:00.000Z",
@@ -109,7 +102,7 @@ var policyIDMock2 = {
             }]
         ],
         "recordset": [{
-            "Policy Number": "90909090",
+            "Policy Number": "09090909",
             "First_name": "PramodVasudevan",
             "Last_Name": "Pillai",
             "DOB": "1979-04-05T00:00:00.000Z",
@@ -129,7 +122,7 @@ var policyIDMock3 = {
     "result": {
         "recordsets": [
             [{
-                "Policy Number": "11114444",
+                "Policy Number": "89898989",
                 "First_name": "PramodVasudevan",
                 "Last_Name": "Pillai",
                 "DOB": "1979-04-05T00:00:00.000Z",
@@ -139,7 +132,7 @@ var policyIDMock3 = {
             }]
         ],
         "recordset": [{
-            "Policy Number": "11114444",
+            "Policy Number": "89898989",
             "First_name": "PramodVasudevan",
             "Last_Name": "Pillai",
             "DOB": "1979-04-05T00:00:00.000Z",
@@ -157,44 +150,50 @@ var policyMock = {
     "err": null,
     "result": {
         "recordsets": [
-            [{
-                "Policy Number": "00425653",
-                "First_name": "PramodVasudevan",
-                "Last_Name": "Pillai",
-                "DOB": "1979-04-05T00:00:00.000Z",
-                "Application_No": "ON00000044",
-                "Mobile number": "8002848962",
-                "Policy issue date": "2016-06-10T00:00:00.000Z"
-            }]
+            [
+                {
+                    "Policy Number": "09090909",
+                    "First_name": "Mehak",
+                    "Last_Name": "Aggarwal",
+                    "DOB": "1987-04-11T00:00:00.000Z",
+                    "Application_No": "ON00001271",
+                    "Mobile number": "8002848962",
+                    "Policy issue date": "2016-06-21T00:00:00.000Z"
+                },
+                {
+                    "Policy Number": "89898989",
+                    "First_name": "Mehak",
+                    "Last_Name": "Aggarwal",
+                    "DOB": "1987-04-11T00:00:00.000Z",
+                    "Application_No": "WEB00000060",
+                    "Mobile number": "8002848962",
+                    "Policy issue date": "2017-08-23T00:00:00.000Z"
+                }
+            ]
         ],
-        "recordset": [{
-            "Policy Number": "10101010",
-            "First_name": "PramodVasudevan",
-            "Last_Name": "Pillai",
-            "DOB": "1979-04-05T00:00:00.000Z",
-            "Application_No": "ON00000044",
-            "Mobile number": "8002848962",
-            "Policy issue date": "2016-06-10T00:00:00.000Z"
-        }, {
-            "Policy Number": "90909090",
-            "First_name": "PramodVasudevan",
-            "Last_Name": "Pillai",
-            "DOB": "1979-04-05T00:00:00.000Z",
-            "Application_No": "ON00000044",
-            "Mobile number": "8002848962",
-            "Policy issue date": "2016-06-10T00:00:00.000Z"
-        }, {
-            "Policy Number": "11114444",
-            "First_name": "PramodVasudevan",
-            "Last_Name": "Pillai",
-            "DOB": "1979-04-05T00:00:00.000Z",
-            "Application_No": "ON00000044",
-            "Mobile number": "8002848962",
-            "Policy issue date": "2016-06-10T00:00:00.000Z"
-        }],
+        "recordset": [
+            {
+                "Policy Number": "09090909",
+                "First_name": "Mehak",
+                "Last_Name": "Aggarwal",
+                "DOB": "1987-04-11T00:00:00.000Z",
+                "Application_No": "ON00001271",
+                "Mobile number": "8002848962",
+                "Policy issue date": "2016-06-21T00:00:00.000Z"
+            },
+            {
+                "Policy Number": "89898989",
+                "First_name": "Mehak",
+                "Last_Name": "Aggarwal",
+                "DOB": "1987-04-11T00:00:00.000Z",
+                "Application_No": "WEB00000060",
+                "Mobile number": "8002848962",
+                "Policy issue date": "2017-08-23T00:00:00.000Z"
+            }
+        ],
         "output": {},
         "rowsAffected": [
-            1
+            2
         ]
     }
 }
@@ -206,9 +205,9 @@ function validatePolicy(response) {
         if (response.policyNo != '') {
             if(response.policyNo=='10101010'){
               deferred.resolve(policyIDMock1);
-            }else if(response.policyNo=='90909090'){
+            }else if(response.policyNo=='09090909'){
               deferred.resolve(policyIDMock2);
-            }else if(response.policyNo=='11114444'){
+            }else if(response.policyNo=='89898989s'){
               deferred.resolve(policyIDMock3);
             }else{
               deferred.resolve();
