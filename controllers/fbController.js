@@ -645,7 +645,7 @@ function nextDueData(recipientId, category, policyInfo) {
             console.log("timed out");
             var newQuestion = "5-" + category + "-DATA";
             nextQuestion(newQuestion, "next", recipientId, 1);
-        }, 10000);
+        }, 5000);
 
     });
 }
@@ -660,7 +660,7 @@ function fundValueData(recipientId, category, policyInfo) {
             console.log("timed out");
             var newQuestion = "5-" + category + "-DATA";
             nextQuestion(newQuestion, "next", recipientId, 1);
-        }, 10000);
+        }, 5000);
 
     });
 }
@@ -679,7 +679,7 @@ function totalAmtPaidData(recipientId, category, policyInfo) {
             console.log("timed out");
             var newQuestion = "5-" + category + "-DATA";
             nextQuestion(newQuestion, "next", recipientId, 1);
-        }, 10000);
+        }, 5000);
 
     });
 }
@@ -696,7 +696,7 @@ function policyStatusData(recipientId, category, policyInfo) {
             console.log("timed out");
             var newQuestion = "5-" + category + "-DATA";
             nextQuestion(newQuestion, "next", recipientId, 1);
-        }, 10000);
+        }, 5000);
 
     });
 }
@@ -711,7 +711,7 @@ function payPremium(recipientId, category) {
             console.log("timed out");
             var newQuestion = "5-" + category + "-DATA";
             nextQuestion(newQuestion, "next", recipientId, 1);
-        }, 10000);
+        }, 5000);
 
     });
 }
