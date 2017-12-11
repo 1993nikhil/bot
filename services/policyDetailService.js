@@ -207,7 +207,7 @@ function validatePolicy(response) {
               deferred.resolve(policyIDMock1);
             }else if(response.policyNo=='09090909'){
               deferred.resolve(policyIDMock2);
-            }else if(response.policyNo=='89898989s'){
+            }else if(response.policyNo=='89898989'){
               deferred.resolve(policyIDMock3);
             }else{
               deferred.resolve();
