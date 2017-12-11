@@ -641,8 +641,11 @@ function nextDueData(recipientId, category, policyInfo) {
     var newMsg = dueDateMsg.replace("#dueAmount#", nextDueAmt);
 
     sendTextMessage(recipientId, newMsg).then(function(resp) {
-        var newQuestion = "5-" + category + "-DATA";
-        nextQuestion(newQuestion, "next", recipientId, 1);
+        setTimeout(function() {
+            console.log("timed out");
+            var newQuestion = "5-" + category + "-DATA";
+            nextQuestion(newQuestion, "next", recipientId, 1);
+        }, 10000);
 
     });
 }
@@ -653,8 +656,11 @@ function fundValueData(recipientId, category, policyInfo) {
     var messageData = fundVAlueMsg.replace("#policyid#", policyIDTemp);
 
     sendTextMessage(recipientId, messageData).then(function(resp) {
-        var newQuestion = "5-" + category + "-DATA";
-        nextQuestion(newQuestion, "next", recipientId, 1);
+        setTimeout(function() {
+            console.log("timed out");
+            var newQuestion = "5-" + category + "-DATA";
+            nextQuestion(newQuestion, "next", recipientId, 1);
+        }, 10000);
 
     });
 }
@@ -669,8 +675,11 @@ function totalAmtPaidData(recipientId, category, policyInfo) {
     var totalAmtMsg = messageData.replace("#totalAmt#", totalAmtPaid);
 
     sendTextMessage(recipientId, totalAmtMsg).then(function(resp) {
-        var newQuestion = "5-" + category + "-DATA";
-        nextQuestion(newQuestion, "next", recipientId, 1);
+        setTimeout(function() {
+            console.log("timed out");
+            var newQuestion = "5-" + category + "-DATA";
+            nextQuestion(newQuestion, "next", recipientId, 1);
+        }, 10000);
 
     });
 }
@@ -683,8 +692,11 @@ function policyStatusData(recipientId, category, policyInfo) {
     var messageDataNew = messageData.replace("#policyStat#", polMsg);
 
     sendTextMessage(recipientId, messageDataNew).then(function(resp) {
-        var newQuestion = "5-" + category + "-DATA";
-        nextQuestion(newQuestion, "next", recipientId, 1);
+        setTimeout(function() {
+            console.log("timed out");
+            var newQuestion = "5-" + category + "-DATA";
+            nextQuestion(newQuestion, "next", recipientId, 1);
+        }, 10000);
 
     });
 }
@@ -695,8 +707,11 @@ function payPremium(recipientId, category) {
     var messageData = utilMsg.messages.payPremiumMessage;
 
     sendPayPremiumMessage(recipientId, messageData).then(function(resp) {
-        var newQuestion = "5-" + category + "-DATA";
-        nextQuestion(newQuestion, "next", recipientId, 1);
+        setTimeout(function() {
+            console.log("timed out");
+            var newQuestion = "5-" + category + "-DATA";
+            nextQuestion(newQuestion, "next", recipientId, 1);
+        }, 10000);
 
     });
 }
