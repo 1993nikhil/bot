@@ -378,13 +378,14 @@ function nextQuestion(questionIndex, payload, recipientId, timeOfMessage) {
                                     if (exist) {
                                         var newQIndex = "4-" + indexArray[1] + "-OTP";
                                         nextQuestion(newQIndex, "verified", recipientId);
-                                        fbService.updateQuestionIndex(recipientId, newQuestionIndex);
+                                        fbService.updateQuestionIndex(recipientId, newQIndex);
 
                                     } else {
                                         generateOtp(recipientId, policyDetailNum, timeOfMessage).then(function(res) {
                                             callSendAPI(messageData);
+                                            var newQIndex = "4-" + indexArray[1] + "-OTP";
                                             fbService.saveVerification(recipientId, policyIDTemp);
-                                            fbService.updateQuestionIndex(recipientId, newQuestionIndex);
+                                            fbService.updateQuestionIndex(recipientId, newQIndex);
                                         }, function(err) {
                                             sendTextMessage(recipientId, JSON.stringify(err));
                                         });
